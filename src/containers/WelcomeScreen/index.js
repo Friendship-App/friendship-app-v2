@@ -1,3 +1,3 @@
-import {WelcomeScreen} from './WelcomeScreen';
+import WelcomeScreen from './WelcomeScreen';
 
 export default WelcomeScreen;
