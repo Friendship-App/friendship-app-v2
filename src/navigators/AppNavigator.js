@@ -1,26 +1,29 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {createStackNavigator, NavigationActions} from 'react-navigation';
-import {
-  createNavigationReducer, createReactNavigationReduxMiddleware,
-  reduxifyNavigator,
-} from 'react-navigation-redux-helpers';
+import {createReactNavigationReduxMiddleware, reduxifyNavigator} from 'react-navigation-redux-helpers';
 import routes from "../routes";
 import {BackHandler} from "react-native";
+
+const RootNavigator = createStackNavigator(routes);
+
+const initialState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams('WelcomeScreen'));
+
+const navReducer = (state = initialState, action) => {
+  const nextState = RootNavigator.router.getStateForAction(action, state);
+  // Simply return the original `state` if `nextState` is null or undefined.
+  return nextState || state;
+};
 
 const middleware = createReactNavigationReduxMiddleware(
   'root',
   state => state.nav
 );
 
-const RootNavigator = createStackNavigator(routes);
-
-const navReducer = createNavigationReducer(RootNavigator);
-
-const AppWithNavigationState = reduxifyNavigator(RootNavigator, 'root');
+const WrappedRootNavigator = reduxifyNavigator(RootNavigator, "root");
 
 const mapStateToProps = state => ({
-  state: state.nav,
+  nav: state.nav,
 });
 
 class Navigator extends React.Component {
@@ -33,7 +36,7 @@ class Navigator extends React.Component {
   }
 
   onBackPress = () => {
-    const { dispatch, nav } = this.props;
+    const {dispatch, nav} = this.props;
     if (nav.index === 0) {
       return false;
     }
@@ -42,11 +45,12 @@ class Navigator extends React.Component {
     return true;
   };
 
-  render () {
-    return (AppWithNavigationState)
+  render() {
+    const {dispatch, nav} = this.props;
+    return (<WrappedRootNavigator state={nav} dispatch={dispatch}/>)
   }
 }
 
-const AppNavigator = connect(mapStateToProps)(AppWithNavigationState);
+const AppNavigator = connect(mapStateToProps, null)(Navigator);
 
-export { RootNavigator, AppNavigator, middleware, navReducer };
+export {AppNavigator, middleware, navReducer};
