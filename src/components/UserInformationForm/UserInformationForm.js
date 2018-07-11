@@ -7,6 +7,7 @@ import Footer from "../Footer";
 import {change} from "redux-form";
 import {connect} from "react-redux";
 import RegisterTextInput from "../RegisterTextInput";
+import {colors} from "../../styles";
 
 function renderFields(fields) {
   return fields.map(field => (
@@ -51,7 +52,7 @@ function renderUsernameEmailAndPasswordFields(dispatch) {
       placeholder: 'PASSWORD*',
       secureTextEntry: true,
       onChangeText: values => dispatch(change('register', 'password', values)),
-      navigate: () => this._birthYear.getRenderedComponent().focus(),
+      navigate: () => this._birthyear.getRenderedComponent().focus(),
       reference: field => (this._password = field)
     },
   ];
@@ -64,10 +65,21 @@ function renderUsernameEmailAndPasswordFields(dispatch) {
 }
 
 
-function renderBirthYearAndGenderFields(input) {
+function renderBirthYearAndGenderFields(dispatch) {
+  const fields = [
+    {
+      name: 'birthyear',
+      keyboardKeyType: 'numeric',
+      returnKeyType: 'done',
+      placeholder: 'BIRTH YEAR*',
+      secureTextEntry: false,
+      onChangeText: values => dispatch(change('register', 'birthyear', values)),
+      reference: field => (this._birthyear = field)
+    },
+  ];
   return (
-    <View>
-
+    <View style={{backgroundColor: colors.WHITE}}>
+      {renderFields(fields)}
     </View>
   )
 }

@@ -10,7 +10,7 @@ export default class RegisterHeader extends React.Component {
     let backgroundColor = colors.MEDIUM_GREY;
     switch (backgroundStyle) {
       case 'light':
-        backgroundColor = '#f9f7f6';
+        backgroundColor = colors.WHITE;
         break;
       case 'darkblue':
         backgroundColor = '#2a343c';

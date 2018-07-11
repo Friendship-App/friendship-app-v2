@@ -8,7 +8,7 @@ export const colors = {
   DARK_GREY: '#d8d8d8',
   ORANGE: '#ff8a65',
   BLUE: '#99ccff',
-  WHITE: '#fff',
+  WHITE: '#f9f7f6',
   BEIGE: '#faf6f0',
   BLACK: '#3b3b3d',
   MEDIUM_BLACK: '#839297',
