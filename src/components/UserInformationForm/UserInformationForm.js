@@ -4,10 +4,16 @@ import {YOUR_PROFILE} from "../ProgressSteps";
 import RegisterHeader from "../RegisterHeader";
 import styles from "./styles";
 import Footer from "../Footer";
-import {change} from "redux-form";
+import {change, Field} from "redux-form";
 import {connect} from "react-redux";
 import RegisterTextInput from "../RegisterTextInput";
-import {colors} from "../../styles";
+import {colors, fonts, paddings} from "../../styles";
+import GendersList from "../GendersList";
+import PicturePicker from "../PicturePicker";
+
+const mapStateToProps = state => ({
+  register: state.form.register,
+});
 
 function renderFields(fields) {
   return fields.map(field => (
@@ -22,20 +28,22 @@ function renderFields(fields) {
       navigate={field.navigate}
       key={field.name}
       helperText={field.helperText}
+      err={field.err}
     />
   ))
 }
 
-function renderUsernameEmailAndPasswordFields(dispatch) {
+function renderUsernameEmailAndPasswordFields(props) {
   const fields = [
     {
       name: 'username',
       returnKeyType: 'next',
       placeholder: '(NICK)NAME',
       secureTextEntry: false,
-      onChangeText: values => dispatch(change('register', 'username', values)),
+      onChangeText: values => props.dispatch(change('register', 'username', values)),
       navigate: () => this._email.getRenderedComponent().focus(),
-      helperText: '(visible)'
+      helperText: '(visible)',
+      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.username : null
     },
     {
       name: 'email',
@@ -43,19 +51,21 @@ function renderUsernameEmailAndPasswordFields(dispatch) {
       returnKeyType: 'next',
       placeholder: 'EMAIL*',
       secureTextEntry: false,
-      onChangeText: values => dispatch(change('register', 'email', values)),
+      onChangeText: values => props.dispatch(change('register', 'email', values)),
       navigate: () => this._password.getRenderedComponent().focus(),
       reference: field => (this._email = field),
-      helperText: '(private)'
+      helperText: '(private)',
+      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.email : null
     },
     {
       name: 'password',
       returnKeyType: 'next',
       placeholder: 'PASSWORD*',
       secureTextEntry: true,
-      onChangeText: values => dispatch(change('register', 'password', values)),
+      onChangeText: values => props.dispatch(change('register', 'password', values)),
       navigate: () => this._birthyear.getRenderedComponent().focus(),
-      reference: field => (this._password = field)
+      reference: field => (this._password = field),
+      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.password : null
     },
   ];
 
@@ -67,7 +77,7 @@ function renderUsernameEmailAndPasswordFields(dispatch) {
 }
 
 
-function renderBirthYearAndGenderFields(dispatch) {
+function renderBirthYearAndGenderFields(props) {
   const fields = [
     {
       name: 'birthyear',
@@ -75,23 +85,32 @@ function renderBirthYearAndGenderFields(dispatch) {
       returnKeyType: 'done',
       placeholder: 'BIRTH YEAR*',
       secureTextEntry: false,
-      onChangeText: values => dispatch(change('register', 'birthyear', values)),
+      onChangeText: values => props.dispatch(change('register', 'birthyear', values)),
       reference: field => (this._birthyear = field),
-      helperText: 'This will be displayed as age range'
+      helperText: 'This will be displayed as age range',
+      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.birthyear : null
     },
   ];
   return (
     <View style={{backgroundColor: colors.WHITE}}>
       {renderFields(fields)}
-
+      <View style={{marginHorizontal: paddings.LG, marginVertical: paddings.MD,}}>
+        <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>GENDER*</Text>
+        <Text style={{fontFamily: fonts.LIGHT}}>(visible)</Text>
+        <Field name={'genders'} component={GendersList}/>
+        {props.register.submitFailed && props.register.submitErrors ? (
+          <Text style={[styles.warning]}>{props.register.submitErrors.genders}</Text>) : null}
+      </View>
     </View>
   )
 }
 
-function renderPicturePicker(input) {
+function renderPicturePicker() {
   return (
-    <View>
-
+    <View style={{marginHorizontal: paddings.LG, marginVertical: paddings.MD, paddingBottom: 100}}>
+      <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>ADD PHOTO</Text>
+      <Text style={{fontFamily: fonts.LIGHT}}>This can be a photo of anything you like</Text>
+      <Field name="image" component={PicturePicker}/>
     </View>
   )
 }
@@ -100,9 +119,9 @@ const UserInformationForm = props => (
   <KeyboardAvoidingView style={[styles.userInformationForm]} behavior="padding" enabled>
     <ScrollView>
       <RegisterHeader processStage={YOUR_PROFILE} headerTitle={'YOUR PROFILE'} backgroundStyle={'light'}/>
-      {renderUsernameEmailAndPasswordFields(props.dispatch)}
-      {renderBirthYearAndGenderFields(props.dispatch)}
-      {renderPicturePicker(props.dispatch)}
+      {renderUsernameEmailAndPasswordFields(props)}
+      {renderBirthYearAndGenderFields(props)}
+      {renderPicturePicker()}
     </ScrollView>
     <Footer color='blue' onPress={props.handleSubmit}>
       <Text style={styles.next}>Next</Text>
@@ -110,4 +129,4 @@ const UserInformationForm = props => (
   </KeyboardAvoidingView>
 );
 
-export default connect()(UserInformationForm);
+export default connect(mapStateToProps, null)(UserInformationForm);

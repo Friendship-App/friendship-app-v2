@@ -1,21 +1,22 @@
 import React from 'react';
-import {reduxForm, SubmissionError, submit} from "redux-form";
+import {reduxForm, SubmissionError} from "redux-form";
 import {connect} from "react-redux";
 import {NavigationActions} from "react-navigation";
 import UserInformationForm from "../../components/UserInformationForm";
+import moment from 'moment';
 
 const mapDispatchToProps = dispatch => ({
   goToPersonalitiesScreen: () => dispatch(NavigationActions.navigate({routeName: 'UserInformation'}))
 });
 
 const UserInformationScreen = props => (
-  <UserInformationForm handleSubmit={() => props.dispatch(submit('register'))}/>
+  <UserInformationForm handleSubmit={(data) => props.handleSubmit(data)}/>
 );
 
-export async function validateUserInformation(values) {
+function validateUserInformation(values) {
   let err = null;
 
-  if (!values.username) {
+  /*if (!values.username) {
     err = {
       ...err,
       username: 'Enter a valid username',
@@ -25,14 +26,14 @@ export async function validateUserInformation(values) {
       ...err,
       username: `That username is already taken : ${values.username}`,
     };
-  }
+  }*/
 
   function emailNotValid(email) {
     const emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
     return !emailRegEx.test(email);
   }
 
-  if (!values.email || emailNotValid(values.email)) {
+  /*if (!values.email || emailNotValid(values.email)) {
     err = {
       ...err,
       email: 'Enter a valid email (ex. foo@bar.com)',
@@ -42,7 +43,7 @@ export async function validateUserInformation(values) {
       ...err,
       email: `This email is already used : ${values.email}`,
     };
-  }
+  }*/
 
   if (!values.password) {
     err = {
@@ -67,7 +68,7 @@ export async function validateUserInformation(values) {
     };
   }
 
-  if (!values.gender) {
+  if (!values.genders || values.genders.length <= 0) {
     err = {
       ...err,
       gender: 'Select at least a gender',

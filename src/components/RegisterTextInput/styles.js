@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {colors, fonts, paddings} from "../../styles";
+import {colors, fonts, fontSizes, paddings} from "../../styles";
 
 export default StyleSheet.create({
   textInput: {
@@ -16,5 +16,11 @@ export default StyleSheet.create({
   },
   helperText: {
     fontFamily: fonts.LIGHT,
+  },
+  warning: {
+    fontFamily: fonts.SEMI_BOLD,
+    fontSize: fontSizes.SMALL,
+    color: colors.WARNING,
+    alignSelf: 'center'
   }
 })

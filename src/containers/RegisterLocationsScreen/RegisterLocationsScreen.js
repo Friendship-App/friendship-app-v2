@@ -9,7 +9,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const LocationsScreen = props => (
-  <LocationsForm handleSubmit={() => props.dispatch(submit('register'))}/>
+  <LocationsForm handleSubmit={(data) => props.handleSubmit(data)}/>
 );
 
 function validateLocations(values) {
