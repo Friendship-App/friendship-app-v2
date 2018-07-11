@@ -1,13 +1,13 @@
 import WelcomeScreen from "../containers/WelcomeScreen";
-import RegisterScreen from "../containers/RegisterScreen";
+import RegisterStack from "./RegisterStack";
 
 const routes = {
   WelcomeScreen: {
     screen: WelcomeScreen,
     navigationOptions: {header: null}
   },
-  RegisterScreen: {
-    screen: RegisterScreen,
+  Register: {
+    screen: RegisterStack,
     navigationOptions: {header: null}
   },
   /*LoginScreen: {

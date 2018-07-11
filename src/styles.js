@@ -11,7 +11,9 @@ export const colors = {
   WHITE: '#fff',
   BEIGE: '#faf6f0',
   BLACK: '#3b3b3d',
+  MEDIUM_BLACK: '#839297',
   PLACEHOLDER: 'rgba(44, 66, 88, 0.3)',
+  WARNING: 'red',
 };
 
 export const fonts = {
@@ -42,8 +44,9 @@ export const fontSizes = {
 
 export const paddings = {
   HEADER: 35,
+  FOOTER: 100,
   XL: 50,
-  LG: 25,
+  LG: 30,
   MD: 20,
   SM: 15,
   XS: 10,

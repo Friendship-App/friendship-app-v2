@@ -15,6 +15,8 @@ class Footer extends Component {
       case 'orange':
         tintColor = colors.ORANGE;
         break;
+      case 'blue':
+        tintColor = colors.DARK_BLUE;
     }
 
     let footerStyle = secondary ? styles.secondaryFooter : styles.footer;
