@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {colors, styles} from "../../styles";
+import {colors, fonts, fontSizes, styles} from "../../styles";
 
 export default StyleSheet.create({
   userInformationForm: {
@@ -9,4 +9,15 @@ export default StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: colors.MEDIUM_GREY
   },
+  next: {
+    fontFamily: fonts.LIGHT_BOLD,
+    fontSize: fontSizes.BODY_TEXT,
+    color: colors.WHITE
+  },
+  warning: {
+    fontFamily: fonts.SEMI_BOLD,
+    fontSize: fontSizes.SMALL,
+    color: colors.WARNING,
+    alignSelf: 'center'
+  }
 })

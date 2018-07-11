@@ -3,7 +3,6 @@ import {colors, fontSizes, paddings} from "../../styles";
 
 export default StyleSheet.create({
   header: {
-    height: '10%',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -15,6 +14,6 @@ export default StyleSheet.create({
     textAlign: 'justify',
     color: colors.MEDIUM_BLACK,
     marginLeft: paddings.LG,
-    paddingTop: paddings.MD
+    paddingVertical: paddings.MD
   }
 })
