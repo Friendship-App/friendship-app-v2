@@ -1,9 +1,9 @@
 import React from 'react';
-import {TextInput, View} from "react-native";
+import {Text, TextInput, View} from "react-native";
 import {Field} from "redux-form";
 import styles from './styles';
 
-const RegisterTextInput = ({name, returnKeyType, placeholder, onChangeText, navigate, reference, secureTextEntry = false}) => (
+const RegisterTextInput = ({name, returnKeyType, placeholder, onChangeText, navigate, reference, keyboardType = 'default', secureTextEntry = false, helperText = undefined}) => (
   <View style={styles.textInput}>
     <Field
       withRef
@@ -11,6 +11,7 @@ const RegisterTextInput = ({name, returnKeyType, placeholder, onChangeText, navi
       name={name}
       component={TextInput}
       autoCorrect={false}
+      keyboardType={keyboardType}
       returnKeyType={returnKeyType}
       underlineColorAndroid="transparent"
       placeholderTextColor="#4a4a4a"
@@ -20,6 +21,8 @@ const RegisterTextInput = ({name, returnKeyType, placeholder, onChangeText, navi
       ref={reference}
       style={styles.field}
     />
+    <View style={styles.horizontalLine}/>
+    {helperText ? (<Text style={styles.helperText}>{helperText}</Text>) : null}
   </View>
 );
 
