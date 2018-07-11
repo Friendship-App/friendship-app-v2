@@ -1,24 +1,18 @@
 import React from "react";
-import {Text, View} from "react-native";
-import {styles} from "../../styles";
 import {connect} from "react-redux";
 import {NavigationActions} from 'react-navigation';
+import Welcome from "../../components/Welcome";
 
 const mapDispatchToProps = dispatch => ({
-  goto: () => dispatch(NavigationActions.navigate({routeName: 'RegisterScreen'}))
+  register: () => dispatch(NavigationActions.navigate({routeName: 'RegisterScreen'})),
+  login: () => dispatch(NavigationActions.navigate({routeName: 'LoginScreen'})),
 });
 
-class WelcomeScreen extends React.Component {
-  componentDidMount () {
-    setTimeout(() => {this.props.goto()}, 1000);
-  }
-  render() {
-    return (
-      <View style={[styles.rootContainer]}>
-        <Text>Hello world</Text>
-      </View>
-    );
-  }
-}
+const WelcomeScreen = props => (
+  <Welcome
+    handleRegister={props.register}
+    handleLogin={props.login}
+  />
+);
 
 export default connect(null, mapDispatchToProps)(WelcomeScreen)
