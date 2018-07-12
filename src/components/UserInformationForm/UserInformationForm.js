@@ -10,6 +10,7 @@ import RegisterTextInput from "../RegisterTextInput";
 import {colors, fonts, paddings} from "../../styles";
 import GendersList from "../GendersList";
 import PicturePicker from "../PicturePicker";
+import AvatarList from "../AvatarList";
 
 const mapStateToProps = state => ({
   register: state.form.register,
@@ -115,10 +116,20 @@ function renderPicturePicker() {
   )
 }
 
+function renderAvatarPicker() {
+  return(
+    <View style={{paddingHorizontal: paddings.LG, paddingVertical: paddings.MD, backgroundColor: colors.WHITE}}>
+      <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>PICK YOUR AVATAR</Text>
+      <Field name="avatar" component={AvatarList} />
+    </View>
+  )
+}
+
 const UserInformationForm = props => (
   <KeyboardAvoidingView style={[styles.userInformationForm]} behavior="padding" enabled>
     <ScrollView>
       <RegisterHeader processStage={YOUR_PROFILE} headerTitle={'YOUR PROFILE'} backgroundStyle={'light'}/>
+      {renderAvatarPicker()}
       {renderUsernameEmailAndPasswordFields(props)}
       {renderBirthYearAndGenderFields(props)}
       {renderPicturePicker()}
