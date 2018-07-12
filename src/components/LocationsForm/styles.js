@@ -7,13 +7,13 @@ export default StyleSheet.create({
     display: 'flex',
     height: '100%',
     flexDirection: 'column',
-    backgroundColor: colors.MEDIUM_GREY,
+    backgroundColor: colors.LIGHT_GREY,
     paddingBottom: paddings.FOOTER
   },
   next: {
     fontFamily: fonts.LIGHT_BOLD,
     fontSize: fontSizes.BODY_TEXT,
-    color: colors.WHITE
+    color: colors.DUST_WHITE
   },
   message: {
     paddingHorizontal: paddings.LG,

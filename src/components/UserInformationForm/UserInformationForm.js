@@ -93,7 +93,7 @@ function renderBirthYearAndGenderFields(props) {
     },
   ];
   return (
-    <View style={{backgroundColor: colors.WHITE}}>
+    <View style={{backgroundColor: colors.DUST_WHITE}}>
       {renderFields(fields)}
       <View style={{marginHorizontal: paddings.LG, marginVertical: paddings.MD,}}>
         <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>GENDER*</Text>
@@ -118,7 +118,7 @@ function renderPicturePicker() {
 
 function renderAvatarPicker() {
   return(
-    <View style={{paddingHorizontal: paddings.LG, paddingVertical: paddings.MD, backgroundColor: colors.WHITE}}>
+    <View style={{paddingHorizontal: paddings.LG, paddingVertical: paddings.MD, backgroundColor: colors.DUST_WHITE}}>
       <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>PICK YOUR AVATAR</Text>
       <Field name="avatar" component={AvatarList} />
     </View>
@@ -128,7 +128,7 @@ function renderAvatarPicker() {
 const UserInformationForm = props => (
   <KeyboardAvoidingView style={[styles.userInformationForm]} behavior="padding" enabled>
     <ScrollView>
-      <RegisterHeader processStage={YOUR_PROFILE} headerTitle={'YOUR PROFILE'} backgroundStyle={'light'}/>
+      <RegisterHeader processStage={YOUR_PROFILE} headerTitle={'YOUR PROFILE'}/>
       {renderAvatarPicker()}
       {renderUsernameEmailAndPasswordFields(props)}
       {renderBirthYearAndGenderFields(props)}

@@ -7,13 +7,15 @@ import {colors} from "../../styles";
 export default class RegisterHeader extends React.Component {
   render() {
     const {backgroundStyle, headerTitle, processStage} = this.props;
-    let backgroundColor = colors.MEDIUM_GREY;
+    let backgroundColor = colors.DUST_WHITE;
+    let color = colors.LIGHT_BLACK;
     switch (backgroundStyle) {
-      case 'light':
-        backgroundColor = colors.WHITE;
+      case 'grey':
+        backgroundColor = colors.LIGHT_GREY;
         break;
-      case 'darkblue':
-        backgroundColor = '#2a343c';
+      case 'dark':
+        backgroundColor = colors.DARK_BLACK;
+        color = colors.DUST_WHITE;
         break;
     }
 
@@ -21,9 +23,9 @@ export default class RegisterHeader extends React.Component {
       <View style={[styles.header, {backgroundColor}]}>
         <ProgressBar
           steps={processStage}
-          color={backgroundStyle === 'darkblue' ? '#3a4853' : ''}
+          color={backgroundStyle === 'dark' ? '#3a4853' : ''}
         />
-        <Text style={[styles.title]}>{headerTitle}</Text>
+        <Text style={[styles.title, {color}]}>{headerTitle}</Text>
       </View>
     );
   }

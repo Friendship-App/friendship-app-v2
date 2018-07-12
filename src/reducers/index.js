@@ -3,6 +3,7 @@ import {reducer as formReducer} from 'redux-form';
 import locations from "./locations";
 import avatars from "./avatars";
 import users from "./users";
+import personalities from "./personalities";
 
 const rootReducer = navReducer => (
   combineReducers({
@@ -10,7 +11,8 @@ const rootReducer = navReducer => (
     form: formReducer,
     locations,
     avatars,
-    users
+    users,
+    personalities
   })
 );
 

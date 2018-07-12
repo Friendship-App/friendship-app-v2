@@ -6,6 +6,6 @@ export default StyleSheet.create({
     ...styles.rootContainer,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.DARK_BLUE
+    backgroundColor: colors.DARK_BLACK
   }
 })

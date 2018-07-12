@@ -7,7 +7,7 @@ import styles from './styles';
 
 class Footer extends Component {
   render() {
-    const { children, color, activeOpacity, onPress, secondary } = this.props;
+    const { children, color, activeOpacity, onPress, secondary, disabled } = this.props;
 
     let tintColor;
 
@@ -16,7 +16,7 @@ class Footer extends Component {
         tintColor = colors.ORANGE;
         break;
       case 'blue':
-        tintColor = colors.DARK_BLUE;
+        tintColor = colors.DARK_BLACK;
     }
 
     let footerStyle = secondary ? styles.secondaryFooter : styles.footer;
@@ -26,6 +26,7 @@ class Footer extends Component {
         style={footerStyle}
         onPress={onPress}
         activeOpacity={activeOpacity}
+        disabled={disabled}
       >
         <Image
           source={wave}

@@ -12,7 +12,6 @@ export default StyleSheet.create({
     fontFamily: 'Friendship_version_2',
     fontSize: fontSizes.HEADING_2,
     textAlign: 'justify',
-    color: colors.MEDIUM_BLACK,
     marginLeft: paddings.LG,
     paddingVertical: paddings.MD
   }

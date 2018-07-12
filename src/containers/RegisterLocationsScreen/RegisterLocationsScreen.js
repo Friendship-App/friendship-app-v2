@@ -30,7 +30,7 @@ export default connect(null, mapDispatchToProps)(
   reduxForm({
     form: 'register',
     initialValues,
-    destroyOnUnmount: false,
+    destroyOnUnmount: true,
     forceUnregisterOnUnmount: true,
     onSubmit: validateLocations,
     onSubmitSuccess: (result, dispatch, props) => {

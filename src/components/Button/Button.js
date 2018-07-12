@@ -35,7 +35,7 @@ class Button extends Component {
         buttonTextColor = colors.ORANGE;
         break;
       case 'white':
-        buttonTextColor = colors.WHITE;
+        buttonTextColor = colors.DUST_WHITE;
         break;
     }
 

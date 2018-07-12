@@ -2,16 +2,21 @@ import { Platform, View } from 'react-native';
 import React from 'react';
 
 export const colors = {
-  DARK_BLUE: '#2a343c',
-  LIGHT_GREY: '#f9f7f6',
-  MEDIUM_GREY: '#e8e9e8',
-  DARK_GREY: '#d8d8d8',
+  DUST_WHITE: '#F9F7F6',
+  LIGHT_BLACK: '#839297',
+  MEDIUM_BLACK: '#314A52',
+  DARK_BLACK: '#2a343c',
+  LIGHT_GREY: '#EFEBE9',
+  MEDIUM_GREY: '#DAD5D2',
+  DARK_GREY: '#B3ABAB',
+  LIGHT_ORANGE: '#FFAB91',
   ORANGE: '#ff8a65',
+  DARK_ORANGE: '#FF6E40',
+  LIGHT_BLUE: '#ADD6FF',
   BLUE: '#99ccff',
-  WHITE: '#f9f7f6',
+  DARK_BLUE: '#8FBAF3',
   BEIGE: '#faf6f0',
   BLACK: '#3b3b3d',
-  MEDIUM_BLACK: '#839297',
   PLACEHOLDER: 'rgba(44, 66, 88, 0.3)',
   WARNING: 'red',
 };
@@ -34,17 +39,17 @@ export const fontSizes = {
   HEADING_2: 45,
   HEADING_3: 35,
   HEADING_4: 25,
-  HEADING_5: 15,
-  BODY_TEXT: 20,
+  BODY_TEXT: 16,
   SMALL: 15,
-  MEDIUM_SMALL: 10,
-  EXTRA_SMALL: 5,
+  MEDIUM_SMALL: 12,
+  EXTRA_SMALL: 10,
   QUOTE: 20,
 };
 
 export const paddings = {
   HEADER: 35,
   FOOTER: 100,
+  XXL: 80,
   XL: 50,
   LG: 30,
   MD: 20,
@@ -63,5 +68,5 @@ export const styles = {
 export const footerText = {
   fontFamily: fonts.REGULAR,
   fontSize: fontSizes.BODY_TEXT,
-  color: colors.WHITE,
+  color: colors.DUST_WHITE,
 };

@@ -17,7 +17,7 @@ const LocationsForm = props => (
   <View
     style={styles.locationsForm}
   >
-    <RegisterHeader processStage={LOCATION} headerTitle={'HEY !'}/>
+    <RegisterHeader processStage={LOCATION} headerTitle={'HEY !'} backgroundStyle={'grey'}/>
     <View style={styles.message}>
       <Text style={styles.text}>With your location, we will find the happenings, groups and people
         closest to you.</Text>

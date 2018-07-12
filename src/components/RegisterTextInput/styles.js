@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   horizontalLine: {
     borderBottomWidth: 2,
-    borderBottomColor: colors.DARK_BLUE,
+    borderBottomColor: colors.DARK_BLACK,
   },
   field: {
     fontFamily: fonts.SEMI_BOLD,

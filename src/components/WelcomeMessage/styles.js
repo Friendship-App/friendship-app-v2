@@ -8,13 +8,13 @@ export default StyleSheet.create({
   WelcomeText: {
     fontSize: fontSizes.WELCOME_MESSAGE,
     fontFamily: fonts.TITLE,
-    color: colors.WHITE,
+    color: colors.DUST_WHITE,
     lineHeight: 60,
   },
   welcomeSubtitle: {
     fontSize: fontSizes.WELCOME_SUBS,
     fontFamily: fonts.TITLE,
-    color: colors.WHITE,
+    color: colors.DUST_WHITE,
     lineHeight: 100,
   },
 });
