@@ -1,3 +1,3 @@
-import PersonalitiesScreen from './PersonalitiesScreen';
+import RegisterPersonalitiesScreen from './RegisterPersonalitiesScreen';
 
-export default PersonalitiesScreen;
+export default RegisterPersonalitiesScreen;

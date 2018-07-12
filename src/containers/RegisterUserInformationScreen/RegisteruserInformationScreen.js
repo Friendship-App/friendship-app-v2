@@ -7,7 +7,7 @@ import moment from 'moment';
 import {validateEmail, validateUsername} from "../../actions/users";
 
 const mapDispatchToProps = dispatch => ({
-  goToPersonalitiesScreen: () => dispatch(NavigationActions.navigate({routeName: 'UserInformation'}))
+  goToPersonalitiesScreen: () => dispatch(NavigationActions.navigate({routeName: 'Personalities'}))
 });
 
 const UserInformationScreen = props => (
