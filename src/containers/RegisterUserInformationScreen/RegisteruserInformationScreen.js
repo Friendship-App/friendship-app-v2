@@ -4,46 +4,53 @@ import {connect} from "react-redux";
 import {NavigationActions} from "react-navigation";
 import UserInformationForm from "../../components/UserInformationForm";
 import moment from 'moment';
+import {validateEmail, validateUsername} from "../../actions/users";
 
 const mapDispatchToProps = dispatch => ({
   goToPersonalitiesScreen: () => dispatch(NavigationActions.navigate({routeName: 'UserInformation'}))
 });
 
 const UserInformationScreen = props => (
-  <UserInformationForm handleSubmit={(data) => props.handleSubmit(data)}/>
+  <UserInformationForm handleSubmit={(data) => props.handleSubmit(data)} {...props}/>
 );
 
-function validateUserInformation(values) {
+async function validateUserInformation(values, dispatch) {
   let err = null;
 
-  /*if (!values.username) {
+  if (!values.username) {
     err = {
       ...err,
       username: 'Enter a valid username',
     };
-  } else if (!await isUsernameAvailable(values.username)) {
-    err = {
-      ...err,
-      username: `That username is already taken : ${values.username}`,
-    };
-  }*/
+  } else {
+    const existingUserWithUsername = await dispatch(validateUsername(values.username));
+    if (existingUserWithUsername.length > 0) {
+      err = {
+        ...err,
+        username: `That username is already taken : ${values.username}`,
+      };
+    }
+  }
 
   function emailNotValid(email) {
     const emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
     return !emailRegEx.test(email);
   }
 
-  /*if (!values.email || emailNotValid(values.email)) {
+  if (!values.email || emailNotValid(values.email)) {
     err = {
       ...err,
       email: 'Enter a valid email (ex. foo@bar.com)',
     };
-  } else if (!await isEmailAvailable(values.email)) {
-    err = {
-      ...err,
-      email: `This email is already used : ${values.email}`,
-    };
-  }*/
+  } else {
+    const existingUserWithEmail = await dispatch(validateEmail(values.email));
+    if (existingUserWithEmail.length > 0) {
+      err = {
+        ...err,
+        email: `This email is already used : ${values.email}`,
+      };
+    }
+  }
 
   if (!values.password) {
     err = {
@@ -71,7 +78,7 @@ function validateUserInformation(values) {
   if (!values.genders || values.genders.length <= 0) {
     err = {
       ...err,
-      gender: 'Select at least a gender',
+      genders: 'Select at least a gender',
     };
   }
 
@@ -88,7 +95,7 @@ export default connect(null, mapDispatchToProps)(
     form: 'register',
     destroyOnUnmount: false,
     forceUnregisterOnUnmount: true,
-    onSubmit: validateUserInformation,
+    onSubmit: (value, dispatch) => validateUserInformation(value, dispatch),
     onSubmitSuccess: (result, dispatch, props) => {
       props.goToPersonalitiesScreen();
     }

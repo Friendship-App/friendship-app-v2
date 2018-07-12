@@ -30,8 +30,6 @@ class AvatarList extends React.Component {
   render() {
     const { input } = this.props;
 
-    console.log(this.props);
-
     if (this.props.avatars.isLoading) {
       return <Loading/>;
     }

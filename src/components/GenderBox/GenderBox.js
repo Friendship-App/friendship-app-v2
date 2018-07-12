@@ -43,7 +43,7 @@ export default class GenderBox extends React.Component {
         backgroundColor: this.state.color,
         overflow: 'hidden',
         height: 44,
-        width: '36%',
+        width: '43%',
         borderRadius: 27,
         paddingLeft: 15,
         marginRight: 11,
