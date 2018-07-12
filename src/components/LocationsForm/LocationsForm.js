@@ -13,24 +13,6 @@ const mapStateToProps = state => ({
   register: state.form.register,
 });
 
-/*const renderLocationField = submittedErrors => {
-  const err = checkErrorMessage(submittedErrors, 'LOCATIONS');
-  return (
-    <Container style={{ flex: 1 }}>
-      <Part style={{ flex: 2 }}>
-        <LabelText style={{ marginTop: 21, marginLeft: 30, marginRight: 30 }}>
-          With your location, we will find the happenings, groups and people
-          closest to you.
-        </LabelText>
-      </Part>
-      <Part style={{ flex: 8 }}>
-        <Field name={'locations'} component={LocationList} />
-        <FieldContainer>{err ? renderErrorMessage(err) : null}</FieldContainer>
-      </Part>
-    </Container>
-  );
-};*/
-
 const LocationsForm = props => (
   <View
     style={styles.locationsForm}
