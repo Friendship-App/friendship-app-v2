@@ -118,7 +118,7 @@ function renderPicturePicker() {
 
 function renderAvatarPicker() {
   return(
-    <View style={{paddingHorizontal: paddings.LG, paddingVertical: paddings.MD, backgroundColor: colors.DUST_WHITE}}>
+    <View style={{paddingLeft: paddings.LG, paddingVertical: paddings.MD, backgroundColor: colors.DUST_WHITE}}>
       <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>PICK YOUR AVATAR</Text>
       <Field name="avatar" component={AvatarList} />
     </View>
