@@ -15,6 +15,9 @@ class Footer extends Component {
       case 'orange':
         tintColor = colors.ORANGE;
         break;
+        case 'grey':
+        tintColor = colors.LIGHT_GREY;
+        break;
       case 'blue':
         tintColor = colors.DARK_BLACK;
     }

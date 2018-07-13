@@ -4,6 +4,7 @@ import locations from "./locations";
 import avatars from "./avatars";
 import users from "./users";
 import personalities from "./personalities";
+import tags from "./tags";
 
 const rootReducer = navReducer => (
   combineReducers({
@@ -12,7 +13,8 @@ const rootReducer = navReducer => (
     locations,
     avatars,
     users,
-    personalities
+    personalities,
+    tags
   })
 );
 
