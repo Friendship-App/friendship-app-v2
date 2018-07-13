@@ -18,11 +18,12 @@ export default StyleSheet.create({
     fontFamily: fonts.REGULAR,
     fontSize: fontSizes.BODY_TEXT,
     color: colors.DUST_WHITE,
+    textAlign: 'center'
   },
   tagPart: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   yeahIcon: {
     justifyContent: 'flex-start',

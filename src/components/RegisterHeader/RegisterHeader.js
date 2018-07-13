@@ -6,7 +6,7 @@ import {colors} from "../../styles";
 
 export default class RegisterHeader extends React.Component {
   render() {
-    const {backgroundStyle, headerTitle, processStage} = this.props;
+    const {backgroundStyle, headerTitle, titleComponent, processStage} = this.props;
     let backgroundColor = colors.DUST_WHITE;
     let color = colors.LIGHT_BLACK;
     switch (backgroundStyle) {
@@ -25,7 +25,11 @@ export default class RegisterHeader extends React.Component {
           steps={processStage}
           color={backgroundStyle === 'dark' ? '#3a4853' : ''}
         />
-        <Text style={[styles.title, {color}]}>{headerTitle}</Text>
+        {titleComponent ? (
+          titleComponent
+        ) : (
+          <Text style={[styles.title, {color}]}>{headerTitle}</Text>
+        )}
       </View>
     );
   }

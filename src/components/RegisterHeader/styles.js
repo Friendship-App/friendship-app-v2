@@ -8,11 +8,11 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   title: {
-    width: '100%',
     fontFamily: 'Friendship_version_2',
     fontSize: fontSizes.HEADING_2,
     textAlign: 'justify',
-    marginLeft: paddings.LG,
-    paddingVertical: paddings.MD
+    marginHorizontal: paddings.LG,
+    paddingVertical: paddings.MD,
+    lineHeight: 35,
   }
 })

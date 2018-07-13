@@ -22,8 +22,18 @@ function validateLocations(values) {
 }
 
 const initialValues = {
+  locations: [],
+  username: '',
+  email: '',
+  password: '',
+  birthyear: '',
+  genders: [],
   enableMatching: false,
   description: '',
+  lovedActivities: [],
+  hatedActivities: [],
+  lovedInterests: [],
+  hatedInterests: [],
 };
 
 export default connect(null, mapDispatchToProps)(

@@ -9,12 +9,7 @@ export default StyleSheet.create({
   },
   title: {
     fontFamily: fonts.BOLD,
-    fontSize: fontSizes.HEADING_4
-  },
-  yeah: {
-    color: colors.DARK_BLUE,
-  },
-  nah: {
-    color: colors.ORANGE,
-  },
+    fontSize: fontSizes.HEADING_4,
+    color: colors.DUST_WHITE
+  }
 })

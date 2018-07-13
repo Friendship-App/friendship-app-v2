@@ -93,7 +93,6 @@ class PersonalitiesForm extends React.Component {
               this.props.change('personalities', tmpSelectedPersonalities);
               this.setState(prevState => ({progress: prevState.progress + 1}));
             } else {
-              console.log(this.props);
               this.props.handleSubmit();
             }
           }}

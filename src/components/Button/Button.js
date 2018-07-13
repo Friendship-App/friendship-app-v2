@@ -18,7 +18,7 @@ class Button extends Component {
     switch (type) {
       case 'primary':
         style = styles.button;
-        backgroundColor = colors.BEIGE;
+        backgroundColor = colors.DUST_WHITE;
         break;
       case 'secondary':
         style = header ? styles.headerButton : styles.buttonSecondary;

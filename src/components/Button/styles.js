@@ -14,7 +14,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: paddings.XS,
     borderWidth: 2,
-    borderColor: colors.BEIGE,
+    borderColor: colors.DUST_WHITE,
   },
   headerButton: {
     backgroundColor: 'transparent',
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     paddingHorizontal: paddings.XXS,
   },
   text: {
-    color: colors.BEIGE,
+    color: colors.DUST_WHITE,
     fontSize: fontSizes.BODY_TEXT,
     fontFamily: fonts.REGULAR,
   },

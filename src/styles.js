@@ -15,7 +15,7 @@ export const colors = {
   LIGHT_BLUE: '#ADD6FF',
   BLUE: '#99ccff',
   DARK_BLUE: '#8FBAF3',
-  BEIGE: '#faf6f0',
+  WHITE: '#fff',
   BLACK: '#3b3b3d',
   PLACEHOLDER: 'rgba(44, 66, 88, 0.3)',
   WARNING: 'red',

@@ -5,7 +5,7 @@ import {reduxForm} from "redux-form";
 import {NavigationActions} from "react-navigation";
 
 const mapDispatchToProps = dispatch => ({
-  goToUserInformationForm: () => dispatch(NavigationActions.navigate({routeName: 'Locations'}))
+  goToUserInformationForm: () => dispatch(NavigationActions.navigate({routeName: 'Tags'}))
 });
 
 const RegisterPersonalitiesScreen = props => (
