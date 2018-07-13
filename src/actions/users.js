@@ -42,10 +42,10 @@ export function emailChecked() {
   };
 }
 
-export function receiveUsers(locationsList) {
+export function receiveUsers(usersList) {
   return {
     type: ActionTypes.USERS_RECEIVE,
-    locationsList,
+    usersList,
   };
 }
 
@@ -57,9 +57,16 @@ export function failRequestUsers() {
   };
 }
 
+export function register() {
+  return async (dispatch, getState) => {
+    const state = getState().form.register.values;
+
+  }
+}
+
 export function fetchUsers() {
   return async (dispatch, getState) => {
-    const { users } = getState();
+    const {users} = getState();
 
     if (!users.isLoading) {
       dispatch(requestUsers());
@@ -81,7 +88,7 @@ export function fetchUsers() {
 
 export function validateUsername(username) {
   return async (dispatch, getState) => {
-    const { users } = getState();
+    const {users} = getState();
 
     if (!users.checkingUsername) {
       dispatch(checkUsername());
@@ -103,7 +110,7 @@ export function validateUsername(username) {
 
 export function validateEmail(email) {
   return async (dispatch, getState) => {
-    const { users } = getState();
+    const {users} = getState();
 
     if (!users.checkingEmail) {
       dispatch(checkEmail());

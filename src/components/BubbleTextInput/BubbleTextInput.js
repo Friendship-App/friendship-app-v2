@@ -13,6 +13,7 @@ class BubbleTextInput extends React.Component {
         autoGrow={true}
         textAlignVertical='top'
         onContentSizeChange={evt => this.props.onContentSizeChange(evt)}
+        onChangeText={this.props.onChangeText}
       />
     );
   }

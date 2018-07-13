@@ -1,5 +1,5 @@
 import React from 'react';
-import {KeyboardAvoidingView, ScrollView, Text, View} from "react-native";
+import {KeyboardAvoidingView, ScrollView, Text, View, Dimensions} from "react-native";
 import {YOUR_PROFILE} from "../ProgressSteps";
 import RegisterHeader from "../RegisterHeader";
 import styles from "./styles";
@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
   register: state.form.register,
 });
 
-function renderFields(fields) {
+function renderFields(fields, refs) {
   return fields.map(field => (
     <RegisterTextInput
       name={field.name}
@@ -34,7 +34,7 @@ function renderFields(fields) {
   ))
 }
 
-function renderUsernameEmailAndPasswordFields(props) {
+function renderUsernameEmailAndPasswordFields(props, refs) {
   const fields = [
     {
       name: 'username',
@@ -72,13 +72,13 @@ function renderUsernameEmailAndPasswordFields(props) {
 
   return (
     <View>
-      {renderFields(fields)}
+      {renderFields(fields, refs)}
     </View>
   )
 }
 
 
-function renderBirthYearAndGenderFields(props) {
+function renderBirthYearAndGenderFields(props, refs) {
   const fields = [
     {
       name: 'birthyear',
@@ -94,7 +94,7 @@ function renderBirthYearAndGenderFields(props) {
   ];
   return (
     <View style={{backgroundColor: colors.DUST_WHITE}}>
-      {renderFields(fields)}
+      {renderFields(fields, refs)}
       <View style={{marginHorizontal: paddings.LG, marginVertical: paddings.MD,}}>
         <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>GENDER*</Text>
         <Text style={{fontFamily: fonts.LIGHT}}>(visible)</Text>
@@ -125,19 +125,23 @@ function renderAvatarPicker() {
   )
 }
 
-const UserInformationForm = props => (
-  <KeyboardAvoidingView style={[styles.userInformationForm]} behavior="padding" enabled>
-    <ScrollView>
-      <RegisterHeader processStage={YOUR_PROFILE} headerTitle={'YOUR PROFILE'}/>
-      {renderAvatarPicker()}
-      {renderUsernameEmailAndPasswordFields(props)}
-      {renderBirthYearAndGenderFields(props)}
-      {renderPicturePicker()}
-    </ScrollView>
-    <Footer color='blue' onPress={props.handleSubmit}>
-      <Text style={styles.next}>Next</Text>
-    </Footer>
-  </KeyboardAvoidingView>
-);
+class UserInformationForm extends React.Component {
+  render () {
+    return (
+      <KeyboardAvoidingView style={[styles.userInformationForm]} behavior="padding" enabled>
+        <ScrollView bounces={false} ref="scrollView">
+          <RegisterHeader processStage={YOUR_PROFILE} headerTitle={'YOUR PROFILE'}/>
+          {renderAvatarPicker()}
+          {renderUsernameEmailAndPasswordFields(this.props, this.refs)}
+          {renderBirthYearAndGenderFields(this.props, this.refs)}
+          {renderPicturePicker()}
+        </ScrollView>
+        <Footer color='blue' onPress={this.props.handleSubmit}>
+          <Text style={styles.next}>Next</Text>
+        </Footer>
+      </KeyboardAvoidingView>
+    );
+  }
+}
 
 export default connect(mapStateToProps, null)(UserInformationForm);

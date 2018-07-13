@@ -23,4 +23,10 @@ export default StyleSheet.create({
     fontSize: fontSizes.BODY_TEXT,
     color: colors.DUST_WHITE
   },
+  warning: {
+    fontFamily: fonts.SEMI_BOLD,
+    fontSize: fontSizes.SMALL,
+    color: colors.WARNING,
+    alignSelf: 'center'
+  }
 })
