@@ -4,7 +4,7 @@ import {NavigationActions} from 'react-navigation';
 import Welcome from "../../components/Welcome";
 
 const mapDispatchToProps = dispatch => ({
-  register: () => dispatch(NavigationActions.navigate({routeName: 'Register'})),
+  register: () => dispatch(NavigationActions.navigate({routeName: 'Locations'})),
   login: () => dispatch(NavigationActions.navigate({routeName: 'LoginScreen'})),
 });
 

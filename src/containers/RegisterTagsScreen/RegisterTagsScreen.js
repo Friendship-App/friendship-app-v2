@@ -19,7 +19,6 @@ const mapDispatchToProps = dispatch => ({
 
 function validateTags(values) {
   const selectedTags = [].concat(values.lovedActivities, values.lovedInterests, values.hatedInterests, values.hatedActivities);
-  console.log(selectedTags);
   if (selectedTags.length <= 0) {
     throw new SubmissionError({
       tags: 'Select at least a tag.',

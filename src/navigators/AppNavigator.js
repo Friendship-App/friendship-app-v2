@@ -7,7 +7,7 @@ import {BackHandler} from "react-native";
 
 const RootNavigator = createStackNavigator(routes);
 
-const initialState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams('Home'));
+const initialState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams('WelcomeScreen'));
 
 const navReducer = (state = initialState, action) => {
   const nextState = RootNavigator.router.getStateForAction(action, state);

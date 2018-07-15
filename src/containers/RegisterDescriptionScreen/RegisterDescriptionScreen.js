@@ -7,11 +7,10 @@ import BubbleTextInput from "../../components/BubbleTextInput";
 import Footer from "../../components/Footer";
 import {Field, reduxForm, SubmissionError} from "redux-form";
 import {connect} from "react-redux";
-import {register} from '../../actions/users';
+import {register} from '../../actions/register';
 
 const mapStateToProps = state => ({
-  // formValues: state.form.register.values,
-  register: state.form.register,
+  registration: state.form.register,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -22,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
 
 class DescriptionScreen extends React.Component {
   render() {
-    const {register} = this.props;
+    const {registration} = this.props;
     return (
       <KeyboardAvoidingView style={[styles.descriptionScreen]} behavior="padding" enabled>
         <ScrollView contentContainerStyle={{flex: 1}} bounces={false} ref="scrollView">
@@ -36,8 +35,8 @@ class DescriptionScreen extends React.Component {
               onContentSizeChange={(evt) => this.refs.scrollView.scrollToEnd()}
               onChangeText={text => this.props.change('description', text)}
             />
-            {register && register.submitFailed && register.submitErrors.description ? (
-              <Text style={styles.warning}>{register.submitErrors.description}</Text>
+            {registration && registration.submitFailed && registration.submitErrors && registration.submitErrors.description ? (
+              <Text style={styles.warning}>{registration.submitErrors.description}</Text>
             ) : null}
           </View>
         </ScrollView>

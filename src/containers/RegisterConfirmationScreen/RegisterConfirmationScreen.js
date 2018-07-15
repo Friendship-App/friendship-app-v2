@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from "react-native";
-import {NavigationActions} from 'react-navigation';
+import {NavigationActions, StackActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from "../../styles";
 import Footer from "../../components/Footer";
@@ -8,7 +8,10 @@ import styles from "./styles";
 import {connect} from "react-redux";
 
 const mapDispatchToProps = dispatch => ({
-  openApp: () => dispatch(NavigationActions.navigate({routeName: 'Home'}))
+  openApp: () => dispatch(StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({routeName: 'Home'})]
+  }))
 });
 
 const RegisterConfirmationScreen = props => (

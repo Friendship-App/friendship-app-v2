@@ -28,7 +28,7 @@ const initialValues = {
   password: '',
   birthyear: '',
   genders: [],
-  enableMatching: false,
+  personalities: [],
   description: '',
   lovedActivities: [],
   hatedActivities: [],

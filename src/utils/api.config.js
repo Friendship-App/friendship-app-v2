@@ -7,7 +7,7 @@ let apiRoot;
  * */
 if (process.env.NODE_ENV === 'development') {
   apiRoot =
-    Platform.OS === 'ios' ? 'http://192.168.4.101:3888' : 'http://192.168.4.101:3888';
+    Platform.OS === 'ios' ? 'http://192.168.4.101:3000/api' : 'http://192.168.4.101:3000/api';
 } else {
   apiRoot = 'https://friendshipapp-backend.herokuapp.com';
 }

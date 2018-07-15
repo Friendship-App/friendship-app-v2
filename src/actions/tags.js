@@ -4,7 +4,7 @@ export const ActionTypes = {
   ACTIVITIES_REQUEST: 'ACTIVITIES_REQUEST',
   INTERESTS_REQUEST: 'INTERESTS_REQUEST',
   ACTIVITIES_RECEIVE: 'ACTIVITIES_RECEIVE',
-  INTERESTS_RECEIVE: 'INTERESTS',
+  INTERESTS_RECEIVE: 'INTERESTS_RECEIVE',
   TAGS_FAILED: 'TAGS_FAILED',
 };
 
@@ -45,7 +45,7 @@ export function fetchTags(type = ActionTypes.ACTIVITIES_REQUEST) {
     if (!tags.isLoading) {
       dispatch(requestTags(type));
       try {
-        const resp = await fetch(`${apiRoot}/${endpoint}`);
+        const resp = await fetch(`${apiRoot}/tags/${endpoint}`);
 
         if (resp.ok) {
           const data = await resp.json();

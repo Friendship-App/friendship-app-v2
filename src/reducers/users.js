@@ -28,13 +28,25 @@ export default function users(state = initialState, action) {
         isLoading: false,
       };
 
-    case ActionTypes.USERS_VALIDATE_USERNAME:
+    case ActionTypes.CHECK_USERNAME:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case ActionTypes.CHECK_EMAIL:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+      case ActionTypes.USERNAME_CHECKED:
       return {
         ...state,
         isLoading: false,
       };
 
-    case ActionTypes.USERS_VALIDATE_EMAIL:
+    case ActionTypes.EMAIL_CHECKED:
       return {
         ...state,
         isLoading: false,

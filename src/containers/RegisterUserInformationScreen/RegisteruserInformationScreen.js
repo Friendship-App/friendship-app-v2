@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {NavigationActions} from "react-navigation";
 import UserInformationForm from "../../components/UserInformationForm";
 import moment from 'moment';
-import {validateEmail, validateUsername} from "../../actions/users";
+import {validateEmail, validateUsername} from "../../actions/register";
 
 const mapDispatchToProps = dispatch => ({
   goToPersonalitiesScreen: () => dispatch(NavigationActions.navigate({routeName: 'Personalities'}))
@@ -23,8 +23,8 @@ async function validateUserInformation(values, dispatch) {
       username: 'Enter a valid username',
     };
   } else {
-    const existingUserWithUsername = await dispatch(validateUsername(values.username));
-    if (existingUserWithUsername.length > 0) {
+    const nbOfUsersWithUsername = await dispatch(validateUsername(values.username));
+    if (nbOfUsersWithUsername > 0) {
       err = {
         ...err,
         username: `That username is already taken : ${values.username}`,
@@ -43,8 +43,8 @@ async function validateUserInformation(values, dispatch) {
       email: 'Enter a valid email (ex. foo@bar.com)',
     };
   } else {
-    const existingUserWithEmail = await dispatch(validateEmail(values.email));
-    if (existingUserWithEmail.length > 0) {
+    const nbOfUsersWithEmail = await dispatch(validateEmail(values.email));
+    if (nbOfUsersWithEmail.length > 0) {
       err = {
         ...err,
         email: `This email is already used : ${values.email}`,
