@@ -30,10 +30,8 @@ const initialValues = {
   genders: [],
   personalities: [],
   description: '',
-  lovedActivities: [],
-  hatedActivities: [],
-  lovedInterests: [],
-  hatedInterests: [],
+  lovedTags: [],
+  hatedTags: [],
 };
 
 export default connect(null, mapDispatchToProps)(
