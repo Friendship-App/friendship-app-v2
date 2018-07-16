@@ -10,6 +10,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   list: {
-    maxHeight: 500
+    maxHeight: 600
   },
 });

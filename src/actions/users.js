@@ -43,7 +43,6 @@ export function fetchBatchUsers(batchNumber) {
 
         if (resp.ok) {
           const data = await resp.json();
-          console.log(data);
           dispatch(receiveUsers(data));
         } else {
           throw Error;
