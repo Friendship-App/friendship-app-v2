@@ -19,7 +19,6 @@ const mapDispatchToProps = dispatch => ({
 class WelcomeScreen extends React.Component {
   componentWillMount() {
     const {auth, openApp} = this.props;
-    console.log(this.props);
     if (auth.isAuthenticated) {
       openApp();
     }
