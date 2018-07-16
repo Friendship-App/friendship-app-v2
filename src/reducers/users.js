@@ -34,27 +34,6 @@ export default function users(state = initialState, action) {
         isLoading: false,
       };
 
-      case ActionTypes.TAGS_FOR_USER_RECEIVED:
-      return {
-        ...state,
-        userDetails : {...state.userDetails, userTags: action.userTags},
-        isLoading: false,
-      };
-
-      case ActionTypes.USER_PERSONALITIES_RECEIVED:
-      return {
-        ...state,
-        userDetails : {...state.userDetails, userPersonalities: action.userPersonalities},
-        isLoading: false,
-      };
-
-      case ActionTypes.USER_CHATROOM_RECEIVED:
-      return {
-        ...state,
-        userDetails : {...state.userDetails, chatroomId: action.chatroomId},
-        isLoading: false,
-      };
-
     case ActionTypes.USERS_FAILED:
       return {
         ...state,

@@ -23,6 +23,7 @@ export default function personalities(state = initialState, action) {
       case ActionTypes.USER_PERSONALITIES_RECEIVED:
       return {
         ...state,
+        userPersonalities: action.userPersonalities,
         isLoading: false,
       };
 

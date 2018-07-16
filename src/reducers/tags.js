@@ -45,6 +45,7 @@ export default function tags(state = initialState, action) {
     case ActionTypes.TAGS_FOR_USER_RECEIVED:
       return {
         ...state,
+        userTags: action.userTags,
         isLoading: false
       };
 

@@ -6,16 +6,25 @@ import {colors, fonts, fontSizes, paddings} from "../../styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import {disableTouchableOpacity} from "../../actions/TouchableOpacityController";
 import styles from "./styles";
+import {fetchUserInformation} from "../../actions/users";
+import {fetchUserTags} from "../../actions/tags";
+import {fetchUserPersonalities} from "../../actions/personalities";
+import {fetchUserChatroom} from "../../actions/chatrooms";
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  openProfile: (personId) =>
-    dispatch(
+  openProfile: (personId) => {
+    dispatch(fetchUserInformation(personId));
+    dispatch(fetchUserTags(personId));
+    dispatch(fetchUserPersonalities(personId));
+    dispatch(fetchUserChatroom(personId));
+    return dispatch(
       NavigationActions.navigate({
         routeName: 'PeopleProfile',
         params: {personId},
       }),
-    ),
+    )
+  },
 });
 
 class Person extends React.Component {

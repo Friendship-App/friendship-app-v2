@@ -23,6 +23,7 @@ export default function messages(state = initialState, action) {
       case ActionTypes.USER_CHATROOM_RECEIVED:
       return {
         ...state,
+        chatroomId: action.chatroomId,
         isLoading: false,
       };
 
