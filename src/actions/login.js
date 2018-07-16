@@ -43,7 +43,6 @@ export function login(email, password, screenName) {
 
       if (resp.ok) {
         const data = await resp.json();
-        console.log(data);
         dispatch(receiveLogin());
         dispatch(storeCredentials({
           ...data,

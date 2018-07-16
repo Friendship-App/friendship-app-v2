@@ -10,19 +10,19 @@ export default function login(state = initialState, action) {
     case ActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
-        isAuthenticating: false,
+        isLogging: false,
       };
 
     case ActionTypes.LOGIN_REQUEST:
       return {
         ...state,
-        isAuthenticating: true,
+        isLogging: true,
       };
 
     case ActionTypes.LOGIN_FAILED:
       return {
         ...state,
-        isAuthenticating: false,
+        isLogging: false,
         error: action.errorMessage,
       };
 

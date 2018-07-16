@@ -1,17 +1,18 @@
 import React from 'react';
 import {Text, View} from "react-native";
-import {NavigationActions, StackActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {colors} from "../../styles";
 import Footer from "../../components/Footer";
 import styles from "./styles";
 import {connect} from "react-redux";
+import {login} from "../../actions/login";
+
+const mapStateToProps = state => ({
+  register: state.form.register
+});
 
 const mapDispatchToProps = dispatch => ({
-  openApp: () => dispatch(StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({routeName: 'Home'})]
-  }))
+  openApp: (email, password) => dispatch(login(email, password))
 });
 
 const RegisterConfirmationScreen = props => (
@@ -25,10 +26,10 @@ const RegisterConfirmationScreen = props => (
     <Text style={[styles.message]}>
       Thank you for registering !
     </Text>
-    <Footer onPress={() => props.openApp()}>
+    <Footer onPress={() => props.openApp(props.register.values.email, props.register.values.password)}>
       <Text style={[styles.next]}>YAY</Text>
     </Footer>
   </View>
 );
 
-export default connect(null, mapDispatchToProps)(RegisterConfirmationScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterConfirmationScreen);

@@ -10,6 +10,7 @@ export default function auth (state = initialState, action) {
     case ActionTypes.STORE_CREDENTIALS:
       return {
         ...state,
+        isAuthenticated: true,
         data: action.credentials
       };
 

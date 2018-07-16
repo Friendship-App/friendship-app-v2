@@ -1,5 +1,5 @@
 import apiRoot from "../utils/api.config";
-import {login} from "./login";
+import {NavigationActions} from 'react-navigation';
 
 export const ActionTypes = {
   REGISTER_REQUEST: 'REGISTER_REQUEST',
@@ -80,11 +80,7 @@ export function register() {
 
         if (resp.ok) {
           dispatch(receiveRegister());
-          dispatch(login(
-            registrationData.username,
-            registrationData.password,
-            'Registered'
-          ));
+          dispatch(NavigationActions.navigate({routeName: 'Registered'}));
         } else {
           throw Error;
         }

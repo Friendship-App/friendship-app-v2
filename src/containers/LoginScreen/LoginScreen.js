@@ -35,7 +35,7 @@ class SignInView extends React.Component {
   };
 
   renderStatus() {
-    const { isAuthenticating, error } = this.props.login;
+    const { isLogging, error } = this.props.login;
     const { data, isAuthenticated} = this.props.auth;
     if (error.length > 0) {
       return (
@@ -53,7 +53,7 @@ class SignInView extends React.Component {
     }
 
     let status = '';
-    if (isAuthenticating) {
+    if (isLogging) {
       status = `Loading ...`;
     }
     if (isAuthenticated && data.decoded) {

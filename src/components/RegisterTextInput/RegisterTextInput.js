@@ -14,6 +14,7 @@ class RegisterTextInput extends React.Component {
           name={name}
           component={TextInput}
           autoCorrect={false}
+          autoCapitalize='none'
           keyboardType={keyboardType}
           returnKeyType={returnKeyType}
           underlineColorAndroid="transparent"
