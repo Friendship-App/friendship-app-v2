@@ -1,18 +1,39 @@
 import React from "react";
 import {connect} from "react-redux";
-import {NavigationActions} from 'react-navigation';
+import {NavigationActions, StackActions} from 'react-navigation';
 import Welcome from "../../components/Welcome";
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
 const mapDispatchToProps = dispatch => ({
   register: () => dispatch(NavigationActions.navigate({routeName: 'Locations'})),
   login: () => dispatch(NavigationActions.navigate({routeName: 'Login'})),
+  openApp: () => dispatch(StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({routeName: 'Home'})]
+  })),
 });
 
-const WelcomeScreen = props => (
-  <Welcome
-    handleRegister={props.register}
-    handleLogin={props.login}
-  />
-);
+class WelcomeScreen extends React.Component {
+  componentWillMount() {
+    const {auth, openApp} = this.props;
+    console.log(this.props);
+    if (auth.isAuthenticated) {
+      openApp();
+    }
+  }
 
-export default connect(null, mapDispatchToProps)(WelcomeScreen)
+  render () {
+    const {register, login} = this.props;
+    return (
+      <Welcome
+        handleRegister={register}
+        handleLogin={login}
+      />
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WelcomeScreen)
