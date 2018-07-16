@@ -7,6 +7,7 @@ import RegisterConfirmationScreen from "../containers/RegisterConfirmationScreen
 import RegisterTagsScreen from "../containers/RegisterTagsScreen";
 import RegisterPersonalitiesScreen from "../containers/RegisterPersonalitiesScreen";
 import LoginScreen from "../containers/LoginScreen";
+import PeopleProfileScreen from "../containers/PeopleProfileScreen";
 
 const routes = {
   WelcomeScreen: {
@@ -20,6 +21,13 @@ const routes = {
   Login: {
     screen: LoginScreen,
     navigationOptions: {header: null}
+  },
+  PeopleProfile: {
+    screen: PeopleProfileScreen,
+    navigationOptions: {
+      header: null,
+      tabBarVisible: false
+    },
   },
 
   // Registration Process

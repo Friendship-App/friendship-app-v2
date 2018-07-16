@@ -3,6 +3,7 @@ import { ActionTypes } from '../actions/tags';
 export const initialState = {
   isLoadingActivities: false,
   isLoadingInterests: false,
+  isLoading: false,
   activitiesList: [],
   interestsList: [],
 };
@@ -21,6 +22,12 @@ export default function tags(state = initialState, action) {
         isLoadingInterests: true,
       };
 
+      case ActionTypes.TAGS_FOR_USER_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
     case ActionTypes.ACTIVITIES_RECEIVE:
       return {
         ...state,
@@ -33,6 +40,12 @@ export default function tags(state = initialState, action) {
         ...state,
         interestsList: action.interestsList,
         isLoadingInterests: false,
+      };
+
+    case ActionTypes.TAGS_FOR_USER_RECEIVED:
+      return {
+        ...state,
+        isLoading: false
       };
 
     case ActionTypes.TAGS_FAILED:

@@ -3,7 +3,7 @@ import {Text, View} from "react-native";
 import {connect} from "react-redux";
 import {ActionTypes, fetchTags} from "../../actions/tags";
 import styles from "./styles";
-import Tag, {Actions} from "../Tag";
+import Tag, {Actions} from "../TagPicker";
 import {Field} from "redux-form";
 
 const mapStateToProps = state => ({

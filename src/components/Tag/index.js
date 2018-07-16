@@ -1,4 +1,3 @@
-import Tag, {Actions} from './Tag';
+import Tag from './Tag';
 
 export default Tag;
-export {Actions};

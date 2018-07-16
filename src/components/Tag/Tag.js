@@ -1,83 +1,127 @@
 import React from 'react';
-import styles from "./styles";
-import {colors, paddings} from "../../styles";
-import {Animated, Image, Text, TouchableOpacity, View} from "react-native";
-import YeahButtonAsset from '../../../assets/img/loveAndHate/yeah_200.png';
-import NahButtonAsset from '../../../assets/img/loveAndHate/naah_200.png';
+import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {fonts} from "../../styles";
 
-const Actions = {
-  YEAHS_TAG: 'YEAHS_TAG',
-  NAH_TAG: 'NAH_TAG',
-  RESET_TAG_CHOICE: 'RESET_TAG_CHOICE',
-};
-
-const initialState = {
-  selected: 0,
-};
+const mapStateToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  openSearchTag: tagId =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: 'UsersForTag',
+        params: { tagId },
+      }),
+    ),
+});
 
 class Tag extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = initialState;
+  componentWillMount() {
+    this.setState({ selected: this.props.selected });
   }
+
+  updateTag = () => {
+    this.props.updateTags(this.props.data, this.state.selected);
+    this.setState(prevState => ({
+      selected: prevState.selected >= 1 ? -1 : prevState.selected === 0 ? 1 : 0,
+    }));
+  };
+
+  renderIcon = () => {
+    if (this.props.edit) {
+      let icon = '';
+      let color = 'green';
+      switch (this.state.selected) {
+        case -1:
+          icon = 'md-thumbs-down';
+          color = 'red';
+          break;
+        case 1:
+          icon = 'md-thumbs-up';
+          break;
+        default:
+          return;
+      }
+      return (
+        <Icon
+          name={icon}
+          size={20}
+          color={color}
+          style={{ position: 'absolute', top: 0, right: 30, zIndex: 1 }}
+        />
+      );
+    }
+  };
 
   render() {
-    const {tag, isLastTag} = this.props;
-    const {selected} = this.state;
-    let backgroundColor = colors.DARK_BLACK;
-    let textAlignement = 'center';
-    const shouldShowIcon = selected === 0;
-    switch (selected) {
-      case -1:
-        backgroundColor = colors.ORANGE;
-        textAlignement = 'flex-end';
-        break;
-      case 1:
-        backgroundColor = colors.BLUE;
-        textAlignement = 'flex-start';
-        break;
-    }
+    let color = !this.props.dark ? '#6eb1ea' : '#ff8a65';
     return (
-      <View
-        style={[styles.tag, {marginBottom: isLastTag ? paddings.FOOTER : paddings.MD, backgroundColor}]}
-        onPress={(evt) => this.handlePress(evt)}>
-        {shouldShowIcon ? (
-          <TouchableOpacity style={[styles.tagPart, styles.yeahIcon]}
-                            onPress={() => this.handlePress(Actions.YEAHS_TAG)}>
-            <Image source={YeahButtonAsset} style={[styles.icon]}/>
-          </TouchableOpacity>
-        ) : null}
-        <View
-          onStartShouldSetResponder={evt => true}
-          onResponderRelease={() => this.handlePress(Actions.RESET_TAG_CHOICE)}
-          style={[styles.tagPart, {justifyContent: textAlignement, backgroundColor}]}
+      <View>
+        {this.props.amount && (
+          <View
+            style={{
+              height: 25,
+              width: 25,
+              borderRadius: 100,
+              backgroundColor: '#6c6c85',
+              position: 'absolute',
+              alignItems: 'center',
+              justifyContent: 'center',
+              right: 0,
+              zIndex: 1,
+            }}
+          >
+            <Text style={{ color: 'white', fontWeight: 'bold' }}>
+              {this.props.amount}
+            </Text>
+          </View>
+        )}
+        {this.renderIcon()}
+        <TouchableOpacity
+          style={[
+            styles.rectangle,
+            this.props.style,
+            { backgroundColor: color },
+          ]}
+          onPress={() => {
+            this.props.edit
+              ? this.updateTag()
+              : this.props.openSearchTag(this.props.data.id);
+          }}
         >
-          <Text style={styles.tagText}>{tag.name}</Text>
-        </View>
-        {shouldShowIcon ? (
-          <TouchableOpacity style={[styles.tagPart, styles.nahIcon]} onPress={() => this.handlePress(Actions.NAH_TAG)}>
-            <Image source={NahButtonAsset} style={[styles.icon]}/>
-          </TouchableOpacity>
-        ) : null}
+          <Text style={styles.item}>{this.props.data.name}</Text>
+        </TouchableOpacity>
       </View>
-    )
-  }
-
-  handlePress(evt) {
-    const {selected} = this.state;
-    const {onPress, tag} = this.props;
-    if (evt === Actions.RESET_TAG_CHOICE && selected !== 0) {
-      this.setState({selected: 0});
-      onPress(tag.id, tag.category, Actions.RESET_TAG_CHOICE);
-    } else if (evt === Actions.YEAHS_TAG && selected === 0) {
-      this.setState({selected: 1});
-      onPress(tag.id, tag.category, Actions.YEAHS_TAG);
-    } else if (evt === Actions.NAH_TAG && selected === 0) {
-      this.setState({selected: -1});
-      onPress(tag.id, tag.category, Actions.NAH_TAG);
-    }
+    );
   }
 }
 
-export default Tag;
-export {Actions};
+const styles = StyleSheet.create({
+  rectangle: {
+    padding: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    marginRight: 7,
+    height: 39,
+    borderRadius: 76,
+  },
+
+  item: {
+    height: 20,
+    fontFamily: fonts.REGULAR,
+    paddingRight: 10,
+    paddingLeft: 10,
+    fontSize: 14,
+    letterSpacing: 0.43,
+    textAlign: 'center',
+    color: '#2d4359',
+  },
+  nameView: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    flex: 60,
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Tag);

@@ -8,6 +8,7 @@ import tags from "./tags";
 import register from "./register";
 import login from "./login";
 import auth from "./auth";
+import chatrooms from "./chatrooms";
 
 const rootReducer = navReducer => (
   combineReducers({
@@ -20,7 +21,8 @@ const rootReducer = navReducer => (
     locations,
     avatars,
     personalities,
-    tags
+    tags,
+    chatrooms
   })
 );
 

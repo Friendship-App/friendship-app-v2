@@ -3,6 +3,7 @@ import {NavigationActions, StackActions} from 'react-navigation';
 import {storeCredentials} from "./auth";
 import jwtDecode from 'jwt-decode';
 import {fetchBatchUsers} from "./users";
+import {fetchChatrooms} from "./chatrooms";
 
 export const ActionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
@@ -44,14 +45,14 @@ export function login(email, password, screenName) {
 
       if (resp.ok) {
         const data = await resp.json();
-        dispatch(receiveLogin());
-        dispatch(storeCredentials({
+        await dispatch(receiveLogin());
+        await dispatch(storeCredentials({
           ...data,
           decoded: jwtDecode(data.token),
         }));
         dispatch(fetchBatchUsers());
+        // dispatch(fetchChatrooms());
         // dispatch(fetchEvents());
-        // dispatch(fetchMessages());
         // dispatch(fetchProfile());
 
         if (screenName) {

@@ -20,6 +20,12 @@ export default function personalities(state = initialState, action) {
         isLoading: false,
       };
 
+      case ActionTypes.USER_PERSONALITIES_RECEIVED:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     case ActionTypes.PERSONALITIES_FAILED:
       return {
         ...state,

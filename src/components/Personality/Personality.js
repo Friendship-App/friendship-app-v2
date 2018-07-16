@@ -22,7 +22,7 @@ const Personality = props => {
       <TouchableOpacity style={{marginBottom: paddings.XS}} onPress={onPress}>
         <Image source={personalities[img]} style={[imgStyle]}/>
       </TouchableOpacity>
-      <Text style={{fontFamily: fonts.SEMI_BOLD, color: colors.LIGHT_GREY}}>{personality.toUpperCase()}</Text>
+      <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: fontSizes.MEDIUM_SMALL, color: small ? colors.DARK_BLACK : colors.LIGHT_GREY}}>{personality.toUpperCase()}</Text>
     </View>
   )
 };

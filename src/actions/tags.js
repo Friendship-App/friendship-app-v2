@@ -1,6 +1,9 @@
 import apiRoot from "../utils/api.config";
+import {failRequestUsers, receiveUserInformation, requestUsers} from "./users";
 
 export const ActionTypes = {
+  TAGS_FOR_USER_REQUEST: 'TAGS_FOR_USER_REQUEST',
+  TAGS_FOR_USER_RECEIVED: 'TAGS_FOR_USER_RECEIVED',
   ACTIVITIES_REQUEST: 'ACTIVITIES_REQUEST',
   INTERESTS_REQUEST: 'INTERESTS_REQUEST',
   ACTIVITIES_RECEIVE: 'ACTIVITIES_RECEIVE',
@@ -25,6 +28,13 @@ export function receiveInterests(interestsList) {
   return {
     type: ActionTypes.INTERESTS_RECEIVE,
     interestsList,
+  };
+}
+
+export function receiveUserTags(userTags) {
+  return {
+    type: ActionTypes.TAGS_FOR_USER_RECEIVED,
+    userTags,
   };
 }
 
@@ -55,6 +65,33 @@ export function fetchTags(type = ActionTypes.ACTIVITIES_REQUEST) {
         }
       } catch (e) {
         dispatch(failRequestTags());
+      }
+    }
+  };
+}
+
+export function fetchUserTags(userId) {
+  return async (dispatch, getState) => {
+    const {auth, tags} = getState();
+
+    if (!tags.isLoading) {
+      dispatch(requestTags(ActionTypes.TAGS_FOR_USER_REQUEST));
+      try {
+        const resp = await fetch(`${apiRoot}/tags?userId=${userId}`, {
+          method: 'GET',
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          headers: {Authorization: `Bearer ${auth.data.token}`}
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          dispatch(receiveUserTags(data));
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failRequestUsers());
       }
     }
   };

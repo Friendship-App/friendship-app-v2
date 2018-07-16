@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {NavigationActions} from 'react-navigation';
-import {Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {Dimensions, Image, Text, TouchableOpacity, View,} from 'react-native';
 import {colors, fonts, fontSizes, paddings} from "../../styles";
 import Icon from "react-native-vector-icons/Ionicons";
 import {disableTouchableOpacity} from "../../actions/TouchableOpacityController";
@@ -9,11 +9,11 @@ import styles from "./styles";
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  openProfile: (personId, personName) =>
+  openProfile: (personId) =>
     dispatch(
       NavigationActions.navigate({
-        routeName: 'ProfileUser',
-        params: {personId, personName},
+        routeName: 'PeopleProfile',
+        params: {personId},
       }),
     ),
 });

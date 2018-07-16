@@ -5,6 +5,11 @@ export const initialState = {
   checkingUsername: false,
   checkingEmail: false,
   usersList: [],
+  userDetails: {
+    userTags: [],
+    userPersonalities: [],
+    chatroomId: -1,
+  }
 };
 
 export default function users(state = initialState, action) {
@@ -15,10 +20,38 @@ export default function users(state = initialState, action) {
         isLoading: true,
       };
 
-    case ActionTypes.USERS_RECEIVE:
+    case ActionTypes.USERS_RECEIVED:
       return {
         ...state,
         usersList: action.usersList,
+        isLoading: false,
+      };
+
+    case ActionTypes.USER_INFORMATION_RECEIVED:
+      return {
+        ...state,
+        userDetails : {...state.userDetails, data: action.userDetails},
+        isLoading: false,
+      };
+
+      case ActionTypes.TAGS_FOR_USER_RECEIVED:
+      return {
+        ...state,
+        userDetails : {...state.userDetails, userTags: action.userTags},
+        isLoading: false,
+      };
+
+      case ActionTypes.USER_PERSONALITIES_RECEIVED:
+      return {
+        ...state,
+        userDetails : {...state.userDetails, userPersonalities: action.userPersonalities},
+        isLoading: false,
+      };
+
+      case ActionTypes.USER_CHATROOM_RECEIVED:
+      return {
+        ...state,
+        userDetails : {...state.userDetails, chatroomId: action.chatroomId},
         isLoading: false,
       };
 
