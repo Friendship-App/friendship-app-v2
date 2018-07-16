@@ -1,8 +1,32 @@
 import React from 'react';
-import {View} from "react-native";
+import { View } from 'react-native';
+import Profile from '../../components/Profile/Profile';
+import Loading from '../../components/Loading/Loading';
+import { fetchUserChatroom } from '../../actions/chatrooms';
+import { fetchUserTags } from '../../actions/tags';
+import { fetchUserPersonalities } from '../../actions/personalities';
+import { fetchUserInformation } from '../../actions/users';
+import { connect } from 'react-redux';
 
-const ProfileScreen = props => (
-  <View style={{flex: 1, backgroundColor: 'pink'}}></View>
-);
+const mapStateToProps = state => ({
+  users: state.users,
+  tags: state.tags,
+  personalities: state.personalities,
+  chatrooms: state.chatrooms,
+});
 
-export default ProfileScreen;
+class ProfileScreen extends React.Component {
+  render() {
+    const { users, tags, personalities } = this.props;
+
+    if (users.isLoading || tags.isLoading || personalities.isLoading) {
+      return <Loading />;
+    }
+    return <Profile myProfile />;
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null,
+)(ProfileScreen);

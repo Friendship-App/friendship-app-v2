@@ -1,4 +1,4 @@
-import apiRoot from "../utils/api.config";
+import apiRoot from '../utils/api.config';
 
 export const ActionTypes = {
   USERS_REQUEST: 'USERS_REQUEST',
@@ -28,7 +28,7 @@ export function receiveUserInformation(userDetails) {
 }
 
 export function failRequestUsers() {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({
       type: ActionTypes.USERS_FAILED,
     });
@@ -37,7 +37,7 @@ export function failRequestUsers() {
 
 export function fetchBatchUsers(batchNumber) {
   return async (dispatch, getState) => {
-    const {auth, users} = getState();
+    const { auth, users } = getState();
 
     if (!users.isLoading) {
       dispatch(requestUsers());
@@ -46,7 +46,7 @@ export function fetchBatchUsers(batchNumber) {
           method: 'GET',
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          headers: {Authorization: `Bearer ${auth.data.token}`}
+          headers: { Authorization: `Bearer ${auth.data.token}` },
         });
 
         if (resp.ok) {
@@ -62,19 +62,22 @@ export function fetchBatchUsers(batchNumber) {
   };
 }
 
-export function fetchUserInformation (userId) {
+export function fetchUserInformation(userId) {
   return async (dispatch, getState) => {
-    const {auth, users} = getState();
+    const { auth, users } = getState();
 
     if (!users.isLoading) {
       dispatch(requestUsers());
       try {
-        const resp = await fetch(`${apiRoot}/users?userId=${userId}`, {
-          method: 'GET',
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          headers: {Authorization: `Bearer ${auth.data.token}`}
-        });
+        const resp = await fetch(
+          `${apiRoot}/users?userId=${userId ? userId : auth.data.decoded.id}`,
+          {
+            method: 'GET',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            headers: { Authorization: `Bearer ${auth.data.token}` },
+          },
+        );
 
         if (resp.ok) {
           const data = await resp.json();

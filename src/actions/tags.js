@@ -1,5 +1,9 @@
-import apiRoot from "../utils/api.config";
-import {failRequestUsers, receiveUserInformation, requestUsers} from "./users";
+import apiRoot from '../utils/api.config';
+import {
+  failRequestUsers,
+  receiveUserInformation,
+  requestUsers,
+} from './users';
 
 export const ActionTypes = {
   TAGS_FOR_USER_REQUEST: 'TAGS_FOR_USER_REQUEST',
@@ -39,7 +43,7 @@ export function receiveUserTags(userTags) {
 }
 
 export function failRequestTags() {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({
       type: ActionTypes.TAGS_FAILED,
     });
@@ -47,10 +51,11 @@ export function failRequestTags() {
 }
 
 export function fetchTags(type = ActionTypes.ACTIVITIES_REQUEST) {
-  const endpoint = type === ActionTypes.ACTIVITIES_REQUEST ? 'activities' : 'interests';
+  const endpoint =
+    type === ActionTypes.ACTIVITIES_REQUEST ? 'activities' : 'interests';
 
   return async (dispatch, getState) => {
-    const {tags} = getState();
+    const { tags } = getState();
 
     if (!tags.isLoading) {
       dispatch(requestTags(type));
@@ -59,7 +64,11 @@ export function fetchTags(type = ActionTypes.ACTIVITIES_REQUEST) {
 
         if (resp.ok) {
           const data = await resp.json();
-          dispatch(type === ActionTypes.ACTIVITIES_REQUEST ? receiveActivities(data) : receiveInterests(data));
+          dispatch(
+            type === ActionTypes.ACTIVITIES_REQUEST
+              ? receiveActivities(data)
+              : receiveInterests(data),
+          );
         } else {
           throw Error;
         }
@@ -72,17 +81,20 @@ export function fetchTags(type = ActionTypes.ACTIVITIES_REQUEST) {
 
 export function fetchUserTags(userId) {
   return async (dispatch, getState) => {
-    const {auth, tags} = getState();
+    const { auth, tags } = getState();
 
     if (!tags.isLoading) {
       dispatch(requestTags(ActionTypes.TAGS_FOR_USER_REQUEST));
       try {
-        const resp = await fetch(`${apiRoot}/tags?userId=${userId}`, {
-          method: 'GET',
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          headers: {Authorization: `Bearer ${auth.data.token}`}
-        });
+        const resp = await fetch(
+          `${apiRoot}/tags?userId=${userId ? userId : auth.data.decoded.id}`,
+          {
+            method: 'GET',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            headers: { Authorization: `Bearer ${auth.data.token}` },
+          },
+        );
 
         if (resp.ok) {
           const data = await resp.json();

@@ -1,4 +1,4 @@
-import apiRoot from "../utils/api.config";
+import apiRoot from '../utils/api.config';
 
 export const ActionTypes = {
   PERSONALITIES_REQUEST: 'PERSONALITIES_REQUEST',
@@ -28,7 +28,7 @@ export function receiveUserPersonalities(userPersonalities) {
 }
 
 export function failRequestPersonalities() {
-  return async (dispatch) => {
+  return async dispatch => {
     dispatch({
       type: ActionTypes.PERSONALITIES_FAILED,
     });
@@ -37,17 +37,22 @@ export function failRequestPersonalities() {
 
 export function fetchUserPersonalities(userId) {
   return async (dispatch, getState) => {
-    const {auth, personalities} = getState();
+    const { auth, personalities } = getState();
 
     if (!personalities.isLoading) {
       dispatch(requestPersonalities());
       try {
-        const resp = await fetch(`${apiRoot}/userPersonalities?userId=${userId}`, {
-          method: 'GET',
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          headers: {Authorization: `Bearer ${auth.data.token}`}
-        });
+        const resp = await fetch(
+          `${apiRoot}/userPersonalities?userId=${
+            userId ? userId : auth.data.decoded.id
+          }`,
+          {
+            method: 'GET',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            headers: { Authorization: `Bearer ${auth.data.token}` },
+          },
+        );
 
         if (resp.ok) {
           const data = await resp.json();

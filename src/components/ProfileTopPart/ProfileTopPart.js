@@ -11,14 +11,13 @@ import {
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import waveShape from '../../../assets/img/curve/curve.png';
-import {colors, fonts, fontSizes, paddings} from "../../styles";
+import { colors, fonts, fontSizes, paddings } from '../../styles';
 
 const ProfileTopPart = props => {
   const {
     birthyear,
     avatar,
     location,
-    navigateBack,
     numberOfNaah,
     numberOfYeah,
     srcImage,
@@ -77,7 +76,7 @@ const ProfileTopPart = props => {
             alignSelf: 'flex-end',
           }}
         >
-          <Icon name="md-settings" size={26} style={styles.backButton}/>
+          <Icon name="md-settings" size={26} style={styles.backButton} />
         </TouchableOpacity>
       );
     }
@@ -85,7 +84,7 @@ const ProfileTopPart = props => {
 
   return (
     <View>
-      <Image style={styles.imageUser} source={{uri: srcImage}}/>
+      <Image style={styles.imageUser} source={{ uri: srcImage }} />
       <View
         style={{
           display: 'flex',
@@ -99,10 +98,10 @@ const ProfileTopPart = props => {
         }}
       >
         <View style={styles.backAndSettingsView}>{renderActionButton()}</View>
-        <View style={{flex: 3, flexDirection: 'column'}}>
+        <View style={{ flex: 3, flexDirection: 'column' }}>
           <View style={styles.avatarCircle}>
             <Image
-              source={{uri: avatar}}
+              source={{ uri: avatar }}
               style={{
                 width: 64,
                 height: 64,
@@ -122,27 +121,25 @@ const ProfileTopPart = props => {
               style={styles.waveShape}
               resizeMode="stretch"
             />
-            <View style={{flex: 3, backgroundColor: colors.DUST_WHITE}}>
+            <View style={{ flex: 3, backgroundColor: colors.DUST_WHITE }}>
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  marginBottom: paddings.XXS
+                  marginBottom: paddings.XXS,
                 }}
               >
                 <Text style={[styles.username]}>
-                  {username.length > 15 ? (
-                    username.substr(0, 15).concat('…')
-                  ) : (
-                    username
-                  )}
+                  {username.length > 15
+                    ? username.substr(0, 15).concat('…')
+                    : username}
                 </Text>
                 {myProfile ? (
                   <TouchableOpacity onPress={() => showEditForm()}>
                     <Image
                       source={require('../../../assets/edit.png')}
-                      style={{width: 38, height: 38, tintColor: '#000'}}
+                      style={{ width: 38, height: 38, tintColor: '#000' }}
                     />
                   </TouchableOpacity>
                 ) : null}
@@ -157,16 +154,22 @@ const ProfileTopPart = props => {
               >
                 {myProfile ? 'You have ' : null}
                 <Text style={[styles.yeahText]}>{numberOfYeah}</Text>
-                <Text style={[styles.friendshipFont, styles.yeahText]}> YEAHS </Text>
-                &
-                <Text style={[styles.nahText]}>
-                  {' ' + numberOfNaah}
+                <Text style={[styles.friendshipFont, styles.yeahText]}>
+                  {' '}
+                  YEAHS{' '}
                 </Text>
-                <Text style={[styles.friendshipFont, styles.nahText]}> NAAHS </Text>
+                &
+                <Text style={[styles.nahText]}>{' ' + numberOfNaah}</Text>
+                <Text style={[styles.friendshipFont, styles.nahText]}>
+                  {' '}
+                  NAAHS{' '}
+                </Text>
                 {myProfile ? null : ' in common'}
               </Text>
               <Text style={[styles.details]}>
-                <Text style={[styles.locationText]}>{location ? location : 'Narnia'}</Text>
+                <Text style={[styles.locationText]}>
+                  {location ? location : 'Narnia'}
+                </Text>
                 {', ' + getAge() + ', '}
                 {getGenders()}
               </Text>
@@ -181,7 +184,7 @@ const ProfileTopPart = props => {
 const styles = StyleSheet.create({
   locationText: {
     fontFamily: fonts.LIGHT_BOLD,
-    fontSize: fontSizes.SMALL
+    fontSize: fontSizes.SMALL,
   },
   details: {
     fontFamily: fonts.REGULAR,
@@ -204,7 +207,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.REGULAR,
     fontSize: fontSizes.HEADING_4,
     textAlign: 'center',
-    color: colors.DARK_BLACK
+    color: colors.DARK_BLACK,
   },
   avatarCircle: {
     alignSelf: 'flex-end',
