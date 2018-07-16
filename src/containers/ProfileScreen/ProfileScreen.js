@@ -1,11 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
 import Profile from '../../components/Profile/Profile';
 import Loading from '../../components/Loading/Loading';
-import { fetchUserChatroom } from '../../actions/chatrooms';
-import { fetchUserTags } from '../../actions/tags';
-import { fetchUserPersonalities } from '../../actions/personalities';
-import { fetchUserInformation } from '../../actions/users';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
