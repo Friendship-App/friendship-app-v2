@@ -27,17 +27,23 @@ export function failRequestUsers() {
   };
 }
 
-export function fetchUsers() {
+export function fetchBatchUsers(batchNumber) {
   return async (dispatch, getState) => {
-    const {users} = getState();
+    const {auth, users} = getState();
 
     if (!users.isLoading) {
       dispatch(requestUsers());
       try {
-        const resp = await fetch(`${apiRoot}/users`);
+        const resp = await fetch(`${apiRoot}/users/${batchNumber}`, {
+          method: 'GET',
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          headers: {Authorization: `Bearer ${auth.data.token}`}
+        });
 
         if (resp.ok) {
           const data = await resp.json();
+          console.log(data);
           dispatch(receiveUsers(data));
         } else {
           throw Error;

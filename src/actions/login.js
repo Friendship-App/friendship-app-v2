@@ -2,6 +2,7 @@ import apiRoot from "../utils/api.config";
 import {NavigationActions, StackActions} from 'react-navigation';
 import {storeCredentials} from "./auth";
 import jwtDecode from 'jwt-decode';
+import {fetchBatchUsers} from "./users";
 
 export const ActionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
@@ -48,6 +49,10 @@ export function login(email, password, screenName) {
           ...data,
           decoded: jwtDecode(data.token),
         }));
+        dispatch(fetchBatchUsers());
+        // dispatch(fetchEvents());
+        // dispatch(fetchMessages());
+        // dispatch(fetchProfile());
 
         if (screenName) {
           dispatch(NavigationActions.navigate({routeName: screenName}));

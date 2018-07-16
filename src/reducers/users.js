@@ -4,7 +4,7 @@ export const initialState = {
   isLoading: false,
   checkingUsername: false,
   checkingEmail: false,
-  userList: {},
+  usersList: [],
 };
 
 export default function users(state = initialState, action) {
@@ -18,7 +18,7 @@ export default function users(state = initialState, action) {
     case ActionTypes.USERS_RECEIVE:
       return {
         ...state,
-        userList: action.userList,
+        usersList: action.usersList,
         isLoading: false,
       };
 
