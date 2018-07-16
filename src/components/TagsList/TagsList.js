@@ -9,10 +9,8 @@ import {Field} from "redux-form";
 const mapStateToProps = state => ({
   activities: state.tags.activitiesList,
   interests: state.tags.interestsList,
-  lovedActivities: state.form.register.values.lovedActivities,
-  hatedActivities: state.form.register.values.hatedActivities,
-  lovedInterests: state.form.register.values.lovedInterests,
-  hatedInterests: state.form.register.values.hatedInterests,
+  lovedTags: state.form.register.values.lovedTags,
+  hatedTags: state.form.register.values.hatedTags,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -49,59 +47,41 @@ class TagsList extends React.Component {
   }
 
   handlePressedTag(tag, category, actionType) {
-    const {lovedActivities, hatedActivities, lovedInterests, hatedInterests, onChange} = this.props;
-    const arrays = [
+    const {lovedTags, hatedTags, onChange} = this.props;
+    const tagsArrays = [
       {
-        list: lovedActivities,
-        arrayName: 'lovedActivities'
+        list: lovedTags,
+        arrayName: 'lovedTags'
       },
       {
-        list: hatedActivities,
-        arrayName: 'hatedActivities'
-      },
-      {
-        list: lovedInterests,
-        arrayName: 'lovedInterests'
-      },
-      {
-        list: hatedInterests,
-        arrayName: 'hatedInterests'
+        list: hatedTags,
+        arrayName: 'hatedTags'
       }
     ];
     let arrayIndex = 0;
-    let nextSelectedTagsForCategory;
+    let nextSelectedTags;
     let changedCategory;
     let tagPos = -1;
 
     if (actionType === Actions.RESET_TAG_CHOICE) {
-      while (arrayIndex < arrays.length && tagPos < 0) {
-        tagPos = arrays[arrayIndex].list.indexOf(tag);
+      while (arrayIndex < tagsArrays.length && tagPos < 0) {
+        tagPos = tagsArrays[arrayIndex].list.indexOf(tag);
         arrayIndex++;
       }
-      nextSelectedTagsForCategory = [...arrays[arrayIndex-1].list];
-      changedCategory = arrays[arrayIndex-1].arrayName;
-      nextSelectedTagsForCategory.splice(tagPos, 1);
+      nextSelectedTags = [...tagsArrays[arrayIndex - 1].list];
+      changedCategory = tagsArrays[arrayIndex - 1].arrayName;
+      nextSelectedTags.splice(tagPos, 1);
     } else {
-      if (category === 1) {
-        if (actionType === Actions.YEAHS_TAG) {
-          changedCategory = 'lovedActivities';
-          nextSelectedTagsForCategory = [...lovedActivities];
-        } else {
-          changedCategory = 'hatedActivities';
-          nextSelectedTagsForCategory = [...hatedActivities];
-        }
+      if (actionType === Actions.YEAHS_TAG) {
+        changedCategory = tagsArrays[0].arrayName;
+        nextSelectedTags = [...lovedTags];
       } else {
-        if (actionType === Actions.YEAHS_TAG) {
-          changedCategory = 'lovedInterests';
-          nextSelectedTagsForCategory = [...lovedInterests];
-        } else {
-          changedCategory = 'hatedInterests';
-          nextSelectedTagsForCategory = [...hatedInterests];
-        }
+        changedCategory = tagsArrays[1].arrayName;
+        nextSelectedTags = [...hatedTags];
       }
-      nextSelectedTagsForCategory.push(tag);
+      nextSelectedTags.push(tag);
     }
-    onChange(changedCategory, nextSelectedTagsForCategory);
+    onChange(changedCategory, nextSelectedTags);
   }
 }
 
