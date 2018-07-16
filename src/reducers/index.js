@@ -6,12 +6,14 @@ import users from "./users";
 import personalities from "./personalities";
 import tags from "./tags";
 import register from "./register";
+import login from "./login";
 import auth from "./auth";
 
 const rootReducer = navReducer => (
   combineReducers({
     nav: navReducer,
     auth,
+    login,
     users,
     register,
     form: formReducer,

@@ -1,5 +1,5 @@
 import apiRoot from "../utils/api.config";
-import {login} from "./auth";
+import {login} from "./login";
 
 export const ActionTypes = {
   REGISTER_REQUEST: 'REGISTER_REQUEST',

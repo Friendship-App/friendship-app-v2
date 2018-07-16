@@ -6,12 +6,9 @@ import RegisterLocationsScreen from "../containers/RegisterLocationsScreen";
 import RegisterConfirmationScreen from "../containers/RegisterConfirmationScreen";
 import RegisterTagsScreen from "../containers/RegisterTagsScreen";
 import RegisterPersonalitiesScreen from "../containers/RegisterPersonalitiesScreen";
+import LoginScreen from "../containers/LoginScreen";
 
 const routes = {
-  /*Register: {
-    screen: RegisterStack,
-    navigationOptions: {header: null}
-  },*/
   WelcomeScreen: {
     screen: WelcomeScreen,
     navigationOptions: {header: null}
@@ -20,10 +17,10 @@ const routes = {
     screen: TabNavigator,
     navigationOptions: {header: null}
   },
-  /*LoginScreen: {
+  Login: {
     screen: LoginScreen,
     navigationOptions: {header: null}
-  },*/
+  },
 
   // Registration Process
   Locations: {screen: RegisterLocationsScreen, navigationOptions: {header: null}},

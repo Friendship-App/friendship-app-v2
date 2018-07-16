@@ -5,7 +5,7 @@ import Welcome from "../../components/Welcome";
 
 const mapDispatchToProps = dispatch => ({
   register: () => dispatch(NavigationActions.navigate({routeName: 'Locations'})),
-  login: () => dispatch(NavigationActions.navigate({routeName: 'LoginScreen'})),
+  login: () => dispatch(NavigationActions.navigate({routeName: 'Login'})),
 });
 
 const WelcomeScreen = props => (

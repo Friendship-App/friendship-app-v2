@@ -1,26 +1,16 @@
-import {ActionTypes} from '../actions/register';
+import {ActionTypes} from "../actions/auth";
 
 export const initialState = {
   isAuthenticated: false,
-  isAuthenticating: false,
-  credentials: {}
+  data: {}
 };
 
-export default function auth(state = initialState, action) {
-  switch (action.type) {
-    case ActionTypes.LOGIN_SUCCESS:
+export default function auth (state = initialState, action) {
+  switch(action.type) {
+    case ActionTypes.STORE_CREDENTIALS:
       return {
         ...state,
-        credentials: action.credentials,
-        isAuthenticated: true,
-        isAuthenticating: false,
-      };
-
-    case ActionTypes.LOGIN_REQUEST:
-      return {
-        ...state,
-        isAuthenticated: false,
-        isAuthenticating: true,
+        data: action.credentials
       };
 
     default:

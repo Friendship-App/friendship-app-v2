@@ -14,7 +14,7 @@ const Welcome = props => (
         text="Log In"
         type="secondary"
         width="md"
-        onPress={props.login}
+        onPress={props.handleLogin}
         color="white"
       />
     </Footer>
