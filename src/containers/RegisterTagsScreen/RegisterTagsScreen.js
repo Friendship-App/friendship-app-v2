@@ -28,10 +28,8 @@ function validateTags(values) {
 }
 
 function aTagHasBeenSelected(register) {
-  return (register.values.lovedActivities.length > 0
-    || register.values.lovedInterests.length > 0
-    || register.values.hatedActivities.length > 0
-    || register.values.hatedInterests.length > 0)
+  return (register.values.lovedTags.length > 0
+    || register.values.hatedTags.length > 0)
 }
 
 const TagsScreen = props => (
