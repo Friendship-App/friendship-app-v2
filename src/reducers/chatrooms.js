@@ -1,7 +1,8 @@
-import {ActionTypes} from "../actions/chatrooms";
+import { ActionTypes } from '../actions/chatrooms';
 
 const initialState = {
   isLoading: false,
+  isLoadingUserChatroom: false,
   chatrooms: [],
 };
 
@@ -20,17 +21,24 @@ export default function messages(state = initialState, action) {
         isLoading: false,
       };
 
-      case ActionTypes.USER_CHATROOM_RECEIVED:
+    case ActionTypes.USER_CHATROOM_RECEIVED:
       return {
         ...state,
         chatroomId: action.chatroomId,
-        isLoading: false,
+        isLoadingUserChatroom: false,
       };
 
-      case ActionTypes.CHATROOM_FAILED:
+    case ActionTypes.USER_CHATROOM_REQUEST:
+      return {
+        ...state,
+        isLoadingUserChatroom: true,
+      };
+
+    case ActionTypes.CHATROOM_FAILED:
       return {
         ...state,
         isLoading: false,
+        isLoadingUserChatroom: false,
       };
 
     default:

@@ -3,6 +3,7 @@ import apiRoot from '../utils/api.config';
 export const ActionTypes = {
   CHATROOMS_REQUEST: 'CHATROOMS_REQUEST',
   CHATROOMS_RECEIVED: 'CHATROOMS_RECEIVED',
+  USER_CHATROOM_REQUEST: 'USER_CHATROOM_REQUEST',
   USER_CHATROOM_RECEIVED: 'USER_CHATROOM_RECEIVED',
   CHATROOM_FAILED: 'CHATROOM_FAILED',
 };
@@ -10,6 +11,12 @@ export const ActionTypes = {
 export function requestChatrooms() {
   return {
     type: ActionTypes.CHATROOMS_REQUEST,
+  };
+}
+
+export function requestUserChatroom() {
+  return {
+    type: ActionTypes.USER_CHATROOM_REQUEST,
   };
 }
 
@@ -38,7 +45,7 @@ export function fetchUserChatroom(userId) {
     const { auth, chatrooms } = getState();
 
     if (!chatrooms.isLoading) {
-      dispatch(requestChatrooms());
+      dispatch(requestUserChatroom());
       try {
         const resp = await fetch(`${apiRoot}/userChatroom?userId=${userId}`, {
           method: 'GET',
