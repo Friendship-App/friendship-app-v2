@@ -5,6 +5,7 @@ import Welcome from '../../components/Welcome';
 import { fetchBatchUsers, fetchUserInformation } from '../../actions/users';
 import { fetchUserTags } from '../../actions/tags';
 import { fetchUserPersonalities } from '../../actions/personalities';
+import { fetchChatrooms } from '../../actions/chatrooms';
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchBatchUsers(0));
 
     // Load chatrooms
+    dispatch(fetchChatrooms());
 
     // Load events
     return dispatch(
