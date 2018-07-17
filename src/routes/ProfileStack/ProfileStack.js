@@ -6,7 +6,7 @@ const ProfileStack = createStackNavigator({
   Profile: {
     screen: ProfileScreen,
     navigationOptions: {
-      header: null,
+      headerTransparent: true,
     },
   },
 });

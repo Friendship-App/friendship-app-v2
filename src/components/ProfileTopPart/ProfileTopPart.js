@@ -89,7 +89,8 @@ const ProfileTopPart = props => {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
           height: '100%',
           width: '100%',
           position: 'absolute',
@@ -97,8 +98,66 @@ const ProfileTopPart = props => {
           left: 0,
         }}
       >
-        <View style={styles.backAndSettingsView}>{renderActionButton()}</View>
-        <View style={{ flex: 3, flexDirection: 'column' }}>
+        <Image
+          source={{ uri: avatar }}
+          style={{
+            width: 64,
+            height: 64,
+            backgroundColor: 'transparent',
+            marginRight: 15,
+          }}
+        />
+        <Image
+          source={waveShape}
+          style={styles.waveShape}
+          resizeMode="stretch"
+        />
+        <View style={[styles.info]}>
+          <Text style={[styles.username]}>
+            {username.length > 15
+              ? username.substr(0, 15).concat('…')
+              : username}
+          </Text>
+          {myProfile ? (
+            <TouchableOpacity onPress={() => showEditForm()}>
+              <Image
+                source={require('../../../assets/edit.png')}
+                style={{ width: 38, height: 38, tintColor: '#000' }}
+              />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+        <View style={[styles.info]}>
+          <Text
+            style={{
+              fontFamily: fonts.REGULAR,
+              fontSize: fontSizes.BODY_TEXT,
+              color: colors.DARK_BLACK,
+              textAlign: 'center',
+            }}
+          >
+            {myProfile ? 'You have ' : null}
+            <Text style={[styles.yeahText]}>{numberOfYeah}</Text>
+            <Text style={[styles.friendshipFont, styles.yeahText]}>
+              {' '}
+              YEAHS{' '}
+            </Text>
+            &
+            <Text style={[styles.nahText]}>{' ' + numberOfNaah}</Text>
+            <Text style={[styles.friendshipFont, styles.nahText]}> NAAHS </Text>
+            {myProfile ? null : ' in common'}
+          </Text>
+        </View>
+        <View style={[styles.info]}>
+          <Text style={[styles.details]}>
+            <Text style={[styles.locationText]}>
+              {location ? location : 'Narnia'}
+            </Text>
+            {', ' + getAge() + ', '}
+            {getGenders()}
+          </Text>
+        </View>
+        {/*<View style={{ flex: 3, flexDirection: 'column', backgroundColor: 'pink' }}>
           <View style={styles.avatarCircle}>
             <Image
               source={{ uri: avatar }}
@@ -175,13 +234,21 @@ const ProfileTopPart = props => {
               </Text>
             </View>
           </View>
-        </View>
+        </View>*/}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  info: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: paddings.XXS,
+    backgroundColor: colors.DUST_WHITE,
+  },
   locationText: {
     fontFamily: fonts.LIGHT_BOLD,
     fontSize: fontSizes.SMALL,
