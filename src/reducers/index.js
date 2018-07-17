@@ -1,16 +1,17 @@
-import {combineReducers} from 'redux';
-import {reducer as formReducer} from 'redux-form';
-import locations from "./locations";
-import avatars from "./avatars";
-import users from "./users";
-import personalities from "./personalities";
-import tags from "./tags";
-import register from "./register";
-import login from "./login";
-import auth from "./auth";
-import chatrooms from "./chatrooms";
+import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
+import locations from './locations';
+import avatars from './avatars';
+import users from './users';
+import personalities from './personalities';
+import tags from './tags';
+import register from './register';
+import login from './login';
+import auth from './auth';
+import chatrooms from './chatrooms';
+import { events } from './events';
 
-const rootReducer = navReducer => (
+const rootReducer = navReducer =>
   combineReducers({
     nav: navReducer,
     auth,
@@ -22,8 +23,8 @@ const rootReducer = navReducer => (
     avatars,
     personalities,
     tags,
-    chatrooms
-  })
-);
+    chatrooms,
+    events,
+  });
 
 export default rootReducer;

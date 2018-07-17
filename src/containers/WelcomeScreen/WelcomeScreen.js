@@ -6,6 +6,7 @@ import { fetchBatchUsers, fetchUserInformation } from '../../actions/users';
 import { fetchUserTags } from '../../actions/tags';
 import { fetchUserPersonalities } from '../../actions/personalities';
 import { fetchChatrooms } from '../../actions/chatrooms';
+import { fetchEvents } from '../../actions/events';
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -28,6 +29,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchChatrooms());
 
     // Load events
+    dispatch(fetchEvents());
     return dispatch(
       StackActions.reset({
         index: 0,
