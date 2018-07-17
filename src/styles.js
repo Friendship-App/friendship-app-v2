@@ -21,6 +21,13 @@ export const colors = {
   WARNING: 'red',
 };
 
+export const headerPalette = {
+  colors: {
+    HEADER_BORDER_BOTTOM: '#A7A7AA',
+    HEADER: '#F7F7F7',
+  },
+};
+
 export const fonts = {
   REGULAR: 'NunitoSans-Regular',
   LIGHT_BOLD: 'NunitoSans-Bold',

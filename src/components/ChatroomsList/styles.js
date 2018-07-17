@@ -7,9 +7,4 @@ export default StyleSheet.create({
     backgroundColor: colors.DUST_WHITE,
     paddingTop: paddings.SM,
   },
-  chats: {
-    flex: 1,
-    backgroundColor: colors.DUST_WHITE,
-    minHeight: 300,
-  },
 });

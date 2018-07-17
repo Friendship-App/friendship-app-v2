@@ -1,37 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Image,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { disableTouchableOpacity } from '../../actions/TouchableOpacityController';
 import { colors, paddings } from '../../styles';
+import { NavigationActions } from 'react-navigation';
+import { fetchChatroomMessages, updateMessages } from '../../actions/chatrooms';
 
 const mapStateToProps = state => ({
   auth: state.auth,
 });
 
 const mapDispatchToProps = dispatch => ({
-  // openChatView: (chatroomId, id, username, avatar, event) =>
-  //   dispatch(
-  //     NavigationActions.navigate({
-  //       routeName: 'ChatView',
-  //       params: {chatroomId, id, username, avatar, event},
-  //     }),
-  //   ),
-  // updateReadMessages: (chatroomId, userId) => {
-  //   dispatch(
-  //     rest.actions.updateReadMessages(
-  //       {},
-  //       {body: JSON.stringify({chatroomId, userId})},
-  //     ),
-  //   );
-  // },
+  updateReadMessages: chatroomId => dispatch(updateMessages(chatroomId)),
+  openChatView: chatroomId => {
+    dispatch(fetchChatroomMessages(chatroomId));
+    dispatch(
+      NavigationActions.navigate({ routeName: 'Chat', params: { chatroomId } }),
+    );
+  },
 });
 
 const initialState = {
@@ -80,7 +68,7 @@ class InboxCard extends React.Component {
 
   render() {
     // const { creator, receiver, messages, event } = this.props.data;
-    const { unreadMessages, lastMessage, isEvent } = this.props.data;
+    const { unreadMessages, lastMessage, isEvent, id } = this.props.data;
 
     let time, unreadMessagesText, username, avatar;
 
@@ -104,8 +92,8 @@ class InboxCard extends React.Component {
       <TouchableOpacity
         onPress={() => {
           disableTouchableOpacity(this);
-          // this.props.updateReadMessages(chatroomId, this.props.currentUserId);
-          // this.props.openChatView(chatroomId, userId, username, avatar, isEvent);
+          this.props.updateReadMessages(id);
+          this.props.openChatView(id);
         }}
         disabled={this.state.disabled}
         style={styles.inboxCard}
@@ -184,6 +172,9 @@ const styles = {
     flex: 1,
     marginLeft: paddings.SM,
     justifyContent: 'center',
+    paddingBottom: paddings.XS,
+    borderBottomWidth: 0.5,
+    borderBottomColor: colors.MEDIUM_GREY,
   },
 };
 

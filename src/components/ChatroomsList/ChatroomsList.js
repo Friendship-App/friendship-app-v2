@@ -21,17 +21,15 @@ class ChatroomsList extends React.Component {
       : [];
 
     return (
-      <View style={[styles.chatList]}>
-        <FlatList
-          data={sortedChatrooms}
-          keyExtractor={this.keyExtractor}
-          renderItem={this.renderItem}
-          style={[styles.chats]}
-          ListEmpyComponent={<EmptyChatMessage goToPeopleView={() => {}} />}
-          refreshing={false}
-          onRefresh={this.props.onRefresh}
-        />
-      </View>
+      <FlatList
+        data={sortedChatrooms}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderItem}
+        ListEmpyComponent={<EmptyChatMessage goToPeopleView={() => {}} />}
+        refreshing={false}
+        onRefresh={this.props.onRefresh}
+        style={[styles.chatList]}
+      />
     );
   }
 }

@@ -1,8 +1,7 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation';
-import PeopleScreen from "../../containers/PeopleScreen";
-import {fonts} from "../../styles";
-import PeopleProfileScreen from "../../containers/PeopleProfileScreen";
+import { createStackNavigator } from 'react-navigation';
+import PeopleScreen from '../../containers/PeopleScreen';
+import { fonts } from '../../styles';
 
 const PeopleStack = createStackNavigator({
   People: {
@@ -10,9 +9,9 @@ const PeopleStack = createStackNavigator({
     navigationOptions: {
       title: 'People',
       headerTitleStyle: {
-        fontFamily: fonts.SEMI_BOLD
+        fontFamily: fonts.SEMI_BOLD,
       },
-    }
+    },
   },
 });
 

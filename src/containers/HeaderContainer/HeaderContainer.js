@@ -7,6 +7,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { colors, paddings } from '../../styles';
 import TabIcons from '../../../assets/tabIcons';
 import { IconImage } from '../../components/Layout/Layout';
+import { Image, Text, TouchableOpacity } from 'react-native';
+import { fetchUserChatroom } from '../../actions/chatrooms';
+import { fetchUserTags } from '../../actions/tags';
+import { fetchUserPersonalities } from '../../actions/personalities';
+import { fetchUserInformation } from '../../actions/users';
 
 const mapDispatchToProps = dispatch => ({
   back: (backTo = {}) => dispatch(NavigationActions.back(backTo)),
@@ -22,10 +27,24 @@ const mapDispatchToProps = dispatch => ({
         ],
       }),
     ),
+  openProfile: personId => {
+    dispatch(fetchUserInformation(personId));
+    dispatch(fetchUserTags(personId));
+    dispatch(fetchUserPersonalities(personId));
+    dispatch(fetchUserChatroom(personId));
+    return dispatch(
+      NavigationActions.navigate({
+        routeName: 'PeopleProfile',
+        params: { personId },
+      }),
+    );
+  },
 });
 
 const mapStateToProps = state => ({
   nav: state.nav,
+  chatrooms: state.chatrooms,
+  auth: state.auth,
 });
 
 class HeaderContainer extends Component {
@@ -104,6 +123,46 @@ class HeaderContainer extends Component {
             onPress={() => {}}
           />
         ) : null;
+      case 'chat':
+        if (!this.props.nav.isTransitioning) {
+          const { chatroomId, fromEvent } = this.props.nav.routes[
+            this.props.nav.index
+          ].params;
+          const { chatrooms } = this.props.chatrooms;
+          const userId = this.props.auth.data.decoded.id;
+          let data;
+          for (let i = 0; i < chatrooms.length; i++) {
+            if (chatrooms[i].id === chatroomId) {
+              if (chatrooms[i].isEvent) {
+                data = { ...chatrooms[i].eventDetails, isEvent: true };
+              } else {
+                let person = chatrooms[i].participantsData.find(
+                  participant => participant.id !== userId,
+                );
+                data = { ...person, isEvent: false };
+              }
+            }
+          }
+          return (
+            <TouchableOpacity
+              style={{ flexDirection: 'row', alignItems: 'center' }}
+              disabled={fromEvent}
+              onPress={() => {
+                data.isEvent
+                  ? console.log('event...')
+                  : this.props.openProfile(data.id);
+              }}
+            >
+              <Image
+                source={{ uri: data.isEvent ? data.eventImage : data.avatar }}
+                style={[{ width: 35, height: 35, marginRight: 5 }]}
+              />
+              <Text style={{ fontFamily: 'NunitoSans-Regular', fontSize: 15 }}>
+                {data.isEvent ? data.title : data.username}
+              </Text>
+            </TouchableOpacity>
+          );
+        }
     }
   }
 }

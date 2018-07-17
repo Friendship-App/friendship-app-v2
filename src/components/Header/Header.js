@@ -20,7 +20,7 @@ class Header extends Component {
         backgroundColor = colors.DARK_BLUE;
         break;
       case 'light':
-        backgroundColor = colors.LIGHT_GREY;
+        backgroundColor = '#F7F7F7';
         break;
       case 'transparent':
         backgroundColor = 'transparent';

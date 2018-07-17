@@ -10,6 +10,7 @@ import LoginScreen from '../containers/LoginScreen';
 import PeopleProfileScreen from '../containers/PeopleProfileScreen';
 import EventFormScreen from '../containers/EventFormScreen';
 import EventDetailsScreen from '../containers/EventDetailsScreen';
+import ChatScreen from '../containers/ChatScreen';
 
 import React from 'react';
 import HeaderContainer from '../containers/HeaderContainer';
@@ -50,6 +51,12 @@ const routes = {
           color={'transparent'}
         />
       ),
+    },
+  },
+  Chat: {
+    screen: ChatScreen,
+    navigationOptions: {
+      header: <HeaderContainer left={'back'} color={'light'} right={'chat'} />,
     },
   },
 

@@ -117,7 +117,7 @@ export function fetchUserTags(userId) {
           throw Error;
         }
       } catch (e) {
-        dispatch(failRequestUsers());
+        dispatch(failRequestTags());
       }
     }
   };

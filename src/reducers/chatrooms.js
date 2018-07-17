@@ -3,6 +3,8 @@ import { ActionTypes } from '../actions/chatrooms';
 const initialState = {
   isLoading: false,
   isLoadingUserChatroom: false,
+  isLoadingMessages: false,
+  isUpdatingMessages: false,
   chatrooms: [],
 };
 
@@ -34,11 +36,38 @@ export default function messages(state = initialState, action) {
         isLoadingUserChatroom: true,
       };
 
+    case ActionTypes.CHATROOM_MESSAGES_REQUEST:
+      return {
+        ...state,
+        isLoadingMessages: true,
+      };
+
+    case ActionTypes.CHATROOM_MESSAGES_RECEIVED:
+      return {
+        ...state,
+        isLoadingMessages: false,
+        messages: action.messages,
+      };
+
+    case ActionTypes.CHATROOM_UPDATE_MESSAGES_REQUEST:
+      return {
+        ...state,
+        isUpdatingMessages: true,
+      };
+
+    case ActionTypes.CHATROOM_UPDATE_MESSAGES_RECEIVED:
+      return {
+        ...state,
+        isUpdatingMessages: false,
+      };
+
     case ActionTypes.CHATROOM_FAILED:
       return {
         ...state,
         isLoading: false,
         isLoadingUserChatroom: false,
+        isLoadingMessages: false,
+        isUpdatingMessages: false,
       };
 
     default:
