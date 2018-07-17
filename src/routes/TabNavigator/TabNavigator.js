@@ -18,16 +18,16 @@ const TabNavigator = createBottomTabNavigator(
     Inbox,
     Profile: {
       screen: Profile,
-      navigationOptions: ({ navigation }) => ({
-        tabBarOnPress: () => {
-          navigation.dispatch(fetchUserInformation());
-          navigation.dispatch(fetchUserTags());
-          navigation.dispatch(fetchUserPersonalities());
-          navigation.dispatch(
-            NavigationActions.navigate({ routeName: 'Profile' }),
-          );
-        },
-      }),
+      // navigationOptions: ({ navigation }) => ({
+      //   tabBarOnPress: () => {
+      //     navigation.dispatch(fetchUserInformation());
+      //     navigation.dispatch(fetchUserTags());
+      //     navigation.dispatch(fetchUserPersonalities());
+      //     navigation.dispatch(
+      //       NavigationActions.navigate({ routeName: 'Profile' }),
+      //     );
+      //   },
+      // }),
     },
   },
   {

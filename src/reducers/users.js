@@ -1,7 +1,8 @@
-import {ActionTypes} from '../actions/users';
+import { ActionTypes } from '../actions/users';
 
 export const initialState = {
   isLoading: false,
+  isLoadingMyDetails: false,
   checkingUsername: false,
   checkingEmail: false,
   usersList: [],
@@ -9,7 +10,7 @@ export const initialState = {
     userTags: [],
     userPersonalities: [],
     chatroomId: -1,
-  }
+  },
 };
 
 export default function users(state = initialState, action) {
@@ -30,7 +31,7 @@ export default function users(state = initialState, action) {
     case ActionTypes.USER_INFORMATION_RECEIVED:
       return {
         ...state,
-        userDetails : {...state.userDetails, data: action.userDetails},
+        userDetails: { data: action.userDetails },
         isLoading: false,
       };
 
@@ -52,7 +53,7 @@ export default function users(state = initialState, action) {
         isLoading: true,
       };
 
-      case ActionTypes.USERNAME_CHECKED:
+    case ActionTypes.USERNAME_CHECKED:
       return {
         ...state,
         isLoading: false,
@@ -62,6 +63,19 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      };
+
+    case ActionTypes.MY_DETAILS_REQUEST:
+      return {
+        ...state,
+        isLoadingMyDetails: true,
+      };
+
+    case ActionTypes.MY_DETAILS_RECEIVED:
+      return {
+        ...state,
+        isLoadingMyDetails: false,
+        myDetails: { data: action.myDetails },
       };
 
     default:

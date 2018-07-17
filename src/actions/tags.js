@@ -13,6 +13,9 @@ export const ActionTypes = {
   ACTIVITIES_RECEIVE: 'ACTIVITIES_RECEIVE',
   INTERESTS_RECEIVE: 'INTERESTS_RECEIVE',
   TAGS_FAILED: 'TAGS_FAILED',
+
+  MY_TAGS_REQUEST: 'MY_TAGS_REQUEST',
+  MY_TAGS_RECEIVED: 'MY_TAGS_RECEIVED',
 };
 
 export function requestTags(type) {
@@ -39,6 +42,13 @@ export function receiveUserTags(userTags) {
   return {
     type: ActionTypes.TAGS_FOR_USER_RECEIVED,
     userTags,
+  };
+}
+
+export function receiveMyTags(myTags) {
+  return {
+    type: ActionTypes.MY_TAGS_RECEIVED,
+    myTags,
   };
 }
 
@@ -84,7 +94,9 @@ export function fetchUserTags(userId) {
     const { auth, tags } = getState();
 
     if (!tags.isLoading) {
-      dispatch(requestTags(ActionTypes.TAGS_FOR_USER_REQUEST));
+      userId
+        ? dispatch(requestTags(ActionTypes.TAGS_FOR_USER_REQUEST))
+        : dispatch(requestTags(ActionTypes.MY_TAGS_REQUEST));
       try {
         const resp = await fetch(
           `${apiRoot}/tags?userId=${userId ? userId : auth.data.decoded.id}`,
@@ -98,7 +110,9 @@ export function fetchUserTags(userId) {
 
         if (resp.ok) {
           const data = await resp.json();
-          dispatch(receiveUserTags(data));
+          userId
+            ? dispatch(receiveUserTags(data))
+            : dispatch(receiveMyTags(data));
         } else {
           throw Error;
         }

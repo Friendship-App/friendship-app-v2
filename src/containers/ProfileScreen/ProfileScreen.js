@@ -14,7 +14,11 @@ class ProfileScreen extends React.Component {
   render() {
     const { users, tags, personalities } = this.props;
 
-    if (users.isLoading || tags.isLoading || personalities.isLoading) {
+    if (
+      users.isLoadingMyDetails ||
+      tags.isLoadingMyTags ||
+      personalities.isLoadingMyPersonalities
+    ) {
       return <Loading />;
     }
     return <Profile myProfile />;

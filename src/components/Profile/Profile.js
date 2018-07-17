@@ -5,8 +5,10 @@ import ProfileTopPart from '../ProfileTopPart';
 import ShowTags from '../ShowTags';
 import Personality from '../Personality';
 import { connect } from 'react-redux';
+import personalities from '../../reducers/personalities';
 
 const mapStateToProps = state => ({
+  users: state.users,
   userDetails: state.users.userDetails,
   tags: state.tags,
   personalities: state.personalities,
@@ -15,18 +17,19 @@ const mapStateToProps = state => ({
 
 class Profile extends React.Component {
   renderPersonalities() {
-    const { personalities } = this.props;
-    const userPersonalities = personalities.userPersonalities.map(
-      personality => {
-        return (
-          <Personality
-            key={personality.id}
-            personality={personality.name}
-            small={true}
-          />
-        );
-      },
-    );
+    const { personalities, myProfile } = this.props;
+    const userPersonalities = myProfile
+      ? personalities.myPersonalities
+      : personalities.personalitiesList;
+    const personalitiesArray = userPersonalities.map(personality => {
+      return (
+        <Personality
+          key={personality.id}
+          personality={personality.name}
+          small={true}
+        />
+      );
+    });
 
     return (
       <View
@@ -39,8 +42,8 @@ class Profile extends React.Component {
           justifyContent: 'space-between',
         }}
       >
-        {userPersonalities.length > 0 ? (
-          userPersonalities
+        {personalitiesArray.length > 0 ? (
+          personalitiesArray
         ) : (
           <Text>No selected personalities</Text>
         )}
@@ -49,46 +52,52 @@ class Profile extends React.Component {
   }
 
   renderUserDescription = () => {
-    const { userDetails } = this.props;
-    const description = userDetails.data.description
-      ? this.props.userDetails.data.description
+    const { users, myProfile } = this.props;
+    const userData = myProfile ? users.myDetails : users.userDetails;
+    const description = userData.data.description
+      ? userData.data.description
       : ' No description';
 
     return description;
   };
 
   render() {
-    const { userDetails, tags, chatrooms, myProfile } = this.props;
+    const { tags, chatrooms, myProfile, users } = this.props;
+    let userData, userTags;
 
-    let loveCommon = tags.userTags.loveInCommon
-      ? tags.userTags.loveInCommon
-      : 0;
+    if (myProfile) {
+      userData = users.myDetails;
+      userTags = tags.myTags;
+    } else {
+      userData = users.userDetails;
+      userTags = tags.userTags;
+    }
 
-    let hateCommon = tags.userTags.hateInCommon
-      ? tags.userTags.hateInCommon
-      : 0;
+    let loveCommon = userTags.loveInCommon ? userTags.loveInCommon : 0;
+
+    let hateCommon = userTags.hateInCommon ? userTags.hateInCommon : 0;
 
     const location =
-      userDetails.data.locations.length > 0
-        ? userDetails.data.locations.join(',')
+      userData.data.locations.length > 0
+        ? userData.data.locations.join(',')
         : 'Narnia';
 
-    const genders = userDetails.data.genders
-      ? this.props.userDetails.data.genders.join(' and ')
+    const genders = userData.data.genders
+      ? userData.data.genders.join(' and ')
       : null;
 
     return (
       <ScrollView style={{ flex: 1 }}>
         <ProfileTopPart
-          username={userDetails.data.username}
-          srcImage={userDetails.data.image}
+          username={userData.data.username}
+          srcImage={userData.data.image}
           location={location}
           genders={genders}
-          avatar={userDetails.data.avatar}
+          avatar={userData.data.avatar}
           numberOfYeah={loveCommon}
           numberOfNaah={hateCommon}
-          birthyear={userDetails.data.birthyear}
-          genderList={userDetails.data.genders}
+          birthyear={userData.data.birthyear}
+          genderList={userData.data.genders}
           myProfile={myProfile}
         />
 
@@ -134,8 +143,8 @@ class Profile extends React.Component {
         <ShowTags
           onChatRequest={() => console.log('chat request')}
           openChatView={() => console.log('chat view')}
-          hate={tags.userTags.hateTags}
-          love={tags.userTags.loveTags}
+          hate={userTags.hateTags}
+          love={userTags.loveTags}
           existingChatRoom={
             chatrooms.chatroomId > 0 ? chatrooms.chatroomId : -1
           }

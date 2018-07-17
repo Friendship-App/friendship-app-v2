@@ -4,6 +4,7 @@ export const initialState = {
   isLoadingActivities: false,
   isLoadingInterests: false,
   isLoading: false,
+  isLoadingMyTags: false,
   activitiesList: [],
   interestsList: [],
 };
@@ -16,13 +17,13 @@ export default function tags(state = initialState, action) {
         isLoadingActivities: true,
       };
 
-      case ActionTypes.INTERESTS_REQUEST:
+    case ActionTypes.INTERESTS_REQUEST:
       return {
         ...state,
         isLoadingInterests: true,
       };
 
-      case ActionTypes.TAGS_FOR_USER_REQUEST:
+    case ActionTypes.TAGS_FOR_USER_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -35,7 +36,7 @@ export default function tags(state = initialState, action) {
         isLoadingActivities: false,
       };
 
-      case ActionTypes.INTERESTS_RECEIVE:
+    case ActionTypes.INTERESTS_RECEIVE:
       return {
         ...state,
         interestsList: action.interestsList,
@@ -46,7 +47,7 @@ export default function tags(state = initialState, action) {
       return {
         ...state,
         userTags: action.userTags,
-        isLoading: false
+        isLoading: false,
       };
 
     case ActionTypes.TAGS_FAILED:
@@ -54,6 +55,19 @@ export default function tags(state = initialState, action) {
         ...state,
         isLoadingActivities: false,
         isLoadingInterests: false,
+      };
+
+    case ActionTypes.MY_TAGS_REQUEST:
+      return {
+        ...state,
+        isLoadingMyTags: true,
+      };
+
+    case ActionTypes.MY_TAGS_RECEIVED:
+      return {
+        ...state,
+        isLoadingMyTags: false,
+        myTags: action.myTags,
       };
 
     default:

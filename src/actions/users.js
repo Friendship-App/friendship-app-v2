@@ -5,6 +5,9 @@ export const ActionTypes = {
   USERS_RECEIVED: 'USERS_RECEIVED',
   USER_INFORMATION_RECEIVED: 'USER_INFORMATION_RECEIVED',
   USERS_FAILED: 'USERS_FAILED',
+
+  MY_DETAILS_REQUEST: 'MY_DETAILS_REQUEST',
+  MY_DETAILS_RECEIVED: 'MY_DETAILS_RECEIVED',
 };
 
 export function requestUsers() {
@@ -13,10 +16,23 @@ export function requestUsers() {
   };
 }
 
+export function requestMyDetails() {
+  return {
+    type: ActionTypes.MY_DETAILS_REQUEST,
+  };
+}
+
 export function receiveUsers(usersList) {
   return {
     type: ActionTypes.USERS_RECEIVED,
     usersList,
+  };
+}
+
+export function receiveMyDetails(myDetails) {
+  return {
+    type: ActionTypes.MY_DETAILS_RECEIVED,
+    myDetails,
   };
 }
 
@@ -67,7 +83,7 @@ export function fetchUserInformation(userId) {
     const { auth, users } = getState();
 
     if (!users.isLoading) {
-      dispatch(requestUsers());
+      userId ? dispatch(requestUsers()) : dispatch(requestMyDetails());
       try {
         const resp = await fetch(
           `${apiRoot}/users?userId=${userId ? userId : auth.data.decoded.id}`,
@@ -81,7 +97,9 @@ export function fetchUserInformation(userId) {
 
         if (resp.ok) {
           const data = await resp.json();
-          dispatch(receiveUserInformation(data));
+          userId
+            ? dispatch(receiveUserInformation(data))
+            : dispatch(receiveMyDetails(data));
         } else {
           throw Error;
         }

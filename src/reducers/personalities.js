@@ -2,6 +2,7 @@ import { ActionTypes } from '../actions/personalities';
 
 export const initialState = {
   isLoading: false,
+  isLoadingMyPersonalities: false,
   personalitiesList: [],
 };
 
@@ -20,11 +21,24 @@ export default function personalities(state = initialState, action) {
         isLoading: false,
       };
 
-      case ActionTypes.USER_PERSONALITIES_RECEIVED:
+    case ActionTypes.USER_PERSONALITIES_RECEIVED:
       return {
         ...state,
         userPersonalities: action.userPersonalities,
         isLoading: false,
+      };
+
+    case ActionTypes.MY_PERSONALITIES_REQUEST:
+      return {
+        ...state,
+        isLoadingMyPersonalities: true,
+      };
+
+    case ActionTypes.MY_PERSONALITIES_RECEIVED:
+      return {
+        ...state,
+        isLoadingMyPersonalities: false,
+        myPersonalities: action.myPersonalities,
       };
 
     case ActionTypes.PERSONALITIES_FAILED:

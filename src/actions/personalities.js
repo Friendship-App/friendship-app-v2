@@ -5,6 +5,9 @@ export const ActionTypes = {
   PERSONALITIES_RECEIVE: 'PERSONALITIES_RECEIVE',
   USER_PERSONALITIES_RECEIVED: 'USER_PERSONALITIES_RECEIVED',
   PERSONALITIES_FAILED: 'PERSONALITIES_FAILED',
+
+  MY_PERSONALITIES_REQUEST: 'MY_PERSONALITIES_REQUEST',
+  MY_PERSONALITIES_RECEIVED: 'MY_PERSONALITIES_RECEIVED',
 };
 
 export function requestPersonalities() {
@@ -13,10 +16,23 @@ export function requestPersonalities() {
   };
 }
 
+export function requestMyPersonalities() {
+  return {
+    type: ActionTypes.MY_PERSONALITIES_REQUEST,
+  };
+}
+
 export function receivePersonalities(personalitiesList) {
   return {
     type: ActionTypes.PERSONALITIES_RECEIVE,
     personalitiesList,
+  };
+}
+
+export function receiveMyPersonalities(myPersonalities) {
+  return {
+    type: ActionTypes.MY_PERSONALITIES_RECEIVED,
+    myPersonalities,
   };
 }
 
@@ -40,7 +56,9 @@ export function fetchUserPersonalities(userId) {
     const { auth, personalities } = getState();
 
     if (!personalities.isLoading) {
-      dispatch(requestPersonalities());
+      userId
+        ? dispatch(requestPersonalities())
+        : dispatch(requestMyPersonalities());
       try {
         const resp = await fetch(
           `${apiRoot}/userPersonalities?userId=${
@@ -56,7 +74,9 @@ export function fetchUserPersonalities(userId) {
 
         if (resp.ok) {
           const data = await resp.json();
-          dispatch(receiveUserPersonalities(data));
+          userId
+            ? dispatch(receivePersonalities(data))
+            : dispatch(receiveMyPersonalities(data));
         } else {
           throw Error;
         }

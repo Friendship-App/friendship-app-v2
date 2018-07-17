@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { FlatList, View } from 'react-native';
+import { connect } from 'react-redux';
 import styles from './styles';
-import {fetchBatchUsers} from "../../actions/users";
-import Person from "../Person";
+import { fetchBatchUsers } from '../../actions/users';
+import Person from '../Person';
 
 const mapStateToProps = state => ({
-  users: state.users
+  users: state.users,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -20,10 +20,6 @@ class PeopleList extends Component {
     userData: [],
     currentPage: 0,
   };
-
-  componentWillMount() {
-    this.fetchUsersForPage(this.state.currentPage);
-  }
 
   componentWillReceiveProps(nextProps) {
     this.setStateWithUsersData(nextProps);
@@ -62,7 +58,9 @@ class PeopleList extends Component {
         <FlatList
           data={userData}
           keyExtractor={(item, index) => 'list-item-' + index}
-          renderItem={({ item, index }) => (<Person box data={item} index={index}/>)}
+          renderItem={({ item, index }) => (
+            <Person box data={item} index={index} />
+          )}
           onEndReached={this.handleEnd}
           onEndReachedThreshold={0.4}
           onMomentumScrollBegin={() => {
@@ -72,7 +70,7 @@ class PeopleList extends Component {
           style={[styles.list]}
         />
       </View>
-        /*<View style={[styles.people]}>
+      /*<View style={[styles.people]}>
 
       </View>*/
     );
@@ -81,4 +79,7 @@ class PeopleList extends Component {
 
 PeopleList.propTypes = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PeopleList);
