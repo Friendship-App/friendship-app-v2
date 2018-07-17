@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBottomTabNavigator, NavigationActions } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 import People from '../PeopleStack';
 import Events from '../EventsStack';
 import Inbox from '../InboxStack';
@@ -7,28 +7,13 @@ import Profile from '../ProfileStack';
 import { colors } from '../../styles';
 import TabIcons from '../../../assets/tabIcons';
 import { Image } from 'react-native';
-import { fetchUserTags } from '../../actions/tags';
-import { fetchUserPersonalities } from '../../actions/personalities';
-import { fetchUserInformation } from '../../actions/users';
 
 const TabNavigator = createBottomTabNavigator(
   {
     People,
     Events,
     Inbox,
-    Profile: {
-      screen: Profile,
-      // navigationOptions: ({ navigation }) => ({
-      //   tabBarOnPress: () => {
-      //     navigation.dispatch(fetchUserInformation());
-      //     navigation.dispatch(fetchUserTags());
-      //     navigation.dispatch(fetchUserPersonalities());
-      //     navigation.dispatch(
-      //       NavigationActions.navigate({ routeName: 'Profile' }),
-      //     );
-      //   },
-      // }),
-    },
+    Profile,
   },
   {
     navigationOptions: ({ navigation }) => ({

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import styles from './styles';
 import { colors } from '../../styles';
 import { disableTouchableOpacity } from '../../actions/TouchableOpacityController';
@@ -8,6 +9,7 @@ import EventsList from '../../components/EventsList';
 import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 import { fetchEvents } from '../../actions/events';
+import { fetchLocations } from '../../actions/locations';
 
 const mapStateToProps = state => ({
   events: state.events,
@@ -16,13 +18,17 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   refreshEvents: () => dispatch(fetchEvents()),
+  openEventForm: () => {
+    dispatch(fetchLocations());
+    dispatch(NavigationActions.navigate({ routeName: 'EventForm' }));
+  },
 });
 
 class EventsScreen extends React.Component {
   state = { disabled: false };
 
   render() {
-    const { events, refreshEvents, auth } = this.props;
+    const { events, auth, openEventForm, refreshEvents } = this.props;
 
     if (events.isLoading) {
       return <Loading />;
@@ -52,7 +58,7 @@ class EventsScreen extends React.Component {
           activeOpacity={0.8}
           onPress={() => {
             disableTouchableOpacity(this);
-            // this.props.openEventForm();
+            openEventForm();
           }}
         >
           <Icon name="md-add" size={45} color={'white'} />

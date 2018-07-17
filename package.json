@@ -22,6 +22,8 @@
     "prop-types": "^15.6.2",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-picker-select": "^4.0.0",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.3.0",
     "react-navigation-redux-helpers": "^2.0.0-beta",
@@ -29,7 +31,8 @@
     "redux": "^4.0.0",
     "redux-form": "^7.4.2",
     "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^3.3.3"
   },
   "husky": {
     "hooks": {

@@ -14,22 +14,20 @@ import { disableTouchableOpacity } from '../../actions/TouchableOpacityControlle
 import styles from './styles';
 import { colors, fonts, paddings } from '../../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { NavigationActions } from 'react-navigation';
+import { fetchEventDetails } from '../../actions/events';
 
 const mapDispatchToProps = dispatch => ({
-  /*openEvent: (eventId, eventTitle, eventImage, participate, chatroomId) =>
+  openEvent: (eventId, userParticipate) => {
+    dispatch(fetchEventDetails(eventId));
+    // dispatch(fetchEventParticipants(eventId));
     dispatch(
       NavigationActions.navigate({
         routeName: 'EventDetails',
-        params: {
-          eventId,
-          eventTitle,
-          eventImage,
-          participate,
-          chatroomId,
-          isFromChat: false,
-        },
+        params: { userParticipate },
       }),
-    ),*/
+    );
+  },
 });
 
 class EventCard extends Component {
@@ -87,7 +85,6 @@ class EventCard extends Component {
       city,
       address,
       date,
-      id,
       srcImage,
       avatars,
       first,
@@ -99,13 +96,7 @@ class EventCard extends Component {
         disabled={this.state.disabled}
         onPress={() => {
           disableTouchableOpacity(this);
-          this.props.openEvent(
-            id,
-            title,
-            srcImage,
-            this.props.userParticipate,
-            this.props.chatroomId,
-          );
+          this.props.openEvent(this.props.id, this.props.userParticipate);
         }}
       >
         <Image
@@ -144,46 +135,7 @@ class EventCard extends Component {
             />
             <Text style={[styles.locationText]}>{city ? city : 'Narnia'}</Text>
           </TouchableOpacity>
-          {/*<Text
-            style={{textAlign: 'right', paddingTop: 5, paddingBottom: 9}}
-            onPress={() => this.openMap(city, address)}
-          >
-            {city ? `${city}` : 'Narnia'}
-          </Text>*/}
         </View>
-
-        {/*<View style={[styles.cardSection]}>
-          <View style={{paddingTop: 9}}>
-            <Text style={titleTextStyle}>{title}</Text>
-            <Text numberOfLines={3} style={styles.descriptionTextStyle}>
-              {description}
-            </Text>
-          </View>
-        </View>
-        <View style={[styles.cardSection]}>
-          <View style={{flexDirection: 'row'}}>
-            {avatars.slice(0, 5).map(avatar => avatar)}
-            <Text>
-              {avatars.length > 0 ? avatars.length > 5 ? (
-                `and ${avatars.length - 5} more`
-              ) : (
-                ''
-              ) : (
-                'No participants'
-              )}
-            </Text>
-          </View>
-        </View>
-
-        <View style={[styles.cardSection]}>
-          {this.renderDateAndTime(date)}
-          <Text
-            style={{textAlign: 'right', paddingTop: 5, paddingBottom: 9}}
-            onPress={() => this.openMap(city, address)}
-          >
-            {city ? `${city}` : 'Narnia'}
-          </Text>
-        </View>*/}
       </TouchableOpacity>
     );
   };

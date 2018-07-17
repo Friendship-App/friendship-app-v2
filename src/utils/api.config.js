@@ -6,10 +6,7 @@ let apiRoot;
  * change the IP Address here after.
  * */
 if (process.env.NODE_ENV === 'development') {
-  apiRoot =
-    Platform.OS === 'ios'
-      ? 'http://10.3.1.174:3000/api'
-      : 'http://10.3.1.174:3000/api';
+  apiRoot = 'http://192.168.4.101:3000/api';
 } else {
   apiRoot = 'https://friendshipapp-backend.herokuapp.com';
 }

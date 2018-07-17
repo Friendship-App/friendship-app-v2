@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Text, TouchableOpacity} from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import {colors} from '../../styles';
-import {disableTouchableOpacity} from "../../actions/TouchableOpacityController";
+import { colors } from '../../styles';
+import { disableTouchableOpacity } from '../../actions/TouchableOpacityController';
 
 class Button extends Component {
   state = {
-    disabled: false
+    disabled: false,
   };
 
   render() {
@@ -62,7 +62,7 @@ class Button extends Component {
     return (
       <TouchableOpacity
         style={[style, { width: buttonWidth, backgroundColor }]}
-        onPress={handlePress}
+        onPress={header ? () => onPress() : handlePress}
         disabled={this.state.disabled}
       >
         {this.props.icon ? (
