@@ -8,7 +8,10 @@ import { colors, paddings } from '../../styles';
 import TabIcons from '../../../assets/tabIcons';
 import { IconImage } from '../../components/Layout/Layout';
 import { Image, Text, TouchableOpacity } from 'react-native';
-import { fetchUserChatroom } from '../../actions/chatrooms';
+import {
+  fetchChatroomMessages,
+  fetchUserChatroom,
+} from '../../actions/chatrooms';
 import { fetchUserTags } from '../../actions/tags';
 import { fetchUserPersonalities } from '../../actions/personalities';
 import { fetchUserInformation } from '../../actions/users';
@@ -36,6 +39,21 @@ const mapDispatchToProps = dispatch => ({
       NavigationActions.navigate({
         routeName: 'PeopleProfile',
         params: { personId },
+      }),
+    );
+  },
+  openChat: (chatroomId, eventTitle, eventId, eventImage) => {
+    dispatch(fetchChatroomMessages(chatroomId));
+    dispatch(
+      NavigationActions.navigate({
+        routeName: 'Chat',
+        params: {
+          chatroomId,
+          eventTitle,
+          eventId,
+          eventImage,
+          fromEvent: true,
+        },
       }),
     );
   },
@@ -108,26 +126,50 @@ class HeaderContainer extends Component {
           />
         );
       case 'event-chat':
-        return !this.props.nav.isTransitioning &&
-          this.props.nav.routes[this.props.nav.index].params.userParticipate ? (
-          <Button
-            icon={
-              <IconImage
-                source={TabIcons['Inbox']}
-                tintColor={colors.WHITE}
-                style={{ marginVertical: paddings.XXS }}
-              />
-            }
-            type="floatingButton"
-            header
-            onPress={() => {}}
-          />
-        ) : null;
+        if (
+          !this.props.nav.isTransitioning &&
+          this.props.nav.routes[this.props.nav.index].params.userParticipate
+        ) {
+          const {
+            chatroomId,
+            eventTitle,
+            eventId,
+            eventImage,
+          } = this.props.nav.routes[this.props.nav.index].params;
+          return (
+            <Button
+              icon={
+                <IconImage
+                  source={TabIcons['Inbox']}
+                  tintColor={colors.WHITE}
+                  style={{ marginVertical: paddings.XXS }}
+                />
+              }
+              type="floatingButton"
+              header
+              onPress={() => {
+                this.props.openChat(
+                  chatroomId,
+                  eventTitle,
+                  eventId,
+                  eventImage,
+                );
+              }}
+            />
+          );
+        }
+        break;
+
       case 'chat':
         if (!this.props.nav.isTransitioning) {
-          const { chatroomId, fromEvent } = this.props.nav.routes[
-            this.props.nav.index
-          ].params;
+          console.log(this.props.nav.routes[this.props.nav.index].params);
+          const {
+            chatroomId,
+            fromEvent,
+            eventTitle,
+            eventId,
+            eventImage,
+          } = this.props.nav.routes[this.props.nav.index].params;
           const { chatrooms } = this.props.chatrooms;
           const userId = this.props.auth.data.decoded.id;
           let data;
@@ -143,6 +185,10 @@ class HeaderContainer extends Component {
               }
             }
           }
+          if (!data) {
+            data = { eventTitle, eventId, eventImage, isEvent: true };
+          }
+
           return (
             <TouchableOpacity
               style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -155,10 +201,13 @@ class HeaderContainer extends Component {
             >
               <Image
                 source={{ uri: data.isEvent ? data.eventImage : data.avatar }}
-                style={[{ width: 35, height: 35, marginRight: 5 }]}
+                style={[
+                  { width: 35, height: 35, marginRight: 5 },
+                  { borderRadius: data.isEvent ? 17 : 0 },
+                ]}
               />
               <Text style={{ fontFamily: 'NunitoSans-Regular', fontSize: 15 }}>
-                {data.isEvent ? data.title : data.username}
+                {data.isEvent ? data.eventTitle : data.username}
               </Text>
             </TouchableOpacity>
           );

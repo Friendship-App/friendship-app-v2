@@ -15,6 +15,7 @@ class Header extends Component {
     } = this.props;
 
     let backgroundColor;
+    let borderBottomWidth = 0.5;
     switch (color) {
       case 'dark':
         backgroundColor = colors.DARK_BLUE;
@@ -24,10 +25,11 @@ class Header extends Component {
         break;
       case 'transparent':
         backgroundColor = 'transparent';
+        borderBottomWidth = 0;
     }
 
     return (
-      <View style={[styles.container, { backgroundColor }]}>
+      <View style={[styles.container, { backgroundColor, borderBottomWidth }]}>
         <View style={[styles.header, { backgroundColor }]}>
           {leftComponent}
           <Text>{title}</Text>

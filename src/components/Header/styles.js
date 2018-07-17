@@ -10,7 +10,6 @@ export default StyleSheet.create({
     paddingTop: STATUSBAR_HEIGHT,
     position: 'absolute',
     top: 0,
-    borderBottomWidth: 0.5,
     borderBottomColor: headerPalette.colors.HEADER_BORDER_BOTTOM,
   },
   header: {

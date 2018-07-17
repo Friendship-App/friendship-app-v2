@@ -8,8 +8,8 @@ import Personality from '../Personality';
 const ButtonOption = styled.View`
   flex: 1;
   align-items: center;
-  marginbottom: 30;
-  margintop: 30;
+  margin-bottom: 30;
+  margin-top: 30;
 `;
 
 export default class EventBottomPart extends PureComponent {

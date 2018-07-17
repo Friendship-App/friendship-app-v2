@@ -18,13 +18,21 @@ import { NavigationActions } from 'react-navigation';
 import { fetchEventDetails } from '../../actions/events';
 
 const mapDispatchToProps = dispatch => ({
-  openEvent: (eventId, userParticipate) => {
+  openEvent: (eventId, userParticipate, chatroomId, eventTitle, eventImage) => {
+    console.log(eventTitle);
+    console.log(eventImage);
     dispatch(fetchEventDetails(eventId));
     // dispatch(fetchEventParticipants(eventId));
     dispatch(
       NavigationActions.navigate({
         routeName: 'EventDetails',
-        params: { userParticipate },
+        params: {
+          userParticipate,
+          chatroomId,
+          eventTitle,
+          eventId,
+          eventImage,
+        },
       }),
     );
   },
@@ -96,7 +104,13 @@ class EventCard extends Component {
         disabled={this.state.disabled}
         onPress={() => {
           disableTouchableOpacity(this);
-          this.props.openEvent(this.props.id, this.props.userParticipate);
+          this.props.openEvent(
+            this.props.id,
+            this.props.userParticipate,
+            this.props.chatroomId,
+            this.props.title,
+            this.props.srcImage,
+          );
         }}
       >
         <Image
