@@ -22,8 +22,8 @@ class ChatroomsList extends React.Component {
     });
 
     const sortedChatrooms = releventChatrooms.sort(function(a, b) {
-      const aLastMessageTime = a.lastMessage.chat_time;
-      const bLastMessageTime = b.lastMessage.chat_time;
+      const aLastMessageTime = a.lastMessage.chatTime;
+      const bLastMessageTime = b.lastMessage.chatTime;
       return new Date(bLastMessageTime) - new Date(aLastMessageTime);
     });
 

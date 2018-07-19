@@ -120,7 +120,7 @@ class InboxCard extends React.Component {
             <Text style={styles.inboxCardMessage}>{unreadMessagesText}</Text>
           </View>
           <Text numberOfLines={1} style={styles.inboxCardMessage}>
-            {lastMessage.text_message}
+            {lastMessage.textMessage}
           </Text>
         </View>
       </TouchableOpacity>

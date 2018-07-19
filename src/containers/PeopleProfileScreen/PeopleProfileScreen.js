@@ -15,7 +15,7 @@ class PeopleProfileScreen extends React.Component {
     const { users, tags, personalities, chatrooms } = this.props;
 
     if (
-      users.isLoading ||
+      users.isLoadingUserInformation ||
       tags.isLoading ||
       personalities.isLoading ||
       chatrooms.isLoadingUserChatroom
