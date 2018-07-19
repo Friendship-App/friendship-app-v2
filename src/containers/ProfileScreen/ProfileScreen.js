@@ -15,7 +15,7 @@ class ProfileScreen extends React.Component {
     const { users, tags, personalities } = this.props;
 
     if (
-      users.isLoadingMyDetails ||
+      users.isLoadingUserInformation ||
       tags.isLoadingMyTags ||
       personalities.isLoadingMyPersonalities
     ) {

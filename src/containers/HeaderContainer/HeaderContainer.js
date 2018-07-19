@@ -162,7 +162,6 @@ class HeaderContainer extends Component {
 
       case 'chat':
         if (!this.props.nav.isTransitioning) {
-          console.log(this.props.nav.routes[this.props.nav.index].params);
           const {
             chatroomId,
             fromEvent,

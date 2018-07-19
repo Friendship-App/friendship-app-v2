@@ -12,13 +12,20 @@ class ChatroomsList extends React.Component {
   };
 
   render() {
-    const sortedChatrooms = this.props.chatrooms
-      ? this.props.chatrooms.sort(function(a, b) {
-          const aLastMessageTime = a.lastMessage.chat_time;
-          const bLastMessageTime = b.lastMessage.chat_time;
-          return new Date(bLastMessageTime) - new Date(aLastMessageTime);
-        })
-      : [];
+    const { chatrooms } = this.props;
+    const releventChatrooms = [];
+
+    chatrooms.map(chatroom => {
+      if (chatroom.lastMessage) {
+        releventChatrooms.push(chatroom);
+      }
+    });
+
+    const sortedChatrooms = releventChatrooms.sort(function(a, b) {
+      const aLastMessageTime = a.lastMessage.chat_time;
+      const bLastMessageTime = b.lastMessage.chat_time;
+      return new Date(bLastMessageTime) - new Date(aLastMessageTime);
+    });
 
     return (
       <FlatList

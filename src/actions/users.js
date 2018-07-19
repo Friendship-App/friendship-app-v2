@@ -3,22 +3,16 @@ import apiRoot from '../utils/api.config';
 export const ActionTypes = {
   USERS_REQUEST: 'USERS_REQUEST',
   USERS_RECEIVED: 'USERS_RECEIVED',
-  USER_INFORMATION_RECEIVED: 'USER_INFORMATION_RECEIVED',
-  USERS_FAILED: 'USERS_FAILED',
 
-  MY_DETAILS_REQUEST: 'MY_DETAILS_REQUEST',
-  MY_DETAILS_RECEIVED: 'MY_DETAILS_RECEIVED',
+  USER_INFORMATION_REQUEST: 'USER_INFORMATION_REQUEST',
+  USER_INFORMATION_RECEIVED: 'USER_INFORMATION_RECEIVED',
+
+  USERS_FAILED: 'USERS_FAILED',
 };
 
-export function requestUsers() {
+export function requestUsers(type) {
   return {
-    type: ActionTypes.USERS_REQUEST,
-  };
-}
-
-export function requestMyDetails() {
-  return {
-    type: ActionTypes.MY_DETAILS_REQUEST,
+    type,
   };
 }
 
@@ -29,17 +23,11 @@ export function receiveUsers(usersList) {
   };
 }
 
-export function receiveMyDetails(myDetails) {
-  return {
-    type: ActionTypes.MY_DETAILS_RECEIVED,
-    myDetails,
-  };
-}
-
-export function receiveUserInformation(userDetails) {
+export function receiveUserInformation(userDetails, myProfile) {
   return {
     type: ActionTypes.USER_INFORMATION_RECEIVED,
     userDetails,
+    myProfile,
   };
 }
 
@@ -56,7 +44,7 @@ export function fetchBatchUsers(batchNumber) {
     const { auth, users } = getState();
 
     if (!users.isLoading) {
-      dispatch(requestUsers());
+      dispatch(requestUsers(ActionTypes.USERS_REQUEST));
       try {
         const resp = await fetch(`${apiRoot}/users/${batchNumber}`, {
           method: 'GET',
@@ -82,8 +70,8 @@ export function fetchUserInformation(userId) {
   return async (dispatch, getState) => {
     const { auth, users } = getState();
 
-    if (!users.isLoading) {
-      userId ? dispatch(requestUsers()) : dispatch(requestMyDetails());
+    if (!users.isLoadingUserInformation) {
+      dispatch(requestUsers(ActionTypes.USER_INFORMATION_REQUEST));
       try {
         const resp = await fetch(
           `${apiRoot}/users?userId=${userId ? userId : auth.data.decoded.id}`,
@@ -97,9 +85,7 @@ export function fetchUserInformation(userId) {
 
         if (resp.ok) {
           const data = await resp.json();
-          userId
-            ? dispatch(receiveUserInformation(data))
-            : dispatch(receiveMyDetails(data));
+          dispatch(receiveUserInformation(data, !userId));
         } else {
           throw Error;
         }

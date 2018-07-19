@@ -67,7 +67,7 @@ export default function tags(state = initialState, action) {
       return {
         ...state,
         isLoadingMyTags: false,
-        myTags: action.myTags,
+        myTags: action.userTags,
       };
 
     default:

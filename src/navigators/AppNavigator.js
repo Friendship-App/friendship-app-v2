@@ -34,24 +34,16 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = dispatch => ({
-  refreshChatrooms: () => dispatch(fetchChatrooms()),
-});
-
 class Navigator extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-    if (this.props.auth.data.decoded) {
-      registerForPushNotificationsAsync(this.props.auth.data.decoded.id);
-    }
-    socket.on('message', () => {
-      this.props.refreshChatrooms();
-    });
+    // if (this.props.auth.data.decoded) {
+    //   registerForPushNotificationsAsync(this.props.auth.data.decoded.id);
+    // }
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-    socket.close();
   }
 
   onBackPress = () => {
@@ -72,7 +64,7 @@ class Navigator extends React.Component {
 
 const AppNavigator = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(Navigator);
 
 export { AppNavigator, middleware, navReducer };

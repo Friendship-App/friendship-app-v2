@@ -24,7 +24,7 @@ export default function personalities(state = initialState, action) {
     case ActionTypes.USER_PERSONALITIES_RECEIVED:
       return {
         ...state,
-        userPersonalities: action.userPersonalities,
+        userPersonalities: action.personalitiesList,
         isLoading: false,
       };
 
@@ -38,7 +38,7 @@ export default function personalities(state = initialState, action) {
       return {
         ...state,
         isLoadingMyPersonalities: false,
-        myPersonalities: action.myPersonalities,
+        myPersonalities: action.personalitiesList,
       };
 
     case ActionTypes.PERSONALITIES_FAILED:

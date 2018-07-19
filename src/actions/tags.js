@@ -38,17 +38,12 @@ export function receiveInterests(interestsList) {
   };
 }
 
-export function receiveUserTags(userTags) {
+export function receiveUserTags(userTags, myProfile) {
   return {
-    type: ActionTypes.TAGS_FOR_USER_RECEIVED,
+    type: myProfile
+      ? ActionTypes.MY_TAGS_RECEIVED
+      : ActionTypes.TAGS_FOR_USER_RECEIVED,
     userTags,
-  };
-}
-
-export function receiveMyTags(myTags) {
-  return {
-    type: ActionTypes.MY_TAGS_RECEIVED,
-    myTags,
   };
 }
 
@@ -94,9 +89,13 @@ export function fetchUserTags(userId) {
     const { auth, tags } = getState();
 
     if (!tags.isLoading) {
-      userId
-        ? dispatch(requestTags(ActionTypes.TAGS_FOR_USER_REQUEST))
-        : dispatch(requestTags(ActionTypes.MY_TAGS_REQUEST));
+      dispatch(
+        requestTags(
+          userId
+            ? ActionTypes.TAGS_FOR_USER_REQUEST
+            : ActionTypes.MY_TAGS_REQUEST,
+        ),
+      );
       try {
         const resp = await fetch(
           `${apiRoot}/tags?userId=${userId ? userId : auth.data.decoded.id}`,
@@ -110,9 +109,7 @@ export function fetchUserTags(userId) {
 
         if (resp.ok) {
           const data = await resp.json();
-          userId
-            ? dispatch(receiveUserTags(data))
-            : dispatch(receiveMyTags(data));
+          dispatch(receiveUserTags(data, !userId));
         } else {
           throw Error;
         }

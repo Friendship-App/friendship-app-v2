@@ -8,19 +8,49 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { colors, headerPalette, paddings } from '../../styles';
+import { colors, paddings } from '../../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { disableTouchableOpacity } from '../../actions/TouchableOpacityController';
+import { socket } from '../../utils/socket';
+import { sendMessage } from '../../actions/messages';
 
 const mapStateToProps = state => ({
   chatrooms: state.chatrooms,
   currentUserId: state.auth.data.decoded.id,
 });
 
+const mapDispatchToProps = dispatch => ({
+  sendMessage: (chatroomId, textMessage, receiverId) =>
+    dispatch(sendMessage(chatroomId, textMessage, receiverId)),
+});
+
 class ChatScreen extends React.Component {
   state = {
     text: '',
     disabled: false,
+  };
+
+  sendMessage = () => {
+    const chatroomId = this.props.navigation.state.params.chatroomId;
+    const textMessage = this.state.text;
+    const receiverId = [];
+    const chatroom = this.props.chatrooms.chatrooms.find(
+      chatroom => chatroom.id === chatroomId,
+    );
+    const { participantsData } = chatroom;
+    participantsData.map(participant => {
+      if (participant.id !== this.props.currentUserId) {
+        receiverId.push(participant.id);
+      }
+    });
+    console.log(receiverId);
+    this.props.sendMessage(chatroomId, textMessage, receiverId);
+    socket.emit('message', {
+      chatroomId,
+      textMessage,
+      senderId: this.props.currentUserId,
+    });
+    this.setState({ text: '' });
   };
 
   render() {
@@ -69,7 +99,7 @@ class ChatScreen extends React.Component {
           <TouchableOpacity
             onPress={() => {
               disableTouchableOpacity(this);
-              // this.sendMessage()
+              this.sendMessage();
             }}
             disabled={!text.trim().length > 0 || disabled}
           >
@@ -91,5 +121,5 @@ class ChatScreen extends React.Component {
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(ChatScreen);

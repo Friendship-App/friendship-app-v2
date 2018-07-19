@@ -3,6 +3,7 @@ import apiRoot from '../utils/api.config';
 export const ActionTypes = {
   PERSONALITIES_REQUEST: 'PERSONALITIES_REQUEST',
   PERSONALITIES_RECEIVE: 'PERSONALITIES_RECEIVE',
+
   USER_PERSONALITIES_RECEIVED: 'USER_PERSONALITIES_RECEIVED',
   PERSONALITIES_FAILED: 'PERSONALITIES_FAILED',
 
@@ -10,36 +11,19 @@ export const ActionTypes = {
   MY_PERSONALITIES_RECEIVED: 'MY_PERSONALITIES_RECEIVED',
 };
 
-export function requestPersonalities() {
+export function requestPersonalities(type) {
   return {
-    type: ActionTypes.PERSONALITIES_REQUEST,
+    type,
   };
 }
 
-export function requestMyPersonalities() {
+export function receivePersonalities(personalitiesList, myProfile) {
   return {
-    type: ActionTypes.MY_PERSONALITIES_REQUEST,
-  };
-}
-
-export function receivePersonalities(personalitiesList) {
-  return {
-    type: ActionTypes.PERSONALITIES_RECEIVE,
+    type: myProfile
+      ? ActionTypes.MY_PERSONALITIES_RECEIVED
+      : ActionTypes.PERSONALITIES_RECEIVE,
     personalitiesList,
-  };
-}
-
-export function receiveMyPersonalities(myPersonalities) {
-  return {
-    type: ActionTypes.MY_PERSONALITIES_RECEIVED,
-    myPersonalities,
-  };
-}
-
-export function receiveUserPersonalities(userPersonalities) {
-  return {
-    type: ActionTypes.USER_PERSONALITIES_RECEIVED,
-    userPersonalities,
+    myProfile,
   };
 }
 
@@ -56,9 +40,14 @@ export function fetchUserPersonalities(userId) {
     const { auth, personalities } = getState();
 
     if (!personalities.isLoading) {
-      userId
-        ? dispatch(requestPersonalities())
-        : dispatch(requestMyPersonalities());
+      dispatch(
+        requestPersonalities(
+          userId
+            ? ActionTypes.PERSONALITIES_REQUEST
+            : ActionTypes.MY_PERSONALITIES_REQUEST,
+        ),
+      );
+
       try {
         const resp = await fetch(
           `${apiRoot}/userPersonalities?userId=${
@@ -74,9 +63,7 @@ export function fetchUserPersonalities(userId) {
 
         if (resp.ok) {
           const data = await resp.json();
-          userId
-            ? dispatch(receivePersonalities(data))
-            : dispatch(receiveMyPersonalities(data));
+          dispatch(receivePersonalities(data, !userId));
         } else {
           throw Error;
         }
@@ -92,7 +79,7 @@ export function fetchPersonalities() {
     const { personalities } = getState();
 
     if (!personalities.isLoading) {
-      dispatch(requestPersonalities());
+      dispatch(requestPersonalities(ActionTypes.PERSONALITIES_REQUEST));
       try {
         const resp = await fetch(`${apiRoot}/personalities`);
 

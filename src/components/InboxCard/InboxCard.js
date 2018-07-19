@@ -78,8 +78,9 @@ class InboxCard extends React.Component {
       unreadMessages > 0 ? `( ${unreadMessages} unread messages )` : '';
 
     if (isEvent) {
-      username = this.props.data.eventData.title;
-      avatar = this.props.data.eventData.eventImage;
+      console.log(this.props);
+      username = '';
+      avatar = '';
     } else {
       const otherParticipant = this.props.data.participantsData.find(
         participant => participant.id !== this.props.auth.data.decoded.id,

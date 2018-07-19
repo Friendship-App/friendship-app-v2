@@ -2,9 +2,7 @@ import { ActionTypes } from '../actions/users';
 
 export const initialState = {
   isLoading: false,
-  isLoadingMyDetails: false,
-  checkingUsername: false,
-  checkingEmail: false,
+  isLoadingUserInformation: false,
   usersList: [],
   userDetails: {
     userTags: [],
@@ -28,54 +26,29 @@ export default function users(state = initialState, action) {
         isLoading: false,
       };
 
-    case ActionTypes.USER_INFORMATION_RECEIVED:
+    case ActionTypes.USER_INFORMATION_REQUEST:
       return {
         ...state,
-        userDetails: { data: action.userDetails },
-        isLoading: false,
+        isLoadingUserInformation: true,
       };
+
+    case ActionTypes.USER_INFORMATION_RECEIVED:
+      return action.myProfile
+        ? {
+            ...state,
+            myDetails: { data: action.userDetails },
+            isLoadingUserInformation: false,
+          }
+        : {
+            ...state,
+            userDetails: { data: action.userDetails },
+            isLoadingUserInformation: false,
+          };
 
     case ActionTypes.USERS_FAILED:
       return {
         ...state,
         isLoading: false,
-      };
-
-    case ActionTypes.CHECK_USERNAME:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case ActionTypes.CHECK_EMAIL:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case ActionTypes.USERNAME_CHECKED:
-      return {
-        ...state,
-        isLoading: false,
-      };
-
-    case ActionTypes.EMAIL_CHECKED:
-      return {
-        ...state,
-        isLoading: false,
-      };
-
-    case ActionTypes.MY_DETAILS_REQUEST:
-      return {
-        ...state,
-        isLoadingMyDetails: true,
-      };
-
-    case ActionTypes.MY_DETAILS_RECEIVED:
-      return {
-        ...state,
-        isLoadingMyDetails: false,
-        myDetails: { data: action.myDetails },
       };
 
     default:

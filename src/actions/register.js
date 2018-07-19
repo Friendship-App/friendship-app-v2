@@ -1,5 +1,5 @@
-import apiRoot from "../utils/api.config";
-import {NavigationActions} from 'react-navigation';
+import apiRoot from '../utils/api.config';
+import { NavigationActions } from 'react-navigation';
 
 export const ActionTypes = {
   REGISTER_REQUEST: 'REGISTER_REQUEST',
@@ -13,10 +13,9 @@ export const ActionTypes = {
   EMAIL_CHECKED: 'EMAIL_CHECKED',
 };
 
-export function requestRegister() {
+export function requestRegister(type) {
   return {
-    type: ActionTypes.REGISTER_REQUEST,
-    isRegistering: true
+    type,
   };
 }
 
@@ -24,38 +23,13 @@ export function receiveRegister(credentials) {
   return {
     type: ActionTypes.REGISTER_RECEIVE,
     isRegistering: true,
-    credentials
+    credentials,
   };
 }
 
 export function failRegister() {
   return {
     type: ActionTypes.REGISTER_FAIL,
-    isRegistering: false,
-  };
-}
-
-export function checkUsername() {
-  return {
-    type: ActionTypes.CHECK_USERNAME,
-  };
-}
-
-export function checkEmail() {
-  return {
-    type: ActionTypes.CHECK_EMAIL,
-  };
-}
-
-export function usernameChecked() {
-  return {
-    type: ActionTypes.USERNAME_CHECKED,
-  };
-}
-
-export function emailChecked() {
-  return {
-    type: ActionTypes.EMAIL_CHECKED,
   };
 }
 
@@ -65,7 +39,7 @@ export function register() {
     const state = getState().register;
 
     if (!state.isRegistering) {
-      dispatch(requestRegister());
+      dispatch(requestRegister(ActionTypes.REGISTER_REQUEST));
       try {
         const resp = await fetch(`${apiRoot}/register`, {
           method: 'POST',
@@ -74,13 +48,13 @@ export function register() {
           },
           body: JSON.stringify({
             ...registrationData,
-            scope: 'user'
+            scope: 'user',
           }),
         });
 
         if (resp.ok) {
           dispatch(receiveRegister());
-          dispatch(NavigationActions.navigate({routeName: 'Registered'}));
+          dispatch(NavigationActions.navigate({ routeName: 'Registered' }));
         } else {
           throw Error;
         }
@@ -88,20 +62,22 @@ export function register() {
         dispatch(failRegister());
       }
     }
-  }
+  };
 }
 
 export function validateUsername(username) {
   return async (dispatch, getState) => {
-    const {users} = getState();
+    const { register } = getState();
 
-    if (!users.checkingUsername) {
-      dispatch(checkUsername());
+    if (!register.checkingUsername) {
+      dispatch(requestRegister(ActionTypes.CHECK_USERNAME));
       try {
-        const resp = await fetch(`${apiRoot}/register/validate?username=${username.toLowerCase()}`);
+        const resp = await fetch(
+          `${apiRoot}/register/validate?username=${username.toLowerCase()}`,
+        );
 
         if (resp.ok) {
-          dispatch(usernameChecked());
+          dispatch(requestRegister(ActionTypes.USERNAME_CHECKED));
           return await resp.json();
         } else {
           throw Error;
@@ -115,15 +91,17 @@ export function validateUsername(username) {
 
 export function validateEmail(email) {
   return async (dispatch, getState) => {
-    const {users} = getState();
+    const { register } = getState();
 
-    if (!users.checkingEmail) {
-      dispatch(checkEmail());
+    if (!register.checkingEmail) {
+      dispatch(requestRegister(ActionTypes.CHECK_EMAIL));
       try {
-        const resp = await fetch(`${apiRoot}/register/validate?email=${email.toLowerCase()}`);
+        const resp = await fetch(
+          `${apiRoot}/register/validate?email=${email.toLowerCase()}`,
+        );
 
         if (resp.ok) {
-          dispatch(emailChecked());
+          dispatch(requestRegister(ActionTypes.EMAIL_CHECKED));
           return await resp.json();
         } else {
           throw Error;

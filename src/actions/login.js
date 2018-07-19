@@ -1,9 +1,10 @@
-import apiRoot from "../utils/api.config";
-import {NavigationActions, StackActions} from 'react-navigation';
-import {storeCredentials} from "./auth";
+import apiRoot from '../utils/api.config';
+import { NavigationActions, StackActions } from 'react-navigation';
+import { storeCredentials } from './auth';
 import jwtDecode from 'jwt-decode';
-import {fetchBatchUsers} from "./users";
-import {fetchChatrooms} from "./chatrooms";
+import { fetchBatchUsers, fetchUserInformation } from './users';
+import { fetchChatrooms } from './chatrooms';
+import { fetchEvents } from './events';
 
 export const ActionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
@@ -26,7 +27,7 @@ export function receiveLogin() {
 export function failLogin(errorMessage) {
   return {
     type: ActionTypes.LOGIN_FAILED,
-    errorMessage
+    errorMessage,
   };
 }
 
@@ -46,26 +47,30 @@ export function login(email, password, screenName) {
       if (resp.ok) {
         const data = await resp.json();
         await dispatch(receiveLogin());
-        await dispatch(storeCredentials({
-          ...data,
-          decoded: jwtDecode(data.token),
-        }));
+        await dispatch(
+          storeCredentials({
+            ...data,
+            decoded: jwtDecode(data.token),
+          }),
+        );
         dispatch(fetchBatchUsers());
-        // dispatch(fetchChatrooms());
-        // dispatch(fetchEvents());
-        // dispatch(fetchProfile());
+        dispatch(fetchChatrooms());
+        dispatch(fetchEvents());
+        dispatch(fetchUserInformation());
 
         if (screenName) {
-          dispatch(NavigationActions.navigate({routeName: screenName}));
+          dispatch(NavigationActions.navigate({ routeName: screenName }));
         } else {
-          dispatch(StackActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate({
-                routeName: 'Home',
-              }),
-            ],
-          }));
+          dispatch(
+            StackActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({
+                  routeName: 'Home',
+                }),
+              ],
+            }),
+          );
         }
       } else {
         const err = await resp.json();
