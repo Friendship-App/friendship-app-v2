@@ -1,6 +1,6 @@
 import React from 'react';
 import { colors, fonts, fontSizes, paddings } from '../../styles';
-import { Dimensions, ScrollView, Text, View } from 'react-native';
+import { Dimensions, Modal, ScrollView, Text, View } from 'react-native';
 import ProfileTopPart from '../ProfileTopPart';
 import ShowTags from '../ShowTags';
 import Personality from '../Personality';
@@ -113,15 +113,6 @@ class Profile extends React.Component {
             paddingHorizontal: paddings.LG,
           }}
         >
-          <Text
-            style={{
-              fontFamily: fonts.LIGHT,
-              fontSize: fontSizes.BODY_TEXT,
-              textAlign: 'center',
-            }}
-          >
-            {this.renderUserDescription()}
-          </Text>
           <Text
             style={{
               fontFamily: fonts.LIGHT,

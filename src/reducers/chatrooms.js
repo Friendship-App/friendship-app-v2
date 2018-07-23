@@ -70,6 +70,9 @@ export default function messages(state = initialState, action) {
         isUpdatingMessages: false,
       };
 
+    case 'SIGN_OUT':
+      return initialState;
+
     default:
       return state;
   }

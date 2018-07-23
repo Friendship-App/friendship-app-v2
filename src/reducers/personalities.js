@@ -47,6 +47,9 @@ export default function personalities(state = initialState, action) {
         isLoading: false,
       };
 
+    case 'SIGN_OUT':
+      return initialState;
+
     default:
       return state;
   }

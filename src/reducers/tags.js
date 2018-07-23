@@ -55,6 +55,9 @@ export default function tags(state = initialState, action) {
         myTags: action.userTags,
       };
 
+    case 'SIGN_OUT':
+      return initialState;
+
     default:
       return state;
   }

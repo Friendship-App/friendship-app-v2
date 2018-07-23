@@ -20,7 +20,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       NavigationActions.navigate({
         routeName: 'Chat',
-        params: { chatroomId, isEventChatroom, image, title, participantId },
+        params: { isEventChatroom, image, title, participantId },
       }),
     );
   },
@@ -95,12 +95,7 @@ class InboxCard extends React.Component {
 
   render() {
     // const { creator, receiver, messages, event } = this.props.data;
-    const {
-      unreadMessages,
-      lastMessage,
-      isEventChatroom,
-      chatroomId,
-    } = this.props.data;
+    const { unreadMessages, lastMessage, isEventChatroom } = this.props.data;
 
     let time, unreadMessagesText, username, avatar;
 
@@ -110,7 +105,6 @@ class InboxCard extends React.Component {
       unreadMessages > 0 ? `( ${unreadMessages} unread messages )` : '';
 
     if (isEventChatroom) {
-      console.log(this.props);
       username = this.props.data.eventData.title;
       avatar = this.props.data.eventData.eventImage;
     } else {

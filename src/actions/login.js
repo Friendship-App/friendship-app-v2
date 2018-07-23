@@ -13,6 +13,8 @@ export const ActionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
   LOGIN_FAILED: 'LOGIN_FAILED',
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+
+  SIGN_OUT: 'SIGN_OUT',
 };
 
 export function requestLogin() {
@@ -31,6 +33,25 @@ export function failLogin(errorMessage) {
   return {
     type: ActionTypes.LOGIN_FAILED,
     errorMessage,
+  };
+}
+
+export function receiveLogOut() {
+  return {
+    type: ActionTypes.SIGN_OUT,
+  };
+}
+
+export function logOut() {
+  return async (dispatch, getState) => {
+    dispatch(receiveLogOut());
+    dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'WelcomeScreen' })],
+        key: null,
+      }),
+    );
   };
 }
 

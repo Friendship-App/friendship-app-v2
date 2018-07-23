@@ -45,6 +45,9 @@ export default function users(state = initialState, action) {
             isLoadingUserInformation: false,
           };
 
+    case 'SIGN_OUT':
+      return initialState;
+
     case ActionTypes.USERS_FAILED:
       return {
         ...state,

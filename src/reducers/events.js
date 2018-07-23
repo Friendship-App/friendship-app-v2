@@ -70,6 +70,9 @@ export function events(state = initialState, action) {
         isCreatingEvent: false,
       };
 
+    case 'SIGN_OUT':
+      return initialState;
+
     default:
       return state;
   }

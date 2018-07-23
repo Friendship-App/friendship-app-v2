@@ -31,7 +31,13 @@ const routes = {
   PeopleProfile: {
     screen: PeopleProfileScreen,
     navigationOptions: {
-      header: null,
+      header: (
+        <HeaderContainer
+          right="people-profile"
+          left="white-back"
+          color="transparent"
+        />
+      ),
     },
   },
   EventForm: {

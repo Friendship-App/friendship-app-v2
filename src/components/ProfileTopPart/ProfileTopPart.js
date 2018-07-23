@@ -118,14 +118,6 @@ const ProfileTopPart = props => {
               ? username.substr(0, 15).concat('…')
               : username}
           </Text>
-          {myProfile ? (
-            <TouchableOpacity onPress={() => showEditForm()}>
-              <Image
-                source={require('../../../assets/edit.png')}
-                style={{ width: 38, height: 38, tintColor: '#000' }}
-              />
-            </TouchableOpacity>
-          ) : null}
         </View>
         <View style={[styles.info]}>
           <Text

@@ -4,10 +4,17 @@ import { NavigationActions } from 'react-navigation';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { colors, paddings } from '../../styles';
+import { colors, headerPalette, paddings } from '../../styles';
 import TabIcons from '../../../assets/tabIcons';
 import { IconImage } from '../../components/Layout/Layout';
-import { Image, Text, TouchableOpacity } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   fetchChatroomMessages,
   fetchUserChatroom,
@@ -15,6 +22,7 @@ import {
 import { fetchUserTags } from '../../actions/tags';
 import { fetchUserPersonalities } from '../../actions/personalities';
 import { fetchUserInformation } from '../../actions/users';
+import ActionsModal from '../../components/ActionsModal';
 
 const mapDispatchToProps = dispatch => ({
   back: (backTo = {}) => dispatch(NavigationActions.back(backTo)),
@@ -68,17 +76,53 @@ const mapStateToProps = state => ({
 class HeaderContainer extends Component {
   state = {
     showModal: false,
+    actions: [],
   };
 
   render() {
+    const { color } = this.props;
+    const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 24;
+    let borderBottomWidth = 0.5;
+    let backgroundColor;
+
+    switch (color) {
+      case 'dark':
+        backgroundColor = colors.DARK_BLUE;
+        break;
+      case 'light':
+        backgroundColor = '#F7F7F7';
+        break;
+      case 'transparent':
+        backgroundColor = 'transparent';
+        borderBottomWidth = 0;
+    }
+
     return (
-      <Header
-        leftComponent={this.getLeftComponent(this.props.left)}
-        rightComponent={this.getRightComponent(this.props.right)}
-        title={this.props.title}
-        titleComponent={this.props.titleComponent}
-        color={this.props.color}
-      />
+      <View
+        style={[
+          {
+            width: Dimensions.get('window').width,
+            paddingTop: STATUSBAR_HEIGHT,
+            position: 'absolute',
+            top: 0,
+            borderBottomColor: headerPalette.colors.HEADER_BORDER_BOTTOM,
+          },
+          { backgroundColor, borderBottomWidth },
+        ]}
+      >
+        <Header
+          leftComponent={this.getLeftComponent(this.props.left)}
+          rightComponent={this.getRightComponent(this.props.right)}
+          title={this.props.title}
+          titleComponent={this.props.titleComponent}
+          color={backgroundColor}
+        />
+        <ActionsModal
+          actions={this.state.actions}
+          visible={this.state.showModal}
+          close={() => this.setState({ showModal: false })}
+        />
+      </View>
     );
   }
 
@@ -129,6 +173,29 @@ class HeaderContainer extends Component {
             onPress={() => this.props.navigation.navigate('SignUp')}
           />
         );
+
+      case 'profile':
+        return (
+          <Button
+            icon={<Icon name={'md-more'} color={colors.DUST_WHITE} size={26} />}
+            type="floatingButton"
+            header
+            customStyle={{ width: 30, height: 30 }}
+            onPress={() => this.setState({ showModal: true })}
+          />
+        );
+
+      case 'people-profile':
+        return (
+          <Button
+            icon={<Icon name={'md-more'} color={colors.DUST_WHITE} size={26} />}
+            type="floatingButton"
+            header
+            customStyle={{ width: 30, height: 30 }}
+            onPress={() => console.log('show modal please...')}
+          />
+        );
+
       case 'event-chat':
         if (
           !this.props.nav.isTransitioning &&
@@ -167,7 +234,6 @@ class HeaderContainer extends Component {
       case 'chat':
         if (!this.props.nav.isTransitioning) {
           const {
-            chatroomId,
             isEventChatroom,
             participantId,
             eventId,
@@ -183,7 +249,7 @@ class HeaderContainer extends Component {
               disabled={fromEvent || fromProfile}
               onPress={() => {
                 isEventChatroom
-                  ? console.log('event...')
+                  ? this.props.openEvent(eventId)
                   : this.props.openProfile(participantId);
               }}
             >

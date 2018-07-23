@@ -11,7 +11,15 @@ class Button extends Component {
   };
 
   render() {
-    const { type, text, width, onPress, header, color } = this.props;
+    const {
+      type,
+      text,
+      width,
+      onPress,
+      header,
+      color,
+      customStyle,
+    } = this.props;
 
     let style;
     let backgroundColor;
@@ -61,7 +69,7 @@ class Button extends Component {
 
     return (
       <TouchableOpacity
-        style={[style, { width: buttonWidth, backgroundColor }]}
+        style={[style, { width: buttonWidth, backgroundColor }, customStyle]}
         onPress={header ? () => onPress() : handlePress}
         disabled={this.state.disabled}
       >
