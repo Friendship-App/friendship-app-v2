@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
 class HeaderContainer extends Component {
   state = {
     showModal: false,
-    actions: [],
+    actions: 'profile',
   };
 
   render() {
