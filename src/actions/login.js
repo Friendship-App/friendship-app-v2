@@ -5,6 +5,9 @@ import jwtDecode from 'jwt-decode';
 import { fetchBatchUsers, fetchUserInformation } from './users';
 import { fetchChatrooms } from './chatrooms';
 import { fetchEvents } from './events';
+import { fetchUserTags } from './tags';
+import { fetchUserPersonalities } from './personalities';
+import { refresh } from './refresh';
 
 export const ActionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
@@ -53,10 +56,7 @@ export function login(email, password, screenName) {
             decoded: jwtDecode(data.token),
           }),
         );
-        dispatch(fetchBatchUsers());
-        dispatch(fetchChatrooms());
-        dispatch(fetchEvents());
-        dispatch(fetchUserInformation());
+        dispatch(refresh());
 
         if (screenName) {
           dispatch(NavigationActions.navigate({ routeName: screenName }));

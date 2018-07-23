@@ -1,62 +1,62 @@
 import React from 'react';
-import {Text, View} from "react-native";
-import {connect} from "react-redux";
-import {ActionTypes, fetchTags} from "../../actions/tags";
-import styles from "./styles";
-import Tag, {Actions} from "../TagPicker";
-import {Field} from "redux-form";
+import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { ActionTypes, fetchTags } from '../../actions/tags';
+import styles from './styles';
+import Tag, { Actions } from '../TagPicker';
+import { Field } from 'redux-form';
 
 const mapStateToProps = state => ({
-  activities: state.tags.activitiesList,
-  interests: state.tags.interestsList,
+  tagsList: state.tags.tagsList,
   lovedTags: state.form.register.values.lovedTags,
   hatedTags: state.form.register.values.hatedTags,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchActivities: () => dispatch(fetchTags()),
-  fetchInterests: () => dispatch(fetchTags(ActionTypes.INTERESTS_REQUEST)),
+  getTags: () => dispatch(fetchTags()),
 });
 
 class TagsList extends React.Component {
   componentWillMount() {
-    this.props.fetchActivities();
-    this.props.fetchInterests();
+    this.props.getTags();
   }
 
   render() {
-    const {activities, interests} = this.props;
+    const { tags } = this.props;
 
-    return (
-      <View style={styles.tagsList}>
-        <Text style={[styles.title]}>Activities</Text>
-        {this.renderTags(activities)}
-        <Text style={[styles.title]}>Interests</Text>
-        {this.renderTags(interests, true)}
-      </View>
-    )
+    return <View style={styles.tagsList}>{this.renderTags(tags)}</View>;
   }
 
-  renderTags(list, endOfList = false) {
-    if (list.length > 0) {
-      const listEnd = endOfList ? list[list.length - 1].id : -1;
-      return list.map(item => (
-        <Field name={'tags'} component={Tag} tag={item} isLastTag={listEnd === item.id} key={item.name}
-               onPress={(tag, category, actionType) => this.handlePressedTag(tag, category, actionType)}/>));
+  renderTags() {
+    const { tagsList } = this.props;
+    if (tagsList.length > 0) {
+      const listEnd = tagsList[tagsList.length - 1].id;
+      return tagsList.map(item => (
+        <Field
+          name={'tags'}
+          component={Tag}
+          tag={item}
+          isLastTag={listEnd === item.id}
+          key={item.name}
+          onPress={(tag, category, actionType) =>
+            this.handlePressedTag(tag, category, actionType)
+          }
+        />
+      ));
     }
   }
 
   handlePressedTag(tag, category, actionType) {
-    const {lovedTags, hatedTags, onChange} = this.props;
+    const { lovedTags, hatedTags, onChange } = this.props;
     const tagsArrays = [
       {
         list: lovedTags,
-        arrayName: 'lovedTags'
+        arrayName: 'lovedTags',
       },
       {
         list: hatedTags,
-        arrayName: 'hatedTags'
-      }
+        arrayName: 'hatedTags',
+      },
     ];
     let arrayIndex = 0;
     let nextSelectedTags;
@@ -85,4 +85,7 @@ class TagsList extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagsList)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TagsList);

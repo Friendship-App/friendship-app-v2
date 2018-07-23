@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import {colors, fonts, fontSizes, paddings} from "../../styles";
-import Tag from "../Tag";
+import { colors, fonts, fontSizes, paddings } from '../../styles';
+import Tag from '../Tag';
 
 const initialState = {
   yeahsTextColor: colors.DARK_BLUE,
@@ -15,21 +15,6 @@ export default class ShowTags extends Component {
   constructor() {
     super();
     this.state = initialState;
-  }
-
-  componentWillMount() {
-    const naahsActivities = this.props.hate.filter(e => e.category === 1);
-    const naahsInterests = this.props.hate.filter(e => e.category === 2);
-
-    const yeahActivities = this.props.love.filter(e => e.category === 1);
-    const yeahInterests = this.props.love.filter(e => e.category === 2);
-
-    this.setState({
-      yeahActivities,
-      naahsActivities,
-      yeahInterests,
-      naahsInterests,
-    });
   }
 
   //allow when we change the tab to have the good colors
@@ -78,52 +63,37 @@ export default class ShowTags extends Component {
     }
   }
 
-  renderTags(activities, interests) {
+  renderTags(tags) {
     const { tabIndex } = this.state;
     return (
-      <View style={{paddingTop: paddings.XXS}}>
-        <Text
-          style={tabIndex ? styles.tagCategoriesLove : styles.tagCategoriesHate}
-        >
-          ACTIVITIES
-        </Text>
-        <View style={styles.tagList}>
-          {activities.map(tag => (
-            <Tag key={tag.id} data={tag} dark={!tabIndex} />
-          ))}
-        </View>
-        <View style={{paddingTop: paddings.XXS}}>
-          <Text
-            style={tabIndex ? styles.tagCategoriesLove : styles.tagCategoriesHate}
-          >
-            INTERESTS
-          </Text>
-        </View>
-        {interests.length > 0 ? (
+      <View style={{ paddingTop: paddings.XXS }}>
+        {tags.length > 0 ? (
           <View style={styles.tagList}>
-            {interests.map(tag => (
-              <Tag key={tag.id} data={tag} dark={!tabIndex} />
-            ))}
+            {tags.map(tag => <Tag key={tag.id} data={tag} dark={!tabIndex} />)}
           </View>
         ) : (
-          <Text style={[styles.tagCategoriesLove, {paddingTop: paddings.XS, paddingBottom: paddings.SM}]}>No interests mentioned yet.</Text>
+          <Text
+            style={[
+              styles.tagCategoriesLove,
+              { paddingTop: paddings.XS, paddingBottom: paddings.SM },
+            ]}
+          >
+            No interests mentioned yet.
+          </Text>
         )}
       </View>
     );
   }
 
   render = () => {
-    let activities;
-    let interests;
+    let tags;
 
     switch (this.state.tabIndex) {
       case true:
-        activities = this.state.yeahActivities;
-        interests = this.state.yeahInterests;
+        tags = this.props.love;
         break;
       default:
-        activities = this.state.naahsActivities;
-        interests = this.state.naahsInterests;
+        tags = this.props.hate;
     }
     return (
       <View
@@ -131,11 +101,16 @@ export default class ShowTags extends Component {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: colors.LIGHT_GREY,
-          paddingBottom: paddings.LG
+          paddingBottom: paddings.LG,
         }}
       >
         <View
-          style={{ display: 'flex', flexDirection: 'row', marginBottom: 20, paddingTop: paddings.XS }}
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            marginBottom: 20,
+            paddingTop: paddings.XS,
+          }}
         >
           <TouchableOpacity
             style={{
@@ -144,7 +119,7 @@ export default class ShowTags extends Component {
               borderBottomWidth: this.state.tabIndex ? 4 : 0,
               paddingBottom: paddings.XXS,
               paddingTop: paddings.XS,
-              marginHorizontal: paddings.LG
+              marginHorizontal: paddings.LG,
             }}
             onPress={() => {
               if (!this.state.tabIndex) {
@@ -193,7 +168,7 @@ export default class ShowTags extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-        {this.renderTags(activities, interests)}
+        {this.renderTags(tags)}
         {this.renderSendMsg()}
       </View>
     );

@@ -24,17 +24,17 @@ class MessagesList extends React.Component {
 
   renderItem = ({ item }) => {
     const textAlign =
-      item.user_id === this.props.currentUserId ? 'right' : 'left';
+      item.senderId === this.props.currentUserId ? 'right' : 'left';
     const messageCardStyle =
-      item.user_id === this.props.currentUserId
+      item.senderId === this.props.currentUserId
         ? styles.SendCard
         : styles.ReceiveCard;
     const CardMargin =
-      item.user_id === this.props.currentUserId
+      item.senderId === this.props.currentUserId
         ? { marginRight: 20 }
         : { marginLeft: 20 };
 
-    let time = this.getMessageTime(item.chat_time);
+    let time = this.getMessageTime(item.chatTime);
 
     return (
       <View
@@ -44,7 +44,7 @@ class MessagesList extends React.Component {
           { display: 'flex', flexDirection: 'row' },
         ]}
       >
-        {item.user_id === this.props.currentUserId ? null : (
+        {item.senderId === this.props.currentUserId ? null : (
           <Image
             source={require('../../../assets/chatBubble/chatBubbleOther.png')}
             style={{ tintColor: colors.MEDIUM_GREY }}
@@ -62,10 +62,10 @@ class MessagesList extends React.Component {
             {time}
           </Text>
           <Text style={{ color: '#4a4a4a', textAlign }}>
-            {item.text_message}
+            {item.textMessage}
           </Text>
         </View>
-        {item.user_id === this.props.currentUserId ? (
+        {item.senderId === this.props.currentUserId ? (
           <Image
             source={require('../../../assets/chatBubble/chatBubbleMe.png')}
             style={{ tintColor: colors.ORANGE }}

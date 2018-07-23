@@ -19,3 +19,6 @@ yarn-error.log*
 # Ignore JetBrain files
 .idea
 *.iml
+
+# Mac Files
+.DS_Store

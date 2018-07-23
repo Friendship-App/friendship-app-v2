@@ -121,6 +121,9 @@ class EventForm extends Component {
       time,
     } = this.state;
 
+    // console.log(`${date}${time}`);
+    // console.log(moment(`${date}T${time}`));
+
     let eventData = {
       title,
       description,

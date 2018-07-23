@@ -1,16 +1,33 @@
 import React from 'react';
-import {TouchableOpacity, View, Text, Image, TouchableWithoutFeedback} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {colors, fonts, fontSizes, paddings} from "../../styles";
+import { colors, fonts, fontSizes, paddings } from '../../styles';
 import personalities from '../../../assets/img/personalities';
-import styles from "./styles";
+import styles from './styles';
 
 const Personality = props => {
-  const {personality, small, edit, selected, onPress} = props;
+  const { personality, small, edit, selected, onPress } = props;
   const imgStyle = small ? styles.smallImage : styles.image;
-  let img = personality.toLowerCase().trim().replace(/-/g, '').replace(' ', '');
+  let img = personality
+    .toLowerCase()
+    .trim()
+    .replace(/-/g, '')
+    .replace(' ', '');
   return (
-    <View style={{alignItems: 'center'}}>
+    <View
+      style={{
+        alignItems: 'center',
+        paddingRight: props.isLast ? 0 : paddings.SM,
+        minWidth: 90,
+        paddingBottom: paddings.SM,
+      }}
+    >
       {edit && selected ? (
         <Icon
           name="md-checkmark-circle"
@@ -19,12 +36,20 @@ const Personality = props => {
           style={{ position: 'absolute', top: 0, left: 0 }}
         />
       ) : null}
-      <TouchableOpacity style={{marginBottom: paddings.XS}} onPress={onPress}>
-        <Image source={personalities[img]} style={[imgStyle]}/>
+      <TouchableOpacity style={{ marginBottom: paddings.XS }} onPress={onPress}>
+        <Image source={personalities[img]} style={[imgStyle]} />
       </TouchableOpacity>
-      <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: fontSizes.MEDIUM_SMALL, color: small ? colors.DARK_BLACK : colors.LIGHT_GREY}}>{personality.toUpperCase()}</Text>
+      <Text
+        style={{
+          fontFamily: fonts.SEMI_BOLD,
+          fontSize: fontSizes.MEDIUM_SMALL,
+          color: small ? colors.DARK_BLACK : colors.LIGHT_GREY,
+        }}
+      >
+        {personality.toUpperCase()}
+      </Text>
     </View>
-  )
+  );
 };
 
 export default Personality;

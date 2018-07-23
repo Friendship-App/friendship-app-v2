@@ -9,7 +9,9 @@ const renderItem = (item, userId, index) => {
   let userParticipate = false;
   if (item.participants > 0) {
     item.participantsDetails.map(participant => {
-      userParticipate = participant.userId === userId;
+      if (!userParticipate) {
+        userParticipate = participant.id === userId;
+      }
       if (userId !== item.hostId) {
         avatars.push(
           <Image

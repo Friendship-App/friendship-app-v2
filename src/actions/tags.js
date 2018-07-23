@@ -8,14 +8,14 @@ import {
 export const ActionTypes = {
   TAGS_FOR_USER_REQUEST: 'TAGS_FOR_USER_REQUEST',
   TAGS_FOR_USER_RECEIVED: 'TAGS_FOR_USER_RECEIVED',
-  ACTIVITIES_REQUEST: 'ACTIVITIES_REQUEST',
-  INTERESTS_REQUEST: 'INTERESTS_REQUEST',
-  ACTIVITIES_RECEIVE: 'ACTIVITIES_RECEIVE',
-  INTERESTS_RECEIVE: 'INTERESTS_RECEIVE',
-  TAGS_FAILED: 'TAGS_FAILED',
+
+  TAGS_REQUEST: 'TAGS_REQUEST',
+  TAGS_RECEIVE: 'TAGS_RECEIVE',
 
   MY_TAGS_REQUEST: 'MY_TAGS_REQUEST',
   MY_TAGS_RECEIVED: 'MY_TAGS_RECEIVED',
+
+  TAGS_FAILED: 'TAGS_FAILED',
 };
 
 export function requestTags(type) {
@@ -24,17 +24,10 @@ export function requestTags(type) {
   };
 }
 
-export function receiveActivities(activitiesList) {
+export function receiveTags(tags) {
   return {
-    type: ActionTypes.ACTIVITIES_RECEIVE,
-    activitiesList,
-  };
-}
-
-export function receiveInterests(interestsList) {
-  return {
-    type: ActionTypes.INTERESTS_RECEIVE,
-    interestsList,
+    type: ActionTypes.TAGS_RECEIVE,
+    tags,
   };
 }
 
@@ -55,25 +48,18 @@ export function failRequestTags() {
   };
 }
 
-export function fetchTags(type = ActionTypes.ACTIVITIES_REQUEST) {
-  const endpoint =
-    type === ActionTypes.ACTIVITIES_REQUEST ? 'activities' : 'interests';
-
+export function fetchTags() {
   return async (dispatch, getState) => {
     const { tags } = getState();
 
-    if (!tags.isLoading) {
-      dispatch(requestTags(type));
+    if (!tags.isLoadingTags) {
+      dispatch(requestTags(ActionTypes.TAGS_REQUEST));
       try {
-        const resp = await fetch(`${apiRoot}/tags/${endpoint}`);
+        const resp = await fetch(`${apiRoot}/tags`);
 
         if (resp.ok) {
           const data = await resp.json();
-          dispatch(
-            type === ActionTypes.ACTIVITIES_REQUEST
-              ? receiveActivities(data)
-              : receiveInterests(data),
-          );
+          dispatch(receiveTags(data));
         } else {
           throw Error;
         }
@@ -98,7 +84,9 @@ export function fetchUserTags(userId) {
       );
       try {
         const resp = await fetch(
-          `${apiRoot}/tags?userId=${userId ? userId : auth.data.decoded.id}`,
+          `${apiRoot}/tagsForUser?userId=${
+            userId ? userId : auth.data.decoded.id
+          }`,
           {
             method: 'GET',
             Accept: 'application/json',

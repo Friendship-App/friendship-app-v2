@@ -21,12 +21,13 @@ class Profile extends React.Component {
     const userPersonalities = myProfile
       ? personalities.myPersonalities
       : personalities.personalitiesList;
-    const personalitiesArray = userPersonalities.map(personality => {
+    const personalitiesArray = userPersonalities.map((personality, index) => {
       return (
         <Personality
           key={personality.id}
           personality={personality.name}
           small={true}
+          isLast={index === userPersonalities.length - 1}
         />
       );
     });
@@ -39,7 +40,8 @@ class Profile extends React.Component {
           paddingHorizontal:
             Dimensions.get('window').width <= 320 ? paddings.XS : paddings.MD,
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
         }}
       >
         {personalitiesArray.length > 0 ? (

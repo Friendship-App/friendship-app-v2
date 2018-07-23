@@ -1,26 +1,18 @@
 import { ActionTypes } from '../actions/tags';
 
 export const initialState = {
-  isLoadingActivities: false,
-  isLoadingInterests: false,
+  isLoadingTags: false,
   isLoading: false,
   isLoadingMyTags: false,
-  activitiesList: [],
-  interestsList: [],
+  tagsList: [],
 };
 
 export default function tags(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.ACTIVITIES_REQUEST:
+    case ActionTypes.TAGS_REQUEST:
       return {
         ...state,
-        isLoadingActivities: true,
-      };
-
-    case ActionTypes.INTERESTS_REQUEST:
-      return {
-        ...state,
-        isLoadingInterests: true,
+        isLoadingTags: true,
       };
 
     case ActionTypes.TAGS_FOR_USER_REQUEST:
@@ -29,18 +21,11 @@ export default function tags(state = initialState, action) {
         isLoading: true,
       };
 
-    case ActionTypes.ACTIVITIES_RECEIVE:
+    case ActionTypes.TAGS_RECEIVE:
       return {
         ...state,
-        activitiesList: action.activitiesList,
-        isLoadingActivities: false,
-      };
-
-    case ActionTypes.INTERESTS_RECEIVE:
-      return {
-        ...state,
-        interestsList: action.interestsList,
-        isLoadingInterests: false,
+        tagsList: action.tags,
+        isLoadingTags: false,
       };
 
     case ActionTypes.TAGS_FOR_USER_RECEIVED:

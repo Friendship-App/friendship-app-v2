@@ -66,6 +66,10 @@ const mapStateToProps = state => ({
 });
 
 class HeaderContainer extends Component {
+  state = {
+    showModal: false,
+  };
+
   render() {
     return (
       <Header
@@ -164,49 +168,33 @@ class HeaderContainer extends Component {
         if (!this.props.nav.isTransitioning) {
           const {
             chatroomId,
-            fromEvent,
-            eventTitle,
+            isEventChatroom,
+            participantId,
             eventId,
-            eventImage,
+            image,
+            title,
+            fromEvent,
+            fromProfile,
           } = this.props.nav.routes[this.props.nav.index].params;
-          const { chatrooms } = this.props.chatrooms;
-          const userId = this.props.auth.data.decoded.id;
-          let data;
-          for (let i = 0; i < chatrooms.length; i++) {
-            if (chatrooms[i].id === chatroomId) {
-              if (chatrooms[i].isEvent) {
-                data = { ...chatrooms[i].eventDetails, isEvent: true };
-              } else {
-                let person = chatrooms[i].participantsData.find(
-                  participant => participant.id !== userId,
-                );
-                data = { ...person, isEvent: false };
-              }
-            }
-          }
-          if (!data) {
-            data = { eventTitle, eventId, eventImage, isEvent: true };
-          }
 
           return (
             <TouchableOpacity
               style={{ flexDirection: 'row', alignItems: 'center' }}
-              disabled={fromEvent}
+              disabled={fromEvent || fromProfile}
               onPress={() => {
-                data.isEvent
+                isEventChatroom
                   ? console.log('event...')
-                  : this.props.openProfile(data.id);
+                  : this.props.openProfile(participantId);
               }}
             >
               <Image
-                source={{ uri: data.isEvent ? data.eventImage : data.avatar }}
+                source={{ uri: image }}
                 style={[
-                  { width: 35, height: 35, marginRight: 5 },
-                  { borderRadius: data.isEvent ? 17 : 0 },
+                  { width: 35, height: 35, marginRight: 5, borderRadius: 17 },
                 ]}
               />
               <Text style={{ fontFamily: 'NunitoSans-Regular', fontSize: 15 }}>
-                {data.isEvent ? data.eventTitle : data.username}
+                {title}
               </Text>
             </TouchableOpacity>
           );

@@ -1,5 +1,6 @@
 import apiRoot from '../utils/api.config';
 import { NavigationActions, StackActions } from 'react-navigation';
+import { fetchChatroomMessages, fetchChatrooms } from './chatrooms';
 
 export const ActionTypes = {
   EVENTS_REQUEST_FAILED: 'EVENTS_REQUEST_FAILED',
@@ -111,6 +112,7 @@ export function createEvent(eventForm) {
           const data = await resp.json();
           dispatch(eventCreated());
           dispatch(fetchEventDetails(data.id));
+          dispatch(fetchChatrooms());
           dispatch(
             StackActions.reset({
               index: 1,
@@ -118,7 +120,13 @@ export function createEvent(eventForm) {
                 NavigationActions.navigate({ routeName: 'Home' }),
                 NavigationActions.navigate({
                   routeName: 'EventDetails',
-                  params: { userParticipate: true },
+                  params: {
+                    userParticipate: true,
+                    chatroomId: data.chatroomId,
+                    eventTitle: data.title,
+                    eventId: data.id,
+                    eventImage: data.eventImage,
+                  },
                 }),
               ],
             }),

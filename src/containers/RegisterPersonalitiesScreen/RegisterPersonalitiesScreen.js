@@ -1,15 +1,19 @@
 import React from 'react';
-import PersonalitiesForm from "../../components/PersonalitiesForm";
-import {connect} from "react-redux";
-import {reduxForm, SubmissionError} from "redux-form";
-import {NavigationActions} from "react-navigation";
+import PersonalitiesForm from '../../components/PersonalitiesForm';
+import { connect } from 'react-redux';
+import { reduxForm, SubmissionError } from 'redux-form';
+import { NavigationActions } from 'react-navigation';
 
 const mapDispatchToProps = dispatch => ({
-  goToUserInformationForm: () => dispatch(NavigationActions.navigate({routeName: 'Tags'}))
+  goToUserTagsForm: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'Tags' })),
 });
 
 const RegisterPersonalitiesScreen = props => (
-  <PersonalitiesForm handleSubmit={(data) => props.handleSubmit(data)} change={props.change}/>
+  <PersonalitiesForm
+    handleSubmit={data => props.handleSubmit(data)}
+    change={props.change}
+  />
 );
 
 function validatePersonalities(values) {
@@ -20,14 +24,17 @@ function validatePersonalities(values) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(
+export default connect(
+  null,
+  mapDispatchToProps,
+)(
   reduxForm({
     form: 'register',
     destroyOnUnmount: false,
     forceUnregisterOnUnmount: true,
     onSubmit: validatePersonalities,
     onSubmitSuccess: (result, dispatch, props) => {
-      props.goToUserInformationForm();
-    }
-  })(RegisterPersonalitiesScreen)
+      props.goToUserTagsForm();
+    },
+  })(RegisterPersonalitiesScreen),
 );

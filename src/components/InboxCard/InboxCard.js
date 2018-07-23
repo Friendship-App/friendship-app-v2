@@ -10,14 +10,18 @@ import { fetchChatroomMessages, updateMessages } from '../../actions/chatrooms';
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  chatrooms: state.chatrooms,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateReadMessages: chatroomId => dispatch(updateMessages(chatroomId)),
-  openChatView: chatroomId => {
+  openChatView: (chatroomId, isEventChatroom, image, title, participantId) => {
     dispatch(fetchChatroomMessages(chatroomId));
     dispatch(
-      NavigationActions.navigate({ routeName: 'Chat', params: { chatroomId } }),
+      NavigationActions.navigate({
+        routeName: 'Chat',
+        params: { chatroomId, isEventChatroom, image, title, participantId },
+      }),
     );
   },
 });
@@ -66,9 +70,37 @@ class InboxCard extends React.Component {
     return this.getMessageTime(lastMessageTime);
   };
 
+  handlePress = () => {
+    const { chatroomId, isEventChatroom, participantsData } = this.props.data;
+    const userId = this.props.auth.data.decoded.id;
+    let image, title, participantId;
+    if (!isEventChatroom) {
+      const participant = participantsData.find(
+        participant => participant.id !== userId,
+      );
+      image = participant.image;
+      title = participant.username;
+      participantId = participant.id;
+    }
+    disableTouchableOpacity(this);
+    this.props.updateReadMessages(chatroomId);
+    this.props.openChatView(
+      chatroomId,
+      isEventChatroom,
+      image,
+      title,
+      participantId,
+    );
+  };
+
   render() {
     // const { creator, receiver, messages, event } = this.props.data;
-    const { unreadMessages, lastMessage, isEvent, id } = this.props.data;
+    const {
+      unreadMessages,
+      lastMessage,
+      isEventChatroom,
+      chatroomId,
+    } = this.props.data;
 
     let time, unreadMessagesText, username, avatar;
 
@@ -77,25 +109,21 @@ class InboxCard extends React.Component {
     unreadMessagesText =
       unreadMessages > 0 ? `( ${unreadMessages} unread messages )` : '';
 
-    if (isEvent) {
+    if (isEventChatroom) {
       console.log(this.props);
-      username = '';
-      avatar = '';
+      username = this.props.data.eventData.title;
+      avatar = this.props.data.eventData.eventImage;
     } else {
       const otherParticipant = this.props.data.participantsData.find(
         participant => participant.id !== this.props.auth.data.decoded.id,
       );
       username = otherParticipant.username;
-      avatar = otherParticipant.avatar;
+      avatar = otherParticipant.image;
     }
 
     return (
       <TouchableOpacity
-        onPress={() => {
-          disableTouchableOpacity(this);
-          this.props.updateReadMessages(id);
-          this.props.openChatView(id);
-        }}
+        onPress={this.handlePress}
         disabled={this.state.disabled}
         style={styles.inboxCard}
       >

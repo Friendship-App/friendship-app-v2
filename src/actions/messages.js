@@ -46,7 +46,7 @@ export function sendMessage(chatroomId, textMessage, receiverId) {
       if (resp.ok) {
         const data = await resp.json();
         dispatch(messageSent());
-        dispatch(fetchChatroomMessages(data.chatroom_id));
+        dispatch(fetchChatroomMessages(data.chatroomId));
         dispatch(fetchChatrooms());
       } else {
         throw Error;

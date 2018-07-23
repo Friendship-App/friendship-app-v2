@@ -32,14 +32,11 @@ const routes = {
     screen: PeopleProfileScreen,
     navigationOptions: {
       header: null,
-      tabBarVisible: false,
     },
   },
   EventForm: {
     screen: EventFormScreen,
-    navigationOptions: {
-      tabBarVisible: false,
-    },
+    navigationOptions: {},
   },
   EventDetails: {
     screen: EventDetailsScreen,

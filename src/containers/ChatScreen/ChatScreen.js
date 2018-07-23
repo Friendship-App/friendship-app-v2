@@ -31,19 +31,22 @@ class ChatScreen extends React.Component {
   };
 
   sendMessage = () => {
+    console.log(this.props.navigation.state.params.chatroomId);
     const chatroomId = this.props.navigation.state.params.chatroomId;
     const textMessage = this.state.text;
     const receiverId = [];
     const chatroom = this.props.chatrooms.chatrooms.find(
-      chatroom => chatroom.id === chatroomId,
+      chatroom => chatroom.chatroomId === chatroomId,
     );
     const { participantsData } = chatroom;
-    participantsData.map(participant => {
-      if (participant.id !== this.props.currentUserId) {
-        receiverId.push(participant.id);
-      }
-    });
-    console.log(receiverId);
+    console.log(participantsData);
+    if (participantsData) {
+      participantsData.map(participant => {
+        if (participant.id !== this.props.currentUserId) {
+          receiverId.push(participant.id);
+        }
+      });
+    }
     this.props.sendMessage(chatroomId, textMessage, receiverId);
     socket.emit('message', {
       chatroomId,

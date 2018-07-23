@@ -2,11 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions, StackActions } from 'react-navigation';
 import Welcome from '../../components/Welcome';
-import { fetchBatchUsers, fetchUserInformation } from '../../actions/users';
-import { fetchUserTags } from '../../actions/tags';
-import { fetchUserPersonalities } from '../../actions/personalities';
-import { fetchChatrooms } from '../../actions/chatrooms';
-import { fetchEvents } from '../../actions/events';
+import { refresh } from '../../actions/refresh';
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -17,19 +13,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(NavigationActions.navigate({ routeName: 'Locations' })),
   login: () => dispatch(NavigationActions.navigate({ routeName: 'Login' })),
   openApp: () => {
-    // Load user details
-    dispatch(fetchUserInformation());
-    dispatch(fetchUserTags());
-    dispatch(fetchUserPersonalities());
-
-    // Load people
-    dispatch(fetchBatchUsers(0));
-
-    // Load chatrooms
-    dispatch(fetchChatrooms());
-
-    // Load events
-    dispatch(fetchEvents());
+    dispatch(refresh());
     return dispatch(
       StackActions.reset({
         index: 0,
