@@ -33,7 +33,7 @@ export default connect(
     form: 'updateAccount',
     destroyOnUnmount: false,
     forceUnregisterOnUnmount: true,
-    onSubmit: (value, dispatch) => validateUserInformation(value, dispatch),
+    onSubmit: (value, dispatch) => console.log(value),
     onSubmitSuccess: (result, dispatch, props) => {
       console.log(result);
     },
