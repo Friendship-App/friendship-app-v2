@@ -2,7 +2,7 @@ import React from 'react';
 import EditAccount from '../../components/EditAccount';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { validateUserInformation } from '../../utils/reduxValidations';
+import { validateUserInformation } from '../RegisterUserInformationScreen/validation';
 
 const mapStateToProps = state => ({
   myDetails: state.users.myDetails.data,

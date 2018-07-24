@@ -7,9 +7,6 @@ import {
 } from 'react-navigation-redux-helpers';
 import routes from '../routes';
 import { BackHandler } from 'react-native';
-import { registerForPushNotificationsAsync } from '../utils/notifications';
-import { fetchChatrooms } from '../actions/chatrooms';
-import { socket } from '../utils/socket';
 
 const RootNavigator = createStackNavigator(routes);
 
@@ -37,9 +34,6 @@ const mapStateToProps = state => ({
 class Navigator extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-    // if (this.props.auth.data.decoded) {
-    //   registerForPushNotificationsAsync(this.props.auth.data.decoded.id);
-    // }
   }
 
   componentWillUnmount() {

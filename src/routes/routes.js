@@ -90,7 +90,10 @@ const routes = {
     screen: RegisterPersonalitiesScreen,
     navigationOptions: { header: null },
   },
-  Tags: { screen: RegisterTagsScreen, navigationOptions: { header: null } },
+  Tags: {
+    screen: RegisterTagsScreen,
+    navigationOptions: { header: null },
+  },
   Description: {
     screen: RegisterDescriptionScreen,
     navigationOptions: { header: null },

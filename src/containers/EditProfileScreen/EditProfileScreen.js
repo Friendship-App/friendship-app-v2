@@ -1,8 +1,10 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { validateUserInformation } from '../../utils/reduxValidations';
+import { NavigationActions } from 'react-navigation';
 import EditProfile from '../../components/EditProfile';
+import { validateUpdateUserProfile } from './validation';
+import { refreshMyInformation } from '../../actions/refresh';
 
 const mapStateToProps = state => ({
   myDetails: state.users.myDetails.data,
@@ -49,6 +51,7 @@ const EditProfileScreen = props => {
       initialize={props.initialize}
       dispatch={props.dispatch}
       handleSubmit={data => props.handleSubmit(data)}
+      hasChanged={props.dirty}
     />
   );
 };
@@ -61,9 +64,10 @@ export default connect(
     form: 'updateProfile',
     destroyOnUnmount: false,
     forceUnregisterOnUnmount: true,
-    onSubmit: (value, dispatch) => console.log(value),
+    onSubmit: (value, dispatch) => validateUpdateUserProfile(value, dispatch),
     onSubmitSuccess: (result, dispatch, props) => {
-      console.log(result);
+      dispatch(refreshMyInformation());
+      dispatch(NavigationActions.back());
     },
   })(EditProfileScreen),
 );

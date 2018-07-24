@@ -181,7 +181,11 @@ class EditProfile extends Component {
           {renderBirthYearAndGenderFields(this.props)}
           {renderPicturePicker(this.props.initialValues.image)}
         </ScrollView>
-        <Footer color="blue" onPress={this.props.handleSubmit}>
+        <Footer
+          disabled={!this.props.hasChanged}
+          color="blue"
+          onPress={this.props.handleSubmit}
+        >
           <Text style={styles.next}>Update</Text>
         </Footer>
       </KeyboardAvoidingView>
