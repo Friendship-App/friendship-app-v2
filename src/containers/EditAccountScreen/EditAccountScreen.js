@@ -18,6 +18,7 @@ const EditAccountScreen = props => {
       initialValues={initialValues}
       initialize={props.initialize}
       dispatch={props.dispatch}
+      handleSubmit={data => props.handleSubmit(data)}
     />
   );
 };

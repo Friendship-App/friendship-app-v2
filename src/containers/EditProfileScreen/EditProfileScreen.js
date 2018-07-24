@@ -48,6 +48,7 @@ const EditProfileScreen = props => {
       initialValues={initialValues}
       initialize={props.initialize}
       dispatch={props.dispatch}
+      handleSubmit={data => props.handleSubmit(data)}
     />
   );
 };
