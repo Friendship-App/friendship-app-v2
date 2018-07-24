@@ -56,7 +56,7 @@ class AvatarList extends React.Component {
   _keyExtractor = (item, index) => `avatarList-${item.id}`;
 
   renderAvatars(input) {
-    return this.props.avatars.avatarsList.map(avatar => (
+    return this.props.avatars.avatarsList.map((avatar, index) => (
       <Avatar
         updateAvatar={newAvatar => {
           let result = this.checkAvatar(newAvatar);
@@ -67,6 +67,7 @@ class AvatarList extends React.Component {
         key={this._keyExtractor(avatar)}
         avatar={avatar.uri}
         selected={this.state.avatar === avatar.uri}
+        first={index === 0}
       />
     ));
   }
@@ -76,8 +77,6 @@ const styles = {
   scrollViewMoodContainer: {
     justifyContent: 'space-around',
     height: 70,
-    paddingRight: 23,
-    /*paddingLeft: 23,*/
   },
 };
 
