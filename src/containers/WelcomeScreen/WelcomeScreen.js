@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions, StackActions } from 'react-navigation';
 import Welcome from '../../components/Welcome';
-import { refresh } from '../../actions/refresh';
+import { refresh, refreshMyInformation } from '../../actions/refresh';
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -14,6 +14,7 @@ const mapDispatchToProps = dispatch => ({
   login: () => dispatch(NavigationActions.navigate({ routeName: 'Login' })),
   openApp: () => {
     dispatch(refresh());
+    dispatch(refreshMyInformation());
     return dispatch(
       StackActions.reset({
         index: 0,
