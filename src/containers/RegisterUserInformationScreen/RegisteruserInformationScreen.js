@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import UserInformationForm from '../../components/UserInformationForm';
-import { validateUserInformation } from '../../utils/reduxValidations';
+import { validateUserInformation } from './validation';
 
 const mapDispatchToProps = dispatch => ({
   goToPersonalitiesScreen: () =>

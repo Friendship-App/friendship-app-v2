@@ -42,9 +42,9 @@ function renderFields(fields) {
 }
 
 function renderUsernameEmailAndPasswordFields(props) {
-  const { invalid, dispatch } = props;
+  const { submitFailed, invalid, dispatch } = props;
   let username, email, password;
-  if (invalid) {
+  if (submitFailed && invalid) {
     username = props.register.submitErrors.username;
     email = props.register.submitErrors.email;
     password = props.register.submitErrors.password;
@@ -91,9 +91,9 @@ function renderUsernameEmailAndPasswordFields(props) {
 }
 
 function renderBirthYearAndGenderFields(props) {
-  const { invalid } = props;
+  const { submitFailed, invalid } = props;
   let birthyear, genders;
-  if (invalid) {
+  if (submitFailed && invalid) {
     birthyear = props.register.submitErrors.birthyear;
     genders = props.register.submitErrors.genders;
   }

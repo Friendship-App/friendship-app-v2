@@ -3,6 +3,7 @@ import PersonalitiesForm from '../../components/PersonalitiesForm';
 import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import { NavigationActions } from 'react-navigation';
+import { validatePersonalities } from './validation';
 
 const mapDispatchToProps = dispatch => ({
   goToUserTagsForm: () =>
@@ -15,14 +16,6 @@ const RegisterPersonalitiesScreen = props => (
     change={props.change}
   />
 );
-
-function validatePersonalities(values) {
-  if (values.personalities.length <= 0) {
-    throw new SubmissionError({
-      _error: 'Login failed !',
-    });
-  }
-}
 
 export default connect(
   null,
