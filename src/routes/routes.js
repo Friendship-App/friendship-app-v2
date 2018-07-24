@@ -14,6 +14,7 @@ import ChatScreen from '../containers/ChatScreen';
 
 import React from 'react';
 import HeaderContainer from '../containers/HeaderContainer';
+import EditProfileScreen from '../containers/EditProfileScreen';
 
 const routes = {
   WelcomeScreen: {
@@ -60,6 +61,12 @@ const routes = {
     screen: ChatScreen,
     navigationOptions: {
       header: <HeaderContainer left={'back'} color={'light'} right={'chat'} />,
+    },
+  },
+  EditProfile: {
+    screen: EditProfileScreen,
+    navigationOptions: {
+      header: <HeaderContainer left={'white-back'} color={'transparent'} />,
     },
   },
 
