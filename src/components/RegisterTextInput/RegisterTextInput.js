@@ -1,11 +1,23 @@
 import React from 'react';
-import {Text, TextInput, View} from "react-native";
-import {Field} from "redux-form";
+import { Text, TextInput, View } from 'react-native';
+import { Field } from 'redux-form';
 import styles from './styles';
 
 class RegisterTextInput extends React.Component {
-  render () {
-    const {name, returnKeyType, placeholder, onChangeText, navigate, reference, onContentSizeChange, keyboardType = 'default', secureTextEntry = false, helperText = undefined, err = undefined} = this.props;
+  render() {
+    const {
+      name,
+      returnKeyType,
+      placeholder,
+      onChangeText,
+      navigate,
+      reference,
+      value = '',
+      keyboardType = 'default',
+      secureTextEntry = false,
+      helperText = undefined,
+      err = undefined,
+    } = this.props;
     return (
       <View style={styles.textInput}>
         <Field
@@ -14,7 +26,7 @@ class RegisterTextInput extends React.Component {
           name={name}
           component={TextInput}
           autoCorrect={false}
-          autoCapitalize='none'
+          autoCapitalize="none"
           keyboardType={keyboardType}
           returnKeyType={returnKeyType}
           underlineColorAndroid="transparent"
@@ -24,9 +36,12 @@ class RegisterTextInput extends React.Component {
           onSubmitEditing={navigate}
           ref={reference}
           style={styles.field}
+          defaultValue={value}
         />
-        <View style={styles.horizontalLine}/>
-        {helperText ? (<Text style={styles.helperText}>{helperText}</Text>) : null}
+        <View style={styles.horizontalLine} />
+        {helperText ? (
+          <Text style={styles.helperText}>{helperText}</Text>
+        ) : null}
         {err ? <Text style={[styles.warning]}>{err}</Text> : null}
       </View>
     );
