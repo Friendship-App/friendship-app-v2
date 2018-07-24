@@ -7,7 +7,7 @@ import { fetchChatrooms } from './chatrooms';
 import { fetchEvents } from './events';
 import { fetchUserTags } from './tags';
 import { fetchUserPersonalities } from './personalities';
-import { refresh } from './refresh';
+import { refresh, refreshMyInformation } from './refresh';
 
 export const ActionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
@@ -78,6 +78,7 @@ export function login(email, password, screenName) {
           }),
         );
         dispatch(refresh());
+        dispatch(refreshMyInformation());
 
         if (screenName) {
           dispatch(NavigationActions.navigate({ routeName: screenName }));
