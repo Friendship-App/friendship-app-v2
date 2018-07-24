@@ -10,8 +10,9 @@ const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(logOut()),
   openEditProfile: () =>
     dispatch(NavigationActions.navigate({ routeName: 'EditProfile' })),
-  openEditPersonalities: () => console.log('open edit personalities'),
-  openEditTags: () => console.log('open edit tags'),
+  openEditMatchingInfo: () => console.log('open edit personalities'),
+  openEditAccount: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'EditAccount' })),
 });
 
 const getTitle = modalType => {
@@ -28,7 +29,7 @@ class ActionsModal extends Component {
         title: 'MATCHING INFO',
         onPress: async () => {
           await this.props.close();
-          this.props.openEditPersonalities();
+          this.props.openEditMatchingInfo();
         },
       },
       {
@@ -42,7 +43,7 @@ class ActionsModal extends Component {
         title: 'ACCOUNT',
         onPress: async () => {
           await this.props.close();
-          this.props.openEditTags();
+          this.props.openEditAccount();
         },
       },
       {
