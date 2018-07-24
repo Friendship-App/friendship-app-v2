@@ -1,12 +1,19 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import GenderBox from '../GenderBox';
-import {paddings} from "../../styles";
+import { paddings } from '../../styles';
 
 export default class Genders extends React.Component {
   state = {
     selectedGenders: [],
   };
+
+  componentWillMount() {
+    const { editProfile, selectedGenders } = this.props;
+    if (editProfile) {
+      this.setState({ selectedGenders });
+    }
+  }
 
   updateGenders(value, input) {
     let newSelectedGenders = this.state.selectedGenders;
@@ -17,11 +24,11 @@ export default class Genders extends React.Component {
       newSelectedGenders.splice(newSelectedGenders.indexOf(value), 1);
     }
     input.onChange(newSelectedGenders);
-    this.setState({selectedGenders: newSelectedGenders});
+    this.setState({ selectedGenders: newSelectedGenders });
   }
 
   render() {
-    const {input} = this.props;
+    const { input } = this.props;
     return (
       <View
         style={{
@@ -29,58 +36,39 @@ export default class Genders extends React.Component {
           marginVertical: paddings.MD,
         }}
       >
-        <View style={{flexDirection: 'row', marginBottom: paddings.SM}}>
+        <View style={{ flexDirection: 'row', marginBottom: paddings.SM }}>
           <GenderBox
             updateGenders={() => this.updateGenders(1, input)}
             gender="WOMAN"
+            existingGenders={
+              this.props.editProfile ? this.state.selectedGenders : null
+            }
           />
           <GenderBox
             updateGenders={() => this.updateGenders(2, input)}
             gender="MAN"
+            existingGenders={
+              this.props.editProfile ? this.state.selectedGenders : null
+            }
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
           <GenderBox
             updateGenders={() => this.updateGenders(3, input)}
             gender="HUMAN"
+            existingGenders={
+              this.props.editProfile ? this.state.selectedGenders : null
+            }
           />
           <GenderBox
             updateGenders={() => this.updateGenders(4, input)}
             gender="OTHER"
+            existingGenders={
+              this.props.editProfile ? this.state.selectedGenders : null
+            }
           />
         </View>
-
-        {/*<GenderBoxContainer style={{ height: 44 }}>
-          <GenderBox
-            updateGenders={() => this.updateGenders(1, input)}
-            gender="WOMAN"
-          />
-          <GenderBox
-            updateGenders={() => this.updateGenders(2, input)}
-            gender="MAN"
-          />
-        </GenderBoxContainer>
-        <GenderBoxContainer style={{ height: 44, marginLeft: '38%' }}>
-          <GenderBox
-            updateGenders={() => this.updateGenders(3, input)}
-            gender="HUMAN"
-          />
-          <GenderBox
-            updateGenders={() => this.updateGenders(4, input)}
-            gender="OTHER"
-          />
-        </GenderBoxContainer>*/}
       </View>
     );
   }
 }
-
-/*
-const GenderBoxContainer = styled.View`
-  height: 44;
-  width: 100%;
-  margin-left: 26%;
-  flex-direction: row;
-  margin-top: 12;
-`;
-*/
