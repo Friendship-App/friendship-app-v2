@@ -1,22 +1,29 @@
 import React from 'react';
-import {KeyboardAvoidingView, ScrollView, Text, View, Dimensions} from "react-native";
-import {YOUR_PROFILE} from "../ProgressSteps";
-import RegisterHeader from "../RegisterHeader";
-import styles from "./styles";
-import Footer from "../Footer";
-import {change, Field} from "redux-form";
-import {connect} from "react-redux";
-import RegisterTextInput from "../RegisterTextInput";
-import {colors, fonts, paddings} from "../../styles";
-import GendersList from "../GendersList";
-import PicturePicker from "../PicturePicker";
-import AvatarList from "../AvatarList";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  View,
+  Dimensions,
+} from 'react-native';
+import { YOUR_PROFILE } from '../ProgressSteps';
+import RegisterHeader from '../RegisterHeader';
+import styles from './styles';
+import Footer from '../Footer';
+import { change, Field } from 'redux-form';
+import { connect } from 'react-redux';
+import RegisterTextInput from '../RegisterTextInput';
+import { colors, fonts, paddings } from '../../styles';
+import GendersList from '../GendersList';
+import PicturePicker from '../PicturePicker';
+import AvatarList from '../AvatarList';
 
 const mapStateToProps = state => ({
   register: state.form.register,
+  updateProfile: state.form.updateProfile,
 });
 
-function renderFields(fields, refs) {
+function renderFields(fields) {
   return fields.map(field => (
     <RegisterTextInput
       name={field.name}
@@ -30,21 +37,30 @@ function renderFields(fields, refs) {
       key={field.name}
       helperText={field.helperText}
       err={field.err}
+      value={field.value}
     />
-  ))
+  ));
 }
 
-function renderUsernameEmailAndPasswordFields(props, refs) {
+function renderUsernameEmailAndPasswordFields(props) {
+  const { invalid, dispatch } = props;
+  let username, email, password;
+  if (invalid) {
+    username = props.register.submitErrors.username;
+    email = props.register.submitErrors.email;
+    password = props.register.submitErrors.password;
+  }
+
   const fields = [
     {
       name: 'username',
       returnKeyType: 'next',
       placeholder: '(NICK)NAME',
       secureTextEntry: false,
-      onChangeText: values => props.dispatch(change('register', 'username', values)),
+      onChangeText: values => dispatch(change('register', 'username', values)),
       navigate: () => this._email.getRenderedComponent().focus(),
       helperText: '(visible)',
-      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.username : null
+      err: username,
     },
     {
       name: 'email',
@@ -52,33 +68,36 @@ function renderUsernameEmailAndPasswordFields(props, refs) {
       returnKeyType: 'next',
       placeholder: 'EMAIL*',
       secureTextEntry: false,
-      onChangeText: values => props.dispatch(change('register', 'email', values)),
+      onChangeText: values =>
+        props.dispatch(change('register', 'email', values)),
       navigate: () => this._password.getRenderedComponent().focus(),
       reference: field => (this._email = field),
       helperText: '(private)',
-      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.email : null
+      err: email,
     },
     {
       name: 'password',
       returnKeyType: 'next',
       placeholder: 'PASSWORD*',
       secureTextEntry: true,
-      onChangeText: values => props.dispatch(change('register', 'password', values)),
+      onChangeText: values =>
+        props.dispatch(change('register', 'password', values)),
       navigate: () => this._birthyear.getRenderedComponent().focus(),
       reference: field => (this._password = field),
-      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.password : null
+      err: password,
     },
   ];
 
-  return (
-    <View>
-      {renderFields(fields, refs)}
-    </View>
-  )
+  return <View>{renderFields(fields)}</View>;
 }
 
-
-function renderBirthYearAndGenderFields(props, refs) {
+function renderBirthYearAndGenderFields(props) {
+  const { invalid } = props;
+  let birthyear, genders;
+  if (invalid) {
+    birthyear = props.register.submitErrors.birthyear;
+    genders = props.register.submitErrors.genders;
+  }
   const fields = [
     {
       name: 'birthyear',
@@ -86,57 +105,93 @@ function renderBirthYearAndGenderFields(props, refs) {
       returnKeyType: 'done',
       placeholder: 'BIRTH YEAR*',
       secureTextEntry: false,
-      onChangeText: values => props.dispatch(change('register', 'birthyear', values)),
+      onChangeText: values =>
+        props.dispatch(change('register', 'birthyear', values)),
       reference: field => (this._birthyear = field),
       helperText: 'This will be displayed as age range',
-      err: props.register.submitFailed && props.register.submitErrors ? props.register.submitErrors.birthyear : null
+      err: birthyear,
     },
   ];
+
   return (
-    <View style={{backgroundColor: colors.DUST_WHITE}}>
-      {renderFields(fields, refs)}
-      <View style={{marginHorizontal: paddings.LG, marginVertical: paddings.MD,}}>
-        <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>GENDER*</Text>
-        <Text style={{fontFamily: fonts.LIGHT}}>(visible)</Text>
-        <Field name={'genders'} component={GendersList}/>
-        {props.register.submitFailed && props.register.submitErrors ? (
-          <Text style={[styles.warning]}>{props.register.submitErrors.genders}</Text>) : null}
+    <View style={{ backgroundColor: colors.DUST_WHITE }}>
+      {renderFields(fields)}
+      <View
+        style={{ marginHorizontal: paddings.LG, marginVertical: paddings.MD }}
+      >
+        <Text style={{ fontFamily: fonts.SEMI_BOLD, fontSize: 18 }}>
+          GENDER*
+        </Text>
+        <Text style={{ fontFamily: fonts.LIGHT }}>(visible)</Text>
+        <Field name={'genders'} component={GendersList} />
+        {invalid ? <Text style={[styles.warning]}>{genders}</Text> : null}
       </View>
     </View>
-  )
+  );
 }
 
 function renderPicturePicker() {
   return (
-    <View style={{marginHorizontal: paddings.LG, marginVertical: paddings.MD, paddingBottom: 100}}>
-      <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>ADD PHOTO</Text>
-      <Text style={{fontFamily: fonts.LIGHT}}>This can be a photo of anything you like</Text>
-      <Field name="image" component={PicturePicker}/>
+    <View
+      style={{
+        marginHorizontal: paddings.LG,
+        marginVertical: paddings.MD,
+        paddingBottom: 100,
+      }}
+    >
+      <Text style={{ fontFamily: fonts.SEMI_BOLD, fontSize: 18 }}>
+        ADD PHOTO
+      </Text>
+      <Text style={{ fontFamily: fonts.LIGHT }}>
+        This can be a photo of anything you like
+      </Text>
+      <Field name="image" component={PicturePicker} />
     </View>
-  )
+  );
 }
 
 function renderAvatarPicker() {
-  return(
-    <View style={{paddingLeft: paddings.LG, paddingVertical: paddings.MD, backgroundColor: colors.DUST_WHITE}}>
-      <Text style={{fontFamily: fonts.SEMI_BOLD, fontSize: 18}}>PICK YOUR AVATAR</Text>
+  return (
+    <View
+      style={{
+        paddingLeft: paddings.LG,
+        paddingVertical: paddings.MD,
+        backgroundColor: colors.DUST_WHITE,
+      }}
+    >
+      <Text style={{ fontFamily: fonts.SEMI_BOLD, fontSize: 18 }}>
+        PICK YOUR AVATAR
+      </Text>
       <Field name="avatar" component={AvatarList} />
     </View>
-  )
+  );
 }
 
 class UserInformationForm extends React.Component {
-  render () {
+  async componentWillMount() {
+    if (this.props.userValues) {
+      await this.props.initialize(this.props.userValues);
+    }
+  }
+
+  render() {
     return (
-      <KeyboardAvoidingView style={[styles.userInformationForm]} behavior="padding" enabled>
+      <KeyboardAvoidingView
+        style={[styles.userInformationForm]}
+        behavior="padding"
+        enabled
+      >
         <ScrollView bounces={false} ref="scrollView">
-          <RegisterHeader processStage={YOUR_PROFILE} headerTitle={'YOUR PROFILE'}/>
+          <RegisterHeader
+            processStage={YOUR_PROFILE}
+            headerTitle={'YOUR PROFILE'}
+          />
           {renderAvatarPicker()}
-          {renderUsernameEmailAndPasswordFields(this.props, this.refs)}
-          {renderBirthYearAndGenderFields(this.props, this.refs)}
+          {renderUsernameEmailAndPasswordFields(this.props)}
+          {renderBirthYearAndGenderFields(this.props)}
           {renderPicturePicker()}
         </ScrollView>
-        <Footer color='blue' onPress={this.props.handleSubmit}>
+        <Footer color="blue" onPress={this.props.handleSubmit}>
           <Text style={styles.next}>Next</Text>
         </Footer>
       </KeyboardAvoidingView>
@@ -144,4 +199,7 @@ class UserInformationForm extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, null)(UserInformationForm);
+export default connect(
+  mapStateToProps,
+  null,
+)(UserInformationForm);
