@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, Text, TouchableOpacity } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { colors, paddings } from '../../styles';
 import { logOut } from '../../actions/login';
 import { connect } from 'react-redux';
@@ -7,7 +8,8 @@ import styles from './styles';
 
 const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(logOut()),
-  openEditProfile: () => console.log('open edit profile'),
+  openEditProfile: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'EditProfile' })),
   openEditPersonalities: () => console.log('open edit personalities'),
   openEditTags: () => console.log('open edit tags'),
 });
@@ -23,21 +25,24 @@ class ActionsModal extends Component {
   render() {
     const profileActions = [
       {
-        title: 'Manage account',
-        onPress: () => {
-          this.props.openEditProfile();
-        },
-      },
-      {
-        title: 'Manage personalities',
+        title: 'MATCHING INFO',
         onPress: () => {
           this.props.openEditPersonalities();
+          this.props.close();
         },
       },
       {
-        title: 'Manage Tags',
+        title: 'PROFILE',
+        onPress: () => {
+          this.props.openEditProfile();
+          this.props.close();
+        },
+      },
+      {
+        title: 'ACCOUNT',
         onPress: () => {
           this.props.openEditTags();
+          this.props.close();
         },
       },
       {
