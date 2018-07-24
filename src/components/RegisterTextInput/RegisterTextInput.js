@@ -18,9 +18,11 @@ class RegisterTextInput extends React.Component {
       helperText = undefined,
       err = undefined,
       multiline = false,
+      title,
     } = this.props;
     return (
       <View style={styles.textInput}>
+        {title ? <Text style={[styles.title]}>{title}</Text> : null}
         <Field
           withRef
           secureTextEntry={secureTextEntry}

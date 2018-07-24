@@ -1,7 +1,12 @@
-import {StyleSheet} from 'react-native';
-import {colors, fonts, fontSizes, paddings} from "../../styles";
+import { StyleSheet } from 'react-native';
+import { colors, fonts, fontSizes, paddings } from '../../styles';
 
 export default StyleSheet.create({
+  title: {
+    paddingBottom: paddings.XS,
+    fontFamily: fonts.REGULAR,
+    fontSize: fontSizes.BODY_TEXT,
+  },
   textInput: {
     marginHorizontal: paddings.LG,
     marginVertical: paddings.MD,
@@ -12,7 +17,7 @@ export default StyleSheet.create({
   },
   field: {
     fontFamily: fonts.SEMI_BOLD,
-    fontSize: 18
+    fontSize: 18,
   },
   helperText: {
     fontFamily: fonts.LIGHT,
@@ -21,6 +26,6 @@ export default StyleSheet.create({
     fontFamily: fonts.SEMI_BOLD,
     fontSize: fontSizes.SMALL,
     color: colors.WARNING,
-    alignSelf: 'center'
-  }
-})
+    alignSelf: 'center',
+  },
+});
