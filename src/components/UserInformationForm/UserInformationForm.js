@@ -20,7 +20,6 @@ import AvatarList from '../AvatarList';
 
 const mapStateToProps = state => ({
   register: state.form.register,
-  updateProfile: state.form.updateProfile,
 });
 
 function renderFields(fields) {
@@ -168,12 +167,6 @@ function renderAvatarPicker() {
 }
 
 class UserInformationForm extends React.Component {
-  async componentWillMount() {
-    if (this.props.userValues) {
-      await this.props.initialize(this.props.userValues);
-    }
-  }
-
   render() {
     return (
       <KeyboardAvoidingView

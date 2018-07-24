@@ -8,6 +8,13 @@ export default class PhotoBox extends React.Component {
     picture: null,
   };
 
+  componentWillMount() {
+    const { editProfile, image } = this.props;
+    if (editProfile) {
+      this.setState({ picture: { uri: image } });
+    }
+  }
+
   askPermissionsAsync = async () => {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
   };

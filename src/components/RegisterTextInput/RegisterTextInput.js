@@ -17,6 +17,7 @@ class RegisterTextInput extends React.Component {
       secureTextEntry = false,
       helperText = undefined,
       err = undefined,
+      multiline = false,
     } = this.props;
     return (
       <View style={styles.textInput}>
@@ -37,6 +38,7 @@ class RegisterTextInput extends React.Component {
           ref={reference}
           style={styles.field}
           defaultValue={value}
+          multiline={multiline}
         />
         <View style={styles.horizontalLine} />
         {helperText ? (

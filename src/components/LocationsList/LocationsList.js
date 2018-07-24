@@ -1,8 +1,8 @@
 import React from 'react';
 import MultiSelect from '../../utils/react-native-multiple-select/lib/react-native-multi-select';
 import { connect } from 'react-redux';
-import Loading from "../Loading";
-import {fetchLocations} from "../../actions/locations";
+import Loading from '../Loading';
+import { fetchLocations } from '../../actions/locations';
 
 const mapStateToProps = state => ({
   locations: state.locations,
@@ -13,23 +13,37 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class LocationsList extends React.Component {
-  initialState = {
+  state = {
     selectedLocations: [],
+    initialized: false,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = this.props.input.value
-      ? { selectedLocations: this.props.input.value }
-      : this.initialState;
-  }
 
   componentWillMount() {
     this.props.fetchLocations();
   }
 
+  componentDidUpdate() {
+    if (
+      !this.state.initialized &&
+      this.props.editProfile &&
+      !this.props.locations.isLoading &&
+      this.props.locations.locationsList.length > 0
+    ) {
+      let userLocations = [];
+      let foundLocation;
+      this.props.selectedLocations.map(location => {
+        foundLocation = this.props.locations.locationsList.find(
+          locationFromList =>
+            locationFromList.name.toLowerCase() === location.toLowerCase(),
+        );
+        userLocations.push(foundLocation.id);
+      });
+      this.setState({ selectedLocations: userLocations, initialized: true });
+    }
+  }
+
   render() {
-    const { input, locations}  = this.props;
+    const { input, locations } = this.props;
     const { selectedLocations } = this.state;
 
     if (locations.isLoading) {
@@ -58,4 +72,7 @@ class LocationsList extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocationsList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LocationsList);

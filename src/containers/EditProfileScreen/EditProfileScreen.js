@@ -2,6 +2,7 @@ import React from 'react';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { validateUserInformation } from '../../utils/reduxValidations';
+import EditProfile from '../../components/EditProfile';
 
 const mapStateToProps = state => ({
   myDetails: state.users.myDetails.data,
@@ -10,8 +11,9 @@ const mapStateToProps = state => ({
 const EditProfileScreen = props => {
   const {
     username,
-    email,
+    description,
     birthyear,
+    locations,
     genders,
     image,
     avatar,
@@ -34,13 +36,20 @@ const EditProfileScreen = props => {
   const initialValues = {
     avatar,
     username,
-    email,
+    description,
     birthyear,
+    locations,
     genders: genderToGenderIdArray,
     image,
   };
 
-  return <View />;
+  return (
+    <EditProfile
+      initialValues={initialValues}
+      initialize={props.initialize}
+      dispatch={props.dispatch}
+    />
+  );
 };
 
 export default connect(

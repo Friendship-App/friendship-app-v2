@@ -2,7 +2,7 @@ import { ActionTypes } from '../actions/locations';
 
 export const initialState = {
   isLoading: false,
-  locationsList: {},
+  locationsList: [],
 };
 
 export default function locations(state = initialState, action) {

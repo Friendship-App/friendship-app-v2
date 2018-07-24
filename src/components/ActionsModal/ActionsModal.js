@@ -26,30 +26,30 @@ class ActionsModal extends Component {
     const profileActions = [
       {
         title: 'MATCHING INFO',
-        onPress: () => {
+        onPress: async () => {
+          await this.props.close();
           this.props.openEditPersonalities();
-          this.props.close();
         },
       },
       {
         title: 'PROFILE',
-        onPress: () => {
+        onPress: async () => {
+          await this.props.close();
           this.props.openEditProfile();
-          this.props.close();
         },
       },
       {
         title: 'ACCOUNT',
-        onPress: () => {
+        onPress: async () => {
+          await this.props.close();
           this.props.openEditTags();
-          this.props.close();
         },
       },
       {
         title: 'Log Out',
         onPress: () => {
-          this.props.signOut();
           this.props.close();
+          this.props.signOut();
         },
       },
     ];

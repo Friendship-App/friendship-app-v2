@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {ScrollView} from "react-native";
-import {fetchAvatars} from "../../actions/avatars";
-import Avatar from "../Avatar";
-import Loading from "../Loading";
-import {paddings} from "../../styles";
+import { connect } from 'react-redux';
+import { ScrollView } from 'react-native';
+import { fetchAvatars } from '../../actions/avatars';
+import Avatar from '../Avatar';
+import Loading from '../Loading';
+import { paddings } from '../../styles';
 
 const mapDispatchToProps = dispatch => ({
   fetchAvatars: () => dispatch(fetchAvatars()),
@@ -21,6 +21,9 @@ class AvatarList extends React.Component {
 
   componentWillMount() {
     this.props.fetchAvatars();
+    if (this.props.editProfile) {
+      this.setState({ avatar: this.props.selectedAvatar });
+    }
   }
 
   updateAvatar = newAvatar => {
@@ -31,7 +34,7 @@ class AvatarList extends React.Component {
     const { input } = this.props;
 
     if (this.props.avatars.isLoading) {
-      return <Loading/>;
+      return <Loading />;
     }
 
     return (
@@ -78,4 +81,7 @@ const styles = {
   },
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AvatarList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AvatarList);
