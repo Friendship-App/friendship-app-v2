@@ -8,11 +8,24 @@ import {
 import { SubmissionError } from 'redux-form';
 
 export async function validateUpdateUserProfile(values, dispatch) {
-  let validation = await checkUsername(values.username, dispatch);
-  validation = checkDescription(values.description, validation);
-  validation = checkLocations(values.locations, validation);
-  validation = checkBirthYear(values.birthyear, validation);
-  validation = checkGenders(values.genders, validation);
+  let validation = { isValid: true };
+  const {
+    oldValues,
+    username,
+    description,
+    locations,
+    birthyear,
+    genders,
+  } = values;
+  const usernameHasChanged = oldValues.username !== username;
+
+  if (usernameHasChanged) {
+    validation = await checkUsername(username, dispatch, validation);
+  }
+  validation = checkDescription(description, validation);
+  validation = checkLocations(locations, validation);
+  validation = checkBirthYear(birthyear, validation);
+  validation = checkGenders(genders, validation);
 
   if (!validation.isValid) {
     throw new SubmissionError({

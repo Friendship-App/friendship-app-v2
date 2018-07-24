@@ -68,6 +68,30 @@ export const checkPassword = (password, validation = { isValid: true }) => {
   return validation;
 };
 
+export const checkPasswordConfirmation = (
+  password,
+  passwordConfirmation,
+  validation = { isValid: true },
+) => {
+  if (!passwordConfirmation) {
+    return {
+      ...validation,
+      passwordConfirmation: 'Confirm your new password',
+      isValid: false,
+    };
+  }
+
+  if (password !== passwordConfirmation) {
+    return {
+      ...validation,
+      passwordConfirmation: "Passwords don't match",
+      isValid: false,
+    };
+  }
+
+  return validation;
+};
+
 export const checkBirthYear = (birthyear, validation = { isValid: true }) => {
   function checkAge(birthDate) {
     return moment().year() - birthDate >= 16;

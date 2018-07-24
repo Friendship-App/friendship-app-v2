@@ -50,6 +50,7 @@ const EditProfileScreen = props => {
       initialValues={initialValues}
       initialize={props.initialize}
       dispatch={props.dispatch}
+      invalid={props.invalid}
       handleSubmit={data => props.handleSubmit(data)}
       hasChanged={props.dirty}
     />

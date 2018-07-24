@@ -10,6 +10,7 @@ import RegisterTextInput from '../RegisterTextInput';
 import AvatarList from '../AvatarList';
 import Footer from '../Footer/Footer';
 import LocationsList from '../LocationsList';
+import { connect } from 'react-redux';
 
 function renderFields(fields) {
   return fields.map(field => (
@@ -166,9 +167,16 @@ function renderPicturePicker(image) {
   );
 }
 
+const mapStateToProps = state => ({
+  updateProfile: state.form.updateProfile,
+});
+
 class EditProfile extends Component {
   componentWillMount() {
-    this.props.initialize(this.props.initialValues);
+    this.props.initialize({
+      ...this.props.initialValues,
+      oldValues: this.props.initialValues,
+    });
   }
 
   render() {
@@ -195,4 +203,7 @@ class EditProfile extends Component {
 
 EditProfile.propTypes = {};
 
-export default EditProfile;
+export default connect(
+  mapStateToProps,
+  null,
+)(EditProfile);

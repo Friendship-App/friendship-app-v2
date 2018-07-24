@@ -5,6 +5,7 @@ import Footer from '../Footer';
 import styles from './styles';
 import { change } from 'redux-form';
 import RegisterTextInput from '../RegisterTextInput';
+import { connect } from 'react-redux';
 
 function renderField(field, key) {
   return (
@@ -48,7 +49,7 @@ function renderEmailAndPasswordFields(props) {
       placeholder: '',
       secureTextEntry: false,
       onChangeText: values =>
-        dispatch(change('updateAccount', 'username', values)),
+        dispatch(change('updateAccount', 'email', values)),
       navigate: () => this._password.getRenderedComponent().focus(),
       err: email,
       value: props.initialValues.email,
@@ -71,9 +72,7 @@ function renderEmailAndPasswordFields(props) {
       placeholder: '**********',
       secureTextEntry: true,
       onChangeText: values =>
-        props.dispatch(
-          change('updateAccount', 'password-confirmation', values),
-        ),
+        props.dispatch(change('updateAccount', 'passwordConfirmation', values)),
       reference: field => (this._passwordConfirmation = field),
       err: passwordConfirmation,
     },
@@ -82,7 +81,18 @@ function renderEmailAndPasswordFields(props) {
   return fields.map(field => renderField(field, field.name));
 }
 
+const mapStateToProps = state => ({
+  updateAccount: state.form.updateAccount,
+});
+
 class EditAccount extends Component {
+  componentWillMount() {
+    this.props.initialize({
+      ...this.props.initialValues,
+      oldValues: this.props.initialValues,
+    });
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={[styles.container]}>
@@ -90,7 +100,11 @@ class EditAccount extends Component {
           <Text style={[styles.title]}>EDIT ACCOUNT</Text>
           {renderEmailAndPasswordFields(this.props)}
         </ScrollView>
-        <Footer color="blue" onPress={this.props.handleSubmit}>
+        <Footer
+          disabled={!this.props.hasChanged}
+          color="blue"
+          onPress={this.props.handleSubmit}
+        >
           <Text style={styles.next}>Update</Text>
         </Footer>
       </KeyboardAvoidingView>
@@ -100,4 +114,7 @@ class EditAccount extends Component {
 
 EditAccount.propTypes = {};
 
-export default EditAccount;
+export default connect(
+  mapStateToProps,
+  null,
+)(EditAccount);

@@ -2,7 +2,9 @@ import React from 'react';
 import EditAccount from '../../components/EditAccount';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { validateUserInformation } from '../RegisterUserInformationScreen/validation';
+import { NavigationActions } from 'react-navigation';
+import { refreshMyInformation } from '../../actions/refresh';
+import { validateUpdateAccount } from './validation';
 
 const mapStateToProps = state => ({
   myDetails: state.users.myDetails.data,
@@ -11,14 +13,16 @@ const mapStateToProps = state => ({
 const EditAccountScreen = props => {
   const { email } = props.myDetails;
 
-  const initialValues = { email };
+  const initialValues = { email, password: '', passwordConfirmation: '' };
 
   return (
     <EditAccount
       initialValues={initialValues}
       initialize={props.initialize}
       dispatch={props.dispatch}
+      invalid={props.invalid}
       handleSubmit={data => props.handleSubmit(data)}
+      hasChanged={props.dirty}
     />
   );
 };
@@ -33,9 +37,10 @@ export default connect(
     form: 'updateAccount',
     destroyOnUnmount: false,
     forceUnregisterOnUnmount: true,
-    onSubmit: (value, dispatch) => console.log(value),
+    onSubmit: (value, dispatch) => validateUpdateAccount(value, dispatch),
     onSubmitSuccess: (result, dispatch, props) => {
-      console.log(result);
+      dispatch(refreshMyInformation());
+      dispatch(NavigationActions.back());
     },
   })(EditAccountScreen),
 );
