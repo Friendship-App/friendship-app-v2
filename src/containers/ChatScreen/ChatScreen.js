@@ -13,6 +13,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { disableTouchableOpacity } from '../../actions/TouchableOpacityController';
 import { socket } from '../../utils/socket';
 import { sendMessage } from '../../actions/messages';
+import {
+  fetchChatroomMessages,
+  fetchChatrooms,
+  updateMessages,
+} from '../../actions/chatrooms';
 
 const mapStateToProps = state => ({
   chatrooms: state.chatrooms,
@@ -22,6 +27,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   sendMessage: (chatroomId, textMessage, receiverId) =>
     dispatch(sendMessage(chatroomId, textMessage, receiverId)),
+  updateMessages: chatroomId => {
+    dispatch(updateMessages(chatroomId));
+    dispatch(fetchChatrooms());
+  },
+  refreshMessages: chatroomId => dispatch(fetchChatroomMessages(chatroomId)),
 });
 
 class ChatScreen extends React.Component {
@@ -29,6 +39,18 @@ class ChatScreen extends React.Component {
     text: '',
     disabled: false,
   };
+
+  componentWillMount() {
+    socket.on('message', () => {
+      console.log('refreshing messages...');
+      this.props.refreshMessages(this.props.navigation.state.params.chatroomId);
+    });
+  }
+
+  componentWillUnmount() {
+    socket.close();
+    this.props.updateMessages(this.props.navigation.state.params.chatroomId);
+  }
 
   sendMessage = () => {
     const chatroomId = this.props.navigation.state.params.chatroomId;

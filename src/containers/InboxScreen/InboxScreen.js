@@ -14,16 +14,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class InboxScreen extends React.Component {
-  componentDidMount() {
-    socket.on('message', () => {
-      this.props.refreshChatrooms();
-    });
-  }
-
-  componentWillUnmount() {
-    socket.close();
-  }
-
   render() {
     const { chatrooms } = this.props;
 

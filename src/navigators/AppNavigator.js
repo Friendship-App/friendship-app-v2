@@ -7,6 +7,8 @@ import {
 } from 'react-navigation-redux-helpers';
 import routes from '../routes';
 import { BackHandler } from 'react-native';
+import { fetchChatrooms } from '../actions/chatrooms';
+import { socket } from '../utils/socket';
 
 const RootNavigator = createStackNavigator(routes);
 
@@ -34,10 +36,21 @@ const mapStateToProps = state => ({
 class Navigator extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
+    console.log('socket integration...');
+    socket.on('message', () => {
+      console.log('refreshing...');
+      this.props.dispatch(fetchChatrooms());
+    });
+
+    socket.on('connect', () => {
+      console.log('connected...');
+    });
   }
 
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    socket.close();
   }
 
   onBackPress = () => {
