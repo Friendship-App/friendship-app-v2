@@ -1,22 +1,17 @@
 import apiRoot from './api.config';
 
-export const getPreSignedUrl = async (type, formValues, username = '') => {
+export const getPreSignedUrl = async (type, formValues) => {
   let link = '/sign-s3?file-name=';
   let data;
   switch (type) {
     case 'PROFILE':
       link += 'profile/';
-      data = {
-        itemName: username ? username : formValues.username,
-        imgType: formValues.image.type,
-        url: formValues.image.uri,
-      };
       break;
     case 'EVENT':
       link += 'events/';
-      data = formValues;
       break;
   }
+  data = formValues;
   return await fetch(
     `${apiRoot}${link}${data.itemName}.jpg&file-type=${data.imgType}`,
   )

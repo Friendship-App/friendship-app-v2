@@ -1,5 +1,6 @@
 import apiRoot from '../utils/api.config';
 import { NavigationActions } from 'react-navigation';
+import { getPreSignedUrl } from '../utils/aws';
 
 export const ActionTypes = {
   REGISTER_REQUEST: 'REGISTER_REQUEST',
@@ -40,6 +41,22 @@ export function register() {
 
     if (!state.isRegistering) {
       dispatch(requestRegister(ActionTypes.REGISTER_REQUEST));
+      if (registrationData.image) {
+        const imageData = {
+          itemName: registrationData.username.replace(/\s/g, ''),
+          imgType: registrationData.image.type,
+          url: registrationData.image.uri,
+        };
+
+        await getPreSignedUrl('PROFILE', imageData)
+          .then(url => {
+            registrationData.image = url;
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
+
       try {
         const resp = await fetch(`${apiRoot}/register`, {
           method: 'POST',
