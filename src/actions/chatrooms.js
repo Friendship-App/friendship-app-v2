@@ -88,7 +88,7 @@ export function fetchUserChatroom(userId) {
 
         if (resp.ok) {
           const data = await resp.json();
-          dispatch(receiveUserChatroom(data));
+          dispatch(receiveUserChatroom(data.length > 0 ? data[0] : -1));
         } else {
           throw Error;
         }

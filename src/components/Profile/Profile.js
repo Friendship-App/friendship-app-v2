@@ -135,7 +135,7 @@ class Profile extends React.Component {
         </View>
         <ShowTags
           onChatRequest={() => console.log('chat request')}
-          openChatView={() => console.log('chat view')}
+          openChatView={() => console.log(chatrooms.chatroomId)}
           hate={userTags.hateTags}
           love={userTags.loveTags}
           existingChatRoom={
