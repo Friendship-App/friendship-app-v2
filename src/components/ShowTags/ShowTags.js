@@ -91,22 +91,6 @@ export default class ShowTags extends Component {
     );
   }
 
-  renderSendMsg() {
-    const openChat = () => {
-      this.props.existingChatRoom !== undefined
-        ? this.props.openChatView()
-        : this.props.onChatRequest();
-    };
-
-    if (!this.props.myProfile) {
-      return (
-        <TouchableOpacity onPress={openChat} style={[styles.buttonStyle]}>
-          <Text style={[styles.textButtonStyle]}>Send Message</Text>
-        </TouchableOpacity>
-      );
-    }
-  }
-
   renderTags(tags) {
     const { tabIndex } = this.state;
     return (
@@ -138,7 +122,6 @@ export default class ShowTags extends Component {
       <View style={[styles.container]}>
         {this.renderLoveAndHatePicker()}
         {this.renderTags(tags)}
-        {this.renderSendMsg()}
       </View>
     );
   };

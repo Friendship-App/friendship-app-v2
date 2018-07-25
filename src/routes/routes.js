@@ -16,18 +16,19 @@ import React from 'react';
 import HeaderContainer from '../containers/HeaderContainer';
 import EditProfileScreen from '../containers/EditProfileScreen';
 import EditAccountScreen from '../containers/EditAccountScreen';
+import ChatRequestScreen from '../containers/ChatRequestScreen';
 
 const routes = {
   WelcomeScreen: {
     screen: WelcomeScreen,
     navigationOptions: { header: null },
   },
-  Home: {
-    screen: TabNavigator,
-    navigationOptions: { header: null },
-  },
   Login: {
     screen: LoginScreen,
+    navigationOptions: { header: null },
+  },
+  Home: {
+    screen: TabNavigator,
     navigationOptions: { header: null },
   },
   PeopleProfile: {
@@ -62,6 +63,12 @@ const routes = {
     screen: ChatScreen,
     navigationOptions: {
       header: <HeaderContainer left={'back'} color={'light'} right={'chat'} />,
+    },
+  },
+  ChatRequest: {
+    screen: ChatRequestScreen,
+    navigationOptions: {
+      header: <HeaderContainer left={'white-back'} color={'transparent'} />,
     },
   },
   EditProfile: {

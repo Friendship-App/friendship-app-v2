@@ -35,12 +35,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  textButtonStyle: {
-    alignSelf: 'center',
-    fontSize: 20,
-    fontFamily: 'NunitoSans-Bold',
-    color: colors.DARK_BLACK,
-  },
   noTagsMessage: {
     alignSelf: 'center',
     flexGrow: 1,
@@ -49,15 +43,6 @@ export default StyleSheet.create({
     fontSize: 13,
     paddingTop: paddings.XS,
     paddingBottom: paddings.SM,
-  },
-  buttonStyle: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    width: 241,
-    height: 47,
-    borderRadius: 34,
-    backgroundColor: colors.DUST_WHITE,
   },
   tagsContainer: {
     paddingTop: paddings.XXS,

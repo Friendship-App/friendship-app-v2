@@ -5,6 +5,7 @@ const initialState = {
   isLoadingUserChatroom: false,
   isLoadingMessages: false,
   isUpdatingMessages: false,
+  isCreatingChatroom: false,
   chatrooms: [],
 };
 

@@ -1,11 +1,12 @@
 import React from 'react';
-import { colors, fonts, fontSizes, paddings } from '../../styles';
-import { Dimensions, Modal, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import ProfileTopPart from '../ProfileTopPart';
 import ShowTags from '../ShowTags';
 import Personality from '../Personality';
 import { connect } from 'react-redux';
-import personalities from '../../reducers/personalities';
+import styles from './styles';
+import { fetchChatroomMessages } from '../../actions/chatrooms';
 
 const mapStateToProps = state => ({
   users: state.users,
@@ -13,6 +14,31 @@ const mapStateToProps = state => ({
   tags: state.tags,
   personalities: state.personalities,
   chatrooms: state.chatrooms,
+});
+
+const mapDispatchToProps = dispatch => ({
+  openChatRequest: reachedUser =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: 'ChatRequest',
+        params: { reachedUser },
+      }),
+    ),
+  openChatView: (chatroomId, isEventChatroom, image, title, participantId) => {
+    dispatch(fetchChatroomMessages(chatroomId));
+    dispatch(
+      NavigationActions.navigate({
+        routeName: 'Chat',
+        params: {
+          isEventChatroom,
+          image,
+          title,
+          participantId,
+          fromProfile: true,
+        },
+      }),
+    );
+  },
 });
 
 class Profile extends React.Component {
@@ -33,17 +59,7 @@ class Profile extends React.Component {
     });
 
     return (
-      <View
-        style={{
-          flexDirection: 'row',
-          paddingVertical: 10,
-          paddingHorizontal:
-            Dimensions.get('window').width <= 320 ? paddings.XS : paddings.MD,
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
+      <View style={[styles.personalitiesContainer]}>
         {personalitiesArray.length > 0 ? (
           personalitiesArray
         ) : (
@@ -63,8 +79,31 @@ class Profile extends React.Component {
     return description;
   };
 
+  renderSendMsg = () => {
+    const openChat = () => {
+      const { chatroomId } = this.props.chatrooms;
+      chatroomId.id > 0
+        ? this.props.openChatView(
+            chatroomId.id,
+            false,
+            this.props.userDetails.data.image,
+            this.props.userDetails.data.username,
+            this.props.userDetails.data.id,
+          )
+        : this.props.openChatRequest(this.props.userDetails);
+    };
+
+    if (!this.props.myProfile) {
+      return (
+        <TouchableOpacity onPress={openChat} style={[styles.buttonStyle]}>
+          <Text style={[styles.textButtonStyle]}>Send Message</Text>
+        </TouchableOpacity>
+      );
+    }
+  };
+
   render() {
-    const { tags, chatrooms, myProfile, users } = this.props;
+    const { tags, myProfile, users } = this.props;
     let userData, userTags;
 
     if (myProfile) {
@@ -89,7 +128,7 @@ class Profile extends React.Component {
       : null;
 
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView style={[styles.container]}>
         <ProfileTopPart
           username={userData.data.username}
           srcImage={userData.data.image}
@@ -103,46 +142,18 @@ class Profile extends React.Component {
           myProfile={myProfile}
         />
 
-        <View
-          style={{
-            backgroundColor: colors.DUST_WHITE,
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            paddingVertical: paddings.SM,
-            paddingHorizontal: paddings.LG,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: fonts.LIGHT,
-              fontSize: fontSizes.BODY_TEXT,
-              textAlign: 'center',
-            }}
-          >
+        <View style={[styles.descriptionContainer]}>
+          <Text style={[styles.descriptionText]}>
             {this.renderUserDescription()}
           </Text>
         </View>
-        <View
-          style={{
-            backgroundColor: colors.DUST_WHITE,
-            borderBottomWidth: 4,
-            borderBottomColor: colors.MEDIUM_GREY,
-            paddingBottom: paddings.SM,
-          }}
-        >
-          {this.renderPersonalities()}
-        </View>
+        {this.renderPersonalities()}
         <ShowTags
-          onChatRequest={() => console.log('chat request')}
-          openChatView={() => console.log(chatrooms.chatroomId)}
           hate={userTags.hateTags}
           love={userTags.loveTags}
-          existingChatRoom={
-            chatrooms.chatroomId > 0 ? chatrooms.chatroomId : -1
-          }
           myProfile={myProfile}
         />
+        {this.renderSendMsg()}
       </ScrollView>
     );
   }
@@ -150,5 +161,5 @@ class Profile extends React.Component {
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Profile);

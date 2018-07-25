@@ -1,4 +1,6 @@
 import apiRoot from '../utils/api.config';
+import { sendMessage } from './messages';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 export const ActionTypes = {
   CHATROOMS_REQUEST: 'CHATROOMS_REQUEST',
@@ -12,36 +14,15 @@ export const ActionTypes = {
   CHATROOM_UPDATE_MESSAGES_REQUEST: 'CHATROOM_UPDATE_MESSAGES_REQUEST',
   CHATROOM_UPDATE_MESSAGES_RECEIVED: 'CHATROOM_UPDATE_MESSAGES_RECEIVED',
 
+  CREATE_CHATROOM_REQUEST: 'CREATE_CHATROOM_REQUEST',
+  CREATE_CHATROOM_SUCCESS: 'CREATE_CHATROOM_SUCCESS',
+
   CHATROOM_FAILED: 'CHATROOM_FAILED',
 };
 
-export function requestChatrooms() {
+export function requestChatrooms(type) {
   return {
-    type: ActionTypes.CHATROOMS_REQUEST,
-  };
-}
-
-export function requestChatroomMessages() {
-  return {
-    type: ActionTypes.CHATROOM_MESSAGES_REQUEST,
-  };
-}
-
-export function requestUpdateMessages() {
-  return {
-    type: ActionTypes.CHATROOM_UPDATE_MESSAGES_REQUEST,
-  };
-}
-
-export function receiveUpdateMessages() {
-  return {
-    type: ActionTypes.CHATROOM_UPDATE_MESSAGES_RECEIVED,
-  };
-}
-
-export function requestUserChatroom() {
-  return {
-    type: ActionTypes.USER_CHATROOM_REQUEST,
+    type,
   };
 }
 
@@ -77,7 +58,7 @@ export function fetchUserChatroom(userId) {
     const { auth, chatrooms } = getState();
 
     if (!chatrooms.isLoading) {
-      dispatch(requestUserChatroom());
+      dispatch(requestChatrooms(ActionTypes.USER_CHATROOM_REQUEST));
       try {
         const resp = await fetch(`${apiRoot}/userChatroom?userId=${userId}`, {
           method: 'GET',
@@ -104,7 +85,7 @@ export function fetchChatrooms() {
     const { auth, chatrooms } = getState();
 
     if (!chatrooms.isLoading) {
-      dispatch(requestChatrooms());
+      dispatch(requestChatrooms(ActionTypes.CHATROOMS_REQUEST));
       try {
         const resp = await fetch(`${apiRoot}/chatrooms`, {
           method: 'GET',
@@ -131,7 +112,7 @@ export function fetchChatroomMessages(chatroomId) {
     const { chatrooms, auth } = getState();
 
     if (!chatrooms.isLoadingMessages) {
-      dispatch(requestChatroomMessages());
+      dispatch(requestChatrooms(ActionTypes.CHATROOM_MESSAGES_REQUEST));
       try {
         const resp = await fetch(
           `${apiRoot}/messages?chatroomId=${chatroomId}`,
@@ -159,7 +140,7 @@ export function updateMessages(chatroomId) {
     const { chatrooms, auth } = getState();
 
     if (!chatrooms.isUpdatingMessages) {
-      dispatch(requestUpdateMessages());
+      dispatch(requestChatrooms(ActionTypes.CHATROOM_UPDATE_MESSAGES_REQUEST));
       try {
         const resp = await fetch(
           `${apiRoot}/messages/update?chatroomId=${chatroomId}`,
@@ -172,7 +153,53 @@ export function updateMessages(chatroomId) {
         );
 
         if (resp.ok) {
-          dispatch(receiveUpdateMessages());
+          dispatch(
+            requestChatrooms(ActionTypes.CHATROOM_UPDATE_MESSAGES_RECEIVED),
+          );
+        }
+      } catch (e) {
+        dispatch(failRequestChatrooms());
+      }
+    }
+  };
+}
+
+export function createNewChatroom(message, reachedUser) {
+  return async (dispatch, getState) => {
+    const { chatrooms, auth, nav } = getState();
+
+    if (!chatrooms.isCreatingChatroom) {
+      dispatch(requestChatrooms(ActionTypes.CREATE_CHATROOM_REQUEST));
+      try {
+        const resp = await fetch(`${apiRoot}/chatrooms/create`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${auth.data.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            creatorId: auth.data.decoded.id,
+            participantId: reachedUser.data.id,
+          }),
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          dispatch(requestChatrooms(ActionTypes.CREATE_CHATROOM_SUCCESS));
+          await dispatch(sendMessage(data.id, message, [reachedUser.data.id]));
+          dispatch(
+            StackActions.replace({
+              key: nav.routes[nav.index].key,
+              routeName: 'Chat',
+              params: {
+                isEventChatroom: data.isEventChatroom,
+                image: reachedUser.data.image,
+                title: reachedUser.data.username,
+                participantId: reachedUser.data.id,
+                fromProfile: true,
+              },
+            }),
+          );
         }
       } catch (e) {
         dispatch(failRequestChatrooms());
