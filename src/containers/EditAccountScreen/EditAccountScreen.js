@@ -5,6 +5,7 @@ import { reduxForm } from 'redux-form';
 import { NavigationActions } from 'react-navigation';
 import { refreshMyInformation } from '../../actions/refresh';
 import { validateUpdateAccount } from './validation';
+import { updateUserAccount } from '../../actions/users';
 
 const mapStateToProps = state => ({
   myDetails: state.users.myDetails.data,
@@ -39,8 +40,7 @@ export default connect(
     forceUnregisterOnUnmount: true,
     onSubmit: (value, dispatch) => validateUpdateAccount(value, dispatch),
     onSubmitSuccess: (result, dispatch, props) => {
-      dispatch(refreshMyInformation());
-      dispatch(NavigationActions.back());
+      dispatch(updateUserAccount());
     },
   })(EditAccountScreen),
 );

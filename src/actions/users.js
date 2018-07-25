@@ -13,6 +13,9 @@ export const ActionTypes = {
   UPDATE_PROFILE_REQUEST: 'UPDATE_PROFILE_REQUEST',
   UPDATE_PROFILE_SUCCESS: 'UPDATE_PROFILE_SUCCESS',
 
+  UPDATE_ACCOUNT_REQUEST: 'UPDATE_ACCOUNT_REQUEST',
+  UPDATE_ACCOUNT_SUCCESS: 'UPDATE_ACCOUNT_SUCCESS',
+
   USERS_FAILED: 'USERS_FAILED',
 };
 
@@ -138,6 +141,37 @@ export function updateUserProfile() {
 
         if (resp.ok) {
           dispatch(requestUsers(ActionTypes.UPDATE_PROFILE_SUCCESS));
+          dispatch(refreshMyInformation());
+          dispatch(NavigationActions.back());
+        }
+      } catch (e) {}
+    }
+  };
+}
+
+export function updateUserAccount() {
+  return async (dispatch, getState) => {
+    const { auth, users, form } = getState();
+    const formData = form.updateAccount.values;
+
+    if (!users.isUpdatingAccount) {
+      dispatch(requestUsers(ActionTypes.UPDATE_ACCOUNT_REQUEST));
+
+      console.log(formData);
+
+      try {
+        const resp = await fetch(`${apiRoot}/users/updateAccount`, {
+          method: 'POST',
+          Accept: 'application/json',
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+          body: JSON.stringify({ ...formData }),
+        });
+
+        if (resp.ok) {
+          dispatch(requestUsers(ActionTypes.UPDATE_ACCOUNT_SUCCESS));
           dispatch(refreshMyInformation());
           dispatch(NavigationActions.back());
         }

@@ -4,6 +4,7 @@ export const initialState = {
   isLoading: false,
   isLoadingUserInformation: false,
   isUpdatingProfile: false,
+  isUpdatingAccount: false,
   usersList: [],
   userDetails: {
     userTags: [],
