@@ -31,7 +31,6 @@ class ChatScreen extends React.Component {
   };
 
   sendMessage = () => {
-    console.log(this.props.navigation.state.params.chatroomId);
     const chatroomId = this.props.navigation.state.params.chatroomId;
     const textMessage = this.state.text;
     const receiverId = [];
@@ -39,7 +38,6 @@ class ChatScreen extends React.Component {
       chatroom => chatroom.chatroomId === chatroomId,
     );
     const { participantsData } = chatroom;
-    console.log(participantsData);
     if (participantsData) {
       participantsData.map(participant => {
         if (participant.id !== this.props.currentUserId) {

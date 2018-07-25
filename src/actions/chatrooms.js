@@ -193,6 +193,7 @@ export function createNewChatroom(message, reachedUser) {
               routeName: 'Chat',
               params: {
                 isEventChatroom: data.isEventChatroom,
+                chatroomId: data.id,
                 image: reachedUser.data.image,
                 title: reachedUser.data.username,
                 participantId: reachedUser.data.id,

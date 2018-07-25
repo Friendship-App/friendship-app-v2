@@ -30,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
       NavigationActions.navigate({
         routeName: 'Chat',
         params: {
+          chatroomId,
           isEventChatroom,
           image,
           title,
