@@ -21,11 +21,9 @@ const ProfileTopPart = props => {
     numberOfNaah,
     numberOfYeah,
     srcImage,
-    showModal,
     username,
     myProfile,
     genderList,
-    showEditForm,
   } = props;
 
   const getAge = () => {
@@ -56,30 +54,6 @@ const ProfileTopPart = props => {
     return genderList
       ? genderList.map(gender => gender && gender.toLowerCase()).join(' and ')
       : 'no gender';
-  };
-
-  const renderActionButton = () => {
-    if (myProfile) {
-      return (
-        <TouchableOpacity
-          onPress={showModal}
-          style={{
-            backgroundColor: 'rgb(255, 138, 101)',
-            height: 35,
-            width: 35,
-            borderRadius: 25,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingTop: 2,
-            paddingLeft: 2,
-            marginRight: 10,
-            alignSelf: 'flex-end',
-          }}
-        >
-          <Icon name="md-settings" size={26} style={styles.backButton} />
-        </TouchableOpacity>
-      );
-    }
   };
 
   return (
@@ -149,84 +123,6 @@ const ProfileTopPart = props => {
             {getGenders()}
           </Text>
         </View>
-        {/*<View style={{ flex: 3, flexDirection: 'column', backgroundColor: 'pink' }}>
-          <View style={styles.avatarCircle}>
-            <Image
-              source={{ uri: avatar }}
-              style={{
-                width: 64,
-                height: 64,
-                backgroundColor: 'transparent',
-                marginRight: 15,
-              }}
-            />
-          </View>
-          <View
-            style={{
-              backgroundColor: 'transparent',
-              flex: 2,
-            }}
-          >
-            <Image
-              source={waveShape}
-              style={styles.waveShape}
-              resizeMode="stretch"
-            />
-            <View style={{ flex: 3, backgroundColor: colors.DUST_WHITE }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginBottom: paddings.XXS,
-                }}
-              >
-                <Text style={[styles.username]}>
-                  {username.length > 15
-                    ? username.substr(0, 15).concat('…')
-                    : username}
-                </Text>
-                {myProfile ? (
-                  <TouchableOpacity onPress={() => showEditForm()}>
-                    <Image
-                      source={require('../../../assets/edit.png')}
-                      style={{ width: 38, height: 38, tintColor: '#000' }}
-                    />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-              <Text
-                style={{
-                  fontFamily: fonts.REGULAR,
-                  fontSize: fontSizes.BODY_TEXT,
-                  color: colors.DARK_BLACK,
-                  textAlign: 'center',
-                }}
-              >
-                {myProfile ? 'You have ' : null}
-                <Text style={[styles.yeahText]}>{numberOfYeah}</Text>
-                <Text style={[styles.friendshipFont, styles.yeahText]}>
-                  {' '}
-                  YEAHS{' '}
-                </Text>
-                &
-                <Text style={[styles.nahText]}>{' ' + numberOfNaah}</Text>
-                <Text style={[styles.friendshipFont, styles.nahText]}>
-                  {' '}
-                  NAAHS{' '}
-                </Text>
-                {myProfile ? null : ' in common'}
-              </Text>
-              <Text style={[styles.details]}>
-                <Text style={[styles.locationText]}>
-                  {location ? location : 'Narnia'}
-                </Text>
-                {', ' + getAge() + ', '}
-                {getGenders()}
-              </Text>
-            </View>
-          </View>
-        </View>*/}
       </View>
     </View>
   );

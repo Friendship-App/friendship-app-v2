@@ -141,6 +141,7 @@ class Profile extends React.Component {
           existingChatRoom={
             chatrooms.chatroomId > 0 ? chatrooms.chatroomId : -1
           }
+          myProfile={myProfile}
         />
       </ScrollView>
     );
