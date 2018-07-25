@@ -92,7 +92,7 @@ export function fetchEvents() {
 
 export function createEvent(eventForm) {
   return async (dispatch, getState) => {
-    const { events, auth } = getState();
+    const { events, auth, nav } = getState();
 
     if (!events.isCreatingEvent) {
       dispatch(requestCreateEvent());
@@ -114,21 +114,16 @@ export function createEvent(eventForm) {
           dispatch(fetchEventDetails(data.id));
           dispatch(fetchChatrooms());
           dispatch(
-            StackActions.reset({
-              index: 1,
-              actions: [
-                NavigationActions.navigate({ routeName: 'Home' }),
-                NavigationActions.navigate({
-                  routeName: 'EventDetails',
-                  params: {
-                    userParticipate: true,
-                    chatroomId: data.chatroomId,
-                    eventTitle: data.title,
-                    eventId: data.id,
-                    eventImage: data.eventImage,
-                  },
-                }),
-              ],
+            StackActions.replace({
+              key: nav.routes[nav.index].key,
+              routeName: 'EventDetails',
+              params: {
+                userParticipate: true,
+                chatroomId: data.chatroomId,
+                eventTitle: data.title,
+                eventId: data.id,
+                eventImage: data.eventImage,
+              },
             }),
           );
         } else {
