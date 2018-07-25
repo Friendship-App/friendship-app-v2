@@ -1,4 +1,7 @@
 import apiRoot from '../utils/api.config';
+import { getPreSignedUrl } from '../utils/aws';
+import { NavigationActions } from 'react-navigation';
+import { refreshMyInformation } from './refresh';
 
 export const ActionTypes = {
   USERS_REQUEST: 'USERS_REQUEST',
@@ -6,6 +9,9 @@ export const ActionTypes = {
 
   USER_INFORMATION_REQUEST: 'USER_INFORMATION_REQUEST',
   USER_INFORMATION_RECEIVED: 'USER_INFORMATION_RECEIVED',
+
+  UPDATE_PROFILE_REQUEST: 'UPDATE_PROFILE_REQUEST',
+  UPDATE_PROFILE_SUCCESS: 'UPDATE_PROFILE_SUCCESS',
 
   USERS_FAILED: 'USERS_FAILED',
 };
@@ -92,6 +98,50 @@ export function fetchUserInformation(userId) {
       } catch (e) {
         dispatch(failRequestUsers());
       }
+    }
+  };
+}
+
+export function updateUserProfile() {
+  return async (dispatch, getState) => {
+    const { auth, users, form } = getState();
+    const formData = form.updateProfile.values;
+
+    if (!users.isUpdatingProfile) {
+      dispatch(requestUsers(ActionTypes.UPDATE_PROFILE_REQUEST));
+      if (formData.image && formData.image !== formData.oldValues.image) {
+        const imageData = {
+          itemName: formData.username.replace(/\s/g, ''),
+          imgType: formData.image.type,
+          url: formData.image.uri,
+        };
+
+        await getPreSignedUrl('PROFILE', imageData)
+          .then(url => {
+            formData.image = url;
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
+
+      try {
+        const resp = await fetch(`${apiRoot}/users/updateProfile`, {
+          method: 'POST',
+          Accept: 'application/json',
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+          body: JSON.stringify({ ...formData }),
+        });
+
+        if (resp.ok) {
+          dispatch(requestUsers(ActionTypes.UPDATE_PROFILE_SUCCESS));
+          dispatch(refreshMyInformation());
+          dispatch(NavigationActions.back());
+        }
+      } catch (e) {}
     }
   };
 }

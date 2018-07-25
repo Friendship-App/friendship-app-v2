@@ -20,26 +20,7 @@ class LocationsList extends React.Component {
 
   componentWillMount() {
     this.props.fetchLocations();
-  }
-
-  componentDidUpdate() {
-    if (
-      !this.state.initialized &&
-      this.props.editProfile &&
-      !this.props.locations.isLoading &&
-      this.props.locations.locationsList.length > 0
-    ) {
-      let userLocations = [];
-      let foundLocation;
-      this.props.selectedLocations.map(location => {
-        foundLocation = this.props.locations.locationsList.find(
-          locationFromList =>
-            locationFromList.name.toLowerCase() === location.toLowerCase(),
-        );
-        userLocations.push(foundLocation.id);
-      });
-      this.setState({ selectedLocations: userLocations, initialized: true });
-    }
+    this.setState({ selectedLocations: this.props.selectedLocations });
   }
 
   render() {

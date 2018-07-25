@@ -5,6 +5,7 @@ import { colors, paddings } from '../../styles';
 import { logOut } from '../../actions/login';
 import { connect } from 'react-redux';
 import styles from './styles';
+import { fetchLocations } from '../../actions/locations';
 
 const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(logOut()),
@@ -13,6 +14,7 @@ const mapDispatchToProps = dispatch => ({
   openEditMatchingInfo: () => console.log('open edit personalities'),
   openEditAccount: () =>
     dispatch(NavigationActions.navigate({ routeName: 'EditAccount' })),
+  getLocations: () => dispatch(fetchLocations()),
 });
 
 const getTitle = modalType => {
@@ -36,6 +38,7 @@ class ActionsModal extends Component {
         title: 'PROFILE',
         onPress: async () => {
           await this.props.close();
+          await this.props.getLocations();
           this.props.openEditProfile();
         },
       },

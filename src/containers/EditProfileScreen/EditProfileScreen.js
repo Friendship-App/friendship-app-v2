@@ -5,9 +5,11 @@ import { NavigationActions } from 'react-navigation';
 import EditProfile from '../../components/EditProfile';
 import { validateUpdateUserProfile } from './validation';
 import { refreshMyInformation } from '../../actions/refresh';
+import { updateUserProfile } from '../../actions/users';
 
 const mapStateToProps = state => ({
   myDetails: state.users.myDetails.data,
+  locationsList: state.locations.locationsList,
 });
 
 const EditProfileScreen = props => {
@@ -21,6 +23,7 @@ const EditProfileScreen = props => {
     avatar,
   } = props.myDetails;
   const genderToGenderIdArray = [];
+  const locationToLocationIdArray = [];
 
   genders.map(gender => {
     switch (gender.toLowerCase()) {
@@ -35,12 +38,23 @@ const EditProfileScreen = props => {
     }
   });
 
+  let foundLocation;
+  if (props.locationsList.length > 0) {
+    locations.map(location => {
+      foundLocation = props.locationsList.find(
+        locationFromList =>
+          locationFromList.name.toLowerCase() === location.toLowerCase(),
+      );
+      locationToLocationIdArray.push(foundLocation.id);
+    });
+  }
+
   const initialValues = {
     avatar,
     username,
     description,
     birthyear,
-    locations,
+    locations: locationToLocationIdArray,
     genders: genderToGenderIdArray,
     image,
   };
@@ -67,8 +81,7 @@ export default connect(
     forceUnregisterOnUnmount: true,
     onSubmit: (value, dispatch) => validateUpdateUserProfile(value, dispatch),
     onSubmitSuccess: (result, dispatch, props) => {
-      dispatch(refreshMyInformation());
-      dispatch(NavigationActions.back());
+      dispatch(updateUserProfile());
     },
   })(EditProfileScreen),
 );

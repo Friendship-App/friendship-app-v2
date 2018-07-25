@@ -37,14 +37,8 @@ class Navigator extends React.Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 
-    console.log('socket integration...');
     socket.on('message', () => {
-      console.log('refreshing...');
       this.props.dispatch(fetchChatrooms());
-    });
-
-    socket.on('connect', () => {
-      console.log('connected...');
     });
   }
 

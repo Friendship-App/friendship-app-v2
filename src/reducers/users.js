@@ -3,6 +3,7 @@ import { ActionTypes } from '../actions/users';
 export const initialState = {
   isLoading: false,
   isLoadingUserInformation: false,
+  isUpdatingProfile: false,
   usersList: [],
   userDetails: {
     userTags: [],
