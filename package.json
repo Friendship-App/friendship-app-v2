@@ -1,5 +1,14 @@
 {
-  "name": "friendshipApp_v2",
+  "name": "friendship",
+  "author": "Futurice",
+  "description": "Friendship app",
+  "license": "MIT",
+  "homepage": "https://github.com/futurice/Friendship-App",
+  "bugs": "https://github.com/futurice/Friendship-App/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/futurice/Friendship-App"
+  },
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
