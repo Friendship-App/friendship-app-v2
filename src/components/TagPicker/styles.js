@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {colors, fonts, fontSizes, paddings} from "../../styles";
+import { StyleSheet } from 'react-native';
+import { colors, fonts, fontSizes, paddings } from '../../styles';
 
 export default StyleSheet.create({
   tag: {
@@ -11,14 +11,14 @@ export default StyleSheet.create({
     zIndex: 10,
   },
   icon: {
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
   },
   tagText: {
     fontFamily: fonts.REGULAR,
     fontSize: fontSizes.BODY_TEXT,
     color: colors.DUST_WHITE,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   tagPart: {
     flex: 1,
@@ -31,4 +31,4 @@ export default StyleSheet.create({
   nahIcon: {
     justifyContent: 'flex-end',
   },
-})
+});
