@@ -53,7 +53,6 @@ class PeopleList extends Component {
 
   render() {
     const { userData } = this.state;
-    console.log(userData);
 
     return (
       <View style={[styles.peopleList]}>

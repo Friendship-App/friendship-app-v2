@@ -16,7 +16,7 @@ import { colors, fonts, fontSizes, paddings } from '../../styles';
 const ProfileTopPart = props => {
   const {
     birthyear,
-    avatar,
+    mood,
     location,
     numberOfNaah,
     numberOfYeah,
@@ -73,7 +73,7 @@ const ProfileTopPart = props => {
         }}
       >
         <Image
-          source={{ uri: avatar }}
+          source={{ uri: mood }}
           style={{
             width: 64,
             height: 64,

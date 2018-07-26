@@ -7,7 +7,7 @@ import PicturePicker from '../PicturePicker';
 import { change, Field } from 'redux-form';
 import GendersList from '../GendersList';
 import RegisterTextInput from '../RegisterTextInput';
-import AvatarList from '../AvatarList';
+import MoodList from '../MoodList';
 import Footer from '../Footer/Footer';
 import LocationsList from '../LocationsList';
 import { connect } from 'react-redux';
@@ -32,7 +32,7 @@ function renderFields(fields) {
   ));
 }
 
-function renderAvatarPicker(avatar) {
+function renderMoodPicker(mood) {
   return (
     <View
       style={{
@@ -47,14 +47,9 @@ function renderAvatarPicker(avatar) {
           fontSize: 18,
         }}
       >
-        PICK YOUR AVATAR
+        PICK YOUR MOOD
       </Text>
-      <Field
-        name="avatar"
-        component={AvatarList}
-        editProfile
-        selectedAvatar={avatar}
-      />
+      <Field name="mood" component={MoodList} editProfile selectedMood={mood} />
     </View>
   );
 }
@@ -189,7 +184,7 @@ class EditProfile extends Component {
       <KeyboardAvoidingView style={[styles.container]}>
         <ScrollView bounces={false} ref="scrollView">
           <Text style={[styles.title]}>EDIT PROFILE</Text>
-          {renderAvatarPicker(this.props.initialValues.avatar)}
+          {renderMoodPicker(this.props.initialValues.mood)}
           {renderUsernameDescriptionAndLocationFields(this.props)}
           {renderBirthYearAndGenderFields(this.props)}
           {renderPicturePicker(this.props.initialValues.image)}

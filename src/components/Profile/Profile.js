@@ -135,7 +135,7 @@ class Profile extends React.Component {
           srcImage={userData.data.image}
           location={location}
           genders={genders}
-          avatar={userData.data.avatar}
+          mood={userData.data.mood}
           numberOfYeah={loveCommon}
           numberOfNaah={hateCommon}
           birthyear={userData.data.birthyear}

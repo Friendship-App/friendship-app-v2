@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  View,
-  Dimensions,
-} from 'react-native';
+import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
 import { YOUR_PROFILE } from '../ProgressSteps';
 import RegisterHeader from '../RegisterHeader';
 import styles from './styles';
@@ -16,7 +10,7 @@ import RegisterTextInput from '../RegisterTextInput';
 import { colors, fonts, paddings } from '../../styles';
 import GendersList from '../GendersList';
 import PicturePicker from '../PicturePicker';
-import AvatarList from '../AvatarList';
+import MoodList from '../MoodList';
 
 const mapStateToProps = state => ({
   register: state.form.register,
@@ -164,9 +158,9 @@ function renderAvatarPicker() {
           fontSize: 18,
         }}
       >
-        PICK YOUR AVATAR
+        PICK YOUR MOOD
       </Text>
-      <Field name="avatar" component={AvatarList} />
+      <Field name="mood" component={MoodList} />
     </View>
   );
 }

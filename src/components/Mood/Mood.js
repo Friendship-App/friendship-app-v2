@@ -1,8 +1,8 @@
 import React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import { paddings } from '../../styles';
 
-export default class Avatar extends React.Component {
+export default class Mood extends React.Component {
   render() {
     return (
       <TouchableOpacity
@@ -13,9 +13,9 @@ export default class Avatar extends React.Component {
             marginLeft: this.props.first ? paddings.LG : 0,
           },
         ]}
-        onPress={() => this.props.updateAvatar(this.props.avatar)}
+        onPress={() => this.props.updateMood(this.props.mood)}
       >
-        <Image source={{ uri: this.props.avatar }} style={styles.avatars} />
+        <Image source={{ uri: this.props.mood }} style={styles.avatars} />
       </TouchableOpacity>
     );
   }

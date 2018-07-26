@@ -20,7 +20,7 @@ const EditProfileScreen = props => {
     locations,
     genders,
     image,
-    avatar,
+    mood,
   } = props.myDetails;
   const genderToGenderIdArray = [];
   const locationToLocationIdArray = [];
@@ -50,7 +50,7 @@ const EditProfileScreen = props => {
   }
 
   const initialValues = {
-    avatar,
+    mood,
     username,
     description,
     birthyear,

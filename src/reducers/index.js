@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import locations from './locations';
-import avatars from './avatars';
+import moods from './moods';
 import users from './users';
 import personalities from './personalities';
 import tags from './tags';
@@ -20,7 +20,7 @@ const rootReducer = navReducer =>
     register,
     form: formReducer,
     locations,
-    avatars,
+    moods,
     personalities,
     tags,
     chatrooms,
