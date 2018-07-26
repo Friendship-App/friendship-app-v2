@@ -38,15 +38,13 @@ class TagsList extends React.Component {
           tag={item}
           isLastTag={listEnd === item.id}
           key={item.name}
-          onPress={(tag, category, actionType) =>
-            this.handlePressedTag(tag, category, actionType)
-          }
+          onPress={(tag, actionType) => this.handlePressedTag(tag, actionType)}
         />
       ));
     }
   }
 
-  handlePressedTag(tag, category, actionType) {
+  handlePressedTag(tag, actionType) {
     const { lovedTags, hatedTags, onChange } = this.props;
     const tagsArrays = [
       {

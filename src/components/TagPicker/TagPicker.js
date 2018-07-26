@@ -21,9 +21,18 @@ class TagPicker extends React.Component {
     this.state = initialState;
   }
 
+  componentWillMount() {
+    if (this.props.editProfile) {
+      if (this.props.selectionState) {
+        this.setState({ selected: this.props.selectionState });
+      }
+    }
+  }
+
   render() {
     const { tag, isLastTag } = this.props;
     const { selected } = this.state;
+
     let backgroundColor = colors.DARK_BLACK;
     let textAlignement = 'center';
     const shouldShowIcon = selected === 0;
@@ -91,13 +100,13 @@ class TagPicker extends React.Component {
     const { onPress, tag } = this.props;
     if (evt === Actions.RESET_TAG_CHOICE && selected !== 0) {
       this.setState({ selected: 0 });
-      onPress(tag.id, tag.category, Actions.RESET_TAG_CHOICE);
+      onPress(tag.id, Actions.RESET_TAG_CHOICE);
     } else if (evt === Actions.YEAHS_TAG && selected === 0) {
       this.setState({ selected: 1 });
-      onPress(tag.id, tag.category, Actions.YEAHS_TAG);
+      onPress(tag.id, Actions.YEAHS_TAG);
     } else if (evt === Actions.NAH_TAG && selected === 0) {
       this.setState({ selected: -1 });
-      onPress(tag.id, tag.category, Actions.NAH_TAG);
+      onPress(tag.id, Actions.NAH_TAG);
     }
   }
 }
