@@ -10,8 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchUsers: batchSize => {
-    dispatch(fetchBatchUsers(batchSize));
+  fetchUsers: (batchSize, usersAlreadyFetched) => {
+    dispatch(fetchBatchUsers(batchSize, usersAlreadyFetched));
   },
 });
 
@@ -28,14 +28,15 @@ class PeopleList extends Component {
   setStateWithUsersData = nextProps => {
     if (!nextProps.users.isLoading) {
       this.setState({
-        userData: [...this.state.userData, ...nextProps.users.usersList],
+        // userData: [...this.state.userData, ...nextProps.users.usersList],
+        userData: this.state.userData.concat(nextProps.users.usersList),
       });
     }
   };
 
   // fetch 10 users and add them to the state.data
   fetchUsersForPage = currentPage => {
-    this.props.fetchUsers(currentPage);
+    this.props.fetchUsers(currentPage, this.state.userData);
     this.setState({ currentPage: this.state.currentPage + 1 });
   };
 
@@ -52,6 +53,7 @@ class PeopleList extends Component {
 
   render() {
     const { userData } = this.state;
+    console.log(userData);
 
     return (
       <View style={[styles.peopleList]}>

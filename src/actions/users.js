@@ -48,7 +48,7 @@ export function failRequestUsers() {
   };
 }
 
-export function fetchBatchUsers(batchNumber) {
+export function fetchBatchUsers(batchNumber, usersAlreadyFetched = []) {
   return async (dispatch, getState) => {
     const { auth, users } = getState();
 
@@ -56,10 +56,13 @@ export function fetchBatchUsers(batchNumber) {
       dispatch(requestUsers(ActionTypes.USERS_REQUEST));
       try {
         const resp = await fetch(`${apiRoot}/users/${batchNumber}`, {
-          method: 'GET',
+          method: 'POST',
           Accept: 'application/json',
-          'Content-Type': 'application/json',
-          headers: { Authorization: `Bearer ${auth.data.token}` },
+          headers: {
+            Authorization: `Bearer ${auth.data.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ usersAlreadyFetched }),
         });
 
         if (resp.ok) {
