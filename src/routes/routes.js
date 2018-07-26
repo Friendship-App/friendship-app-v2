@@ -17,6 +17,8 @@ import HeaderContainer from '../containers/HeaderContainer';
 import EditProfileScreen from '../containers/EditProfileScreen';
 import EditAccountScreen from '../containers/EditAccountScreen';
 import ChatRequestScreen from '../containers/ChatRequestScreen';
+import EditTagsScreen from '../containers/EditTagsScreen';
+import EditPersonalitiesScreen from '../containers/EditPersonalitiesScreen';
 
 const routes = {
   WelcomeScreen: {
@@ -79,6 +81,18 @@ const routes = {
   },
   EditAccount: {
     screen: EditAccountScreen,
+    navigationOptions: {
+      header: <HeaderContainer left={'white-back'} color={'transparent'} />,
+    },
+  },
+  EditTags: {
+    screen: EditTagsScreen,
+    navigationOptions: {
+      header: <HeaderContainer left={'white-back'} color={'transparent'} />,
+    },
+  },
+  EditPersonalities: {
+    screen: EditPersonalitiesScreen,
     navigationOptions: {
       header: <HeaderContainer left={'white-back'} color={'transparent'} />,
     },

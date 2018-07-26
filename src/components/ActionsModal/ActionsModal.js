@@ -6,15 +6,22 @@ import { logOut } from '../../actions/login';
 import { connect } from 'react-redux';
 import styles from './styles';
 import { fetchLocations } from '../../actions/locations';
+import { fetchTags } from '../../actions/tags';
+import { fetchPersonalities } from '../../actions/personalities';
 
 const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(logOut()),
   openEditProfile: () =>
     dispatch(NavigationActions.navigate({ routeName: 'EditProfile' })),
-  openEditMatchingInfo: () => console.log('open edit personalities'),
+  openEditTags: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'EditTags' })),
+  openEditPersonalities: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'EditPersonalities' })),
   openEditAccount: () =>
     dispatch(NavigationActions.navigate({ routeName: 'EditAccount' })),
   getLocations: () => dispatch(fetchLocations()),
+  getTags: () => dispatch(fetchTags()),
+  getPersonalities: () => dispatch(fetchPersonalities()),
 });
 
 const getTitle = modalType => {
@@ -28,13 +35,6 @@ class ActionsModal extends Component {
   render() {
     const profileActions = [
       {
-        title: 'MATCHING INFO',
-        onPress: async () => {
-          await this.props.close();
-          this.props.openEditMatchingInfo();
-        },
-      },
-      {
         title: 'PROFILE',
         onPress: async () => {
           await this.props.close();
@@ -47,6 +47,22 @@ class ActionsModal extends Component {
         onPress: async () => {
           await this.props.close();
           this.props.openEditAccount();
+        },
+      },
+      {
+        title: 'LOVE AND HATE',
+        onPress: async () => {
+          await this.props.close();
+          await this.props.getTags();
+          this.props.openEditTags();
+        },
+      },
+      {
+        title: 'PERSONALITIES',
+        onPress: async () => {
+          await this.props.close();
+          await this.props.getPersonalities();
+          this.props.openEditPersonalities();
         },
       },
       {
