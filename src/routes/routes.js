@@ -47,7 +47,9 @@ const routes = {
   },
   EventForm: {
     screen: EventFormScreen,
-    navigationOptions: {},
+    navigationOptions: {
+      header: <HeaderContainer left={'white-back'} color={'transparent'} />,
+    },
   },
   EventDetails: {
     screen: EventDetailsScreen,
