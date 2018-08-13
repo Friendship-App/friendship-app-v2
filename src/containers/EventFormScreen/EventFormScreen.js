@@ -21,6 +21,7 @@ import Footer from '../../components/Footer';
 import { fetchLocations } from '../../actions/locations';
 import Loading from '../../components/Loading';
 import { createEvent } from '../../actions/events';
+import { fonts, paddings } from '../../styles';
 
 const mapStateToProps = state => ({
   locations: state.locations,
@@ -711,11 +712,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   formTitle: {
-    alignSelf: 'center',
+    paddingLeft: paddings.LG,
     fontSize: 40,
     color: '#839297',
     marginBottom: 20,
-    fontFamily: 'NunitoSans-SemiBold',
+    fontFamily: fonts.TITLE,
   },
   input: {
     fontFamily: 'NunitoSans-Regular',
