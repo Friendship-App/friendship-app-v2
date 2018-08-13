@@ -18,21 +18,14 @@ const mapDispatchToProps = dispatch => ({
 class PeopleList extends Component {
   state = {
     userData: [],
-    currentPage: 0,
+    currentPage: 1,
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setStateWithUsersData(nextProps);
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.users.usersList.length !== nextProps.users.usersList.length
+    );
   }
-
-  setStateWithUsersData = nextProps => {
-    if (!nextProps.users.isLoading) {
-      this.setState({
-        // userData: [...this.state.userData, ...nextProps.users.usersList],
-        userData: this.state.userData.concat(nextProps.users.usersList),
-      });
-    }
-  };
 
   // fetch 10 users and add them to the state.data
   fetchUsersForPage = currentPage => {
@@ -52,7 +45,7 @@ class PeopleList extends Component {
   };
 
   render() {
-    const { userData } = this.state;
+    const userData = this.props.users.usersList;
 
     return (
       <View style={[styles.peopleList]}>
