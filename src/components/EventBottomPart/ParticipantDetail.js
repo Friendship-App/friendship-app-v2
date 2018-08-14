@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     marginLeft: 17,
     marginRight: 15,
     marginTop: 12,
+    borderRadius: 32,
   },
   avatar: {
     backgroundColor: 'transparent',

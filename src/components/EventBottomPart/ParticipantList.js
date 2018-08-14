@@ -8,7 +8,7 @@ const ParticipantList = ({ participants, currentUser, hostId }) => {
     <ParticipantDetail
       id={item.id}
       username={item.username}
-      avatar={item.avatar}
+      avatar={item.image}
       hateCommon={item.hateCommon}
       loveCommon={item.loveCommon}
       index={index}
