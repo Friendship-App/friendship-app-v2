@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 import EmptyChatMessage from '../EmptyChatMessage';
 import InboxCard from '../InboxCard';
 import styles from './styles';
@@ -12,7 +12,7 @@ class ChatroomsList extends React.Component {
   };
 
   render() {
-    const { chatrooms } = this.props;
+    const { chatrooms, goToPeopleView } = this.props;
     const releventChatrooms = [];
 
     chatrooms.map(chatroom => {
@@ -32,7 +32,9 @@ class ChatroomsList extends React.Component {
         data={sortedChatrooms}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
-        ListEmpyComponent={<EmptyChatMessage goToPeopleView={() => {}} />}
+        ListEmptyComponent={
+          <EmptyChatMessage goToPeopleView={goToPeopleView} />
+        }
         refreshing={false}
         onRefresh={this.props.onRefresh}
         style={[styles.chatList]}

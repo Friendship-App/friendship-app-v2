@@ -13,10 +13,7 @@ class EmptyChatMessage extends Component {
           that seems interesting to you. Open their profile, see what you have
           in common and take it from there.
         </Text>
-        <Text
-          style={[styles.redirect]}
-          onPress={() => this.props.goToPeopleView()}
-        >
+        <Text style={[styles.redirect]} onPress={this.props.goToPeopleView}>
           Browse profiles
         </Text>
       </View>

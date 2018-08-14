@@ -4,7 +4,7 @@ import { colors, fonts, paddings } from '../../styles';
 export default StyleSheet.create({
   emptyChat: {
     flex: 1,
-    backgroundColor: colors.WHITE,
+    backgroundColor: colors.DUST_WHITE,
     padding: paddings.MD,
   },
   title: {

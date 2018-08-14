@@ -1,9 +1,8 @@
 import React from 'react';
-import Loading from '../../components/Loading';
 import ChatroomsList from '../../components/ChatroomsList';
 import { connect } from 'react-redux';
 import { fetchChatrooms } from '../../actions/chatrooms';
-import { socket } from '../../utils/socket';
+import { NavigationActions } from 'react-navigation';
 
 const mapStateToProps = state => ({
   chatrooms: state.chatrooms,
@@ -11,18 +10,19 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   refreshChatrooms: () => dispatch(fetchChatrooms()),
+  goToPeopleView: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'People' })),
 });
 
 class InboxScreen extends React.Component {
   render() {
-    const { chatrooms } = this.props;
+    const { chatrooms, goToPeopleView } = this.props;
 
-    return chatrooms.isLoading ? (
-      <Loading />
-    ) : (
+    return (
       <ChatroomsList
         chatrooms={chatrooms.chatrooms}
         onRefresh={this.props.refreshChatrooms}
+        goToPeopleView={goToPeopleView}
       />
     );
   }
