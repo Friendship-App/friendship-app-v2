@@ -8,12 +8,11 @@ const renderItem = (item, userId, index) => {
   const avatars = [];
   let userParticipate = false;
   if (item.participants > 0) {
-    console.log(item.participantsDetails);
     item.participantsDetails.map(participant => {
       if (!userParticipate) {
         userParticipate = participant.id === userId;
       }
-      if (userId !== item.hostId) {
+      if (participant.id !== item.hostId) {
         avatars.push(
           <Image
             source={{ uri: participant.image }}

@@ -96,6 +96,8 @@ class EventCard extends Component {
       first,
     } = this.props;
 
+    console.log(avatars);
+
     return (
       <TouchableOpacity
         style={[styles.eventCard, { marginTop: first ? paddings.SM : 0 }]}
