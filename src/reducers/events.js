@@ -5,6 +5,8 @@ export const initialState = {
   isLoadingEventDetails: false,
   isLoadingEventParticipants: false,
   isCreatingEvent: false,
+  isAddingUserToEvent: false,
+  isRemovingUserFromEvent: false,
   events: [],
 };
 
@@ -68,6 +70,30 @@ export function events(state = initialState, action) {
       return {
         ...state,
         isCreatingEvent: false,
+      };
+
+    case ActionTypes.JOIN_EVENT_REQUEST:
+      return {
+        ...state,
+        isAddingUserToEvent: true,
+      };
+
+    case ActionTypes.JOIN_EVENT_DONE:
+      return {
+        ...state,
+        isAddingUserToEvent: false,
+      };
+
+    case ActionTypes.LEAVE_EVENT_REQUEST:
+      return {
+        ...state,
+        isRemovingUserFromEvent: true,
+      };
+
+    case ActionTypes.LEAVE_EVENT_DONE:
+      return {
+        ...state,
+        isRemovingUserFromEvent: false,
       };
 
     case 'SIGN_OUT':

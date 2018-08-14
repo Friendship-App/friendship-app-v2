@@ -44,7 +44,7 @@ export default class EventBottomPart extends PureComponent {
         <View style={{ backgroundColor: '#ffffff', height: 100 }}>
           <ButtonOption>
             <TouchableOpacity
-              onPress={this.props.onButtonPress}
+              onPress={this.props.leaveEvent}
               style={styles.buttonStyle}
             >
               <Text style={styles.textButtonStyle}>Leave this</Text>
@@ -57,7 +57,7 @@ export default class EventBottomPart extends PureComponent {
         <View style={{ backgroundColor: '#ffffff', height: 100 }}>
           <ButtonOption>
             <TouchableOpacity
-              onPress={this.props.onButtonPress}
+              onPress={this.props.joinEvent}
               style={styles.buttonStyle}
             >
               <Text style={styles.textButtonStyle}>Join this</Text>

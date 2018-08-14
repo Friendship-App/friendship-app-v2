@@ -1,6 +1,6 @@
 import apiRoot from '../utils/api.config';
-import { NavigationActions, StackActions } from 'react-navigation';
-import { fetchChatroomMessages, fetchChatrooms } from './chatrooms';
+import { StackActions } from 'react-navigation';
+import { fetchChatrooms } from './chatrooms';
 
 export const ActionTypes = {
   EVENTS_REQUEST_FAILED: 'EVENTS_REQUEST_FAILED',
@@ -13,6 +13,12 @@ export const ActionTypes = {
 
   EVENTS_PARTICIPANTS_REQUEST: 'EVENTS_PARTICIPANTS_REQUEST',
   EVENTS_PARTICIPANTS_RECEIVED: 'EVENTS_PARTICIPANTS_RECEIVED',
+
+  JOIN_EVENT_REQUEST: 'JOIN_EVENT_REQUEST',
+  JOIN_EVENT_DONE: 'JOIN_EVENT_DONE',
+
+  LEAVE_EVENT_REQUEST: 'LEAVE_EVENT_REQUEST',
+  LEAVE_EVENT_DONE: 'LEAVE_EVENT_DONE',
 
   CREATE_EVENT: 'CREATE_EVENT',
   EVENT_CREATED: 'EVENT_CREATED',
@@ -164,15 +170,15 @@ export function fetchEventDetails(eventId) {
   };
 }
 
-export function fetchEventParticipants(eventId) {
+export function addUserToEvent(eventId) {
   return async (dispatch, getState) => {
     const { events, auth } = getState();
 
-    if (!events.isLoadingEventDetails) {
-      dispatch(requestEvents(ActionTypes.EVENTS_PARTICIPANTS_REQUEST));
+    if (!events.isAddingUserToEvent) {
+      dispatch(requestEvents(ActionTypes.JOIN_EVENT_REQUEST));
       try {
-        const resp = await fetch(`${apiRoot}/events/participants/${eventId}`, {
-          method: 'GET',
+        const resp = await fetch(`${apiRoot}/events/join/${eventId}`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${auth.data.token}`,
@@ -180,8 +186,35 @@ export function fetchEventParticipants(eventId) {
         });
 
         if (resp.ok) {
-          const data = await resp.json();
-          dispatch(eventParticipantsFetched(data));
+          console.log('done');
+          dispatch(fetchEvents());
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failEvents());
+      }
+    }
+  };
+}
+
+export function removeUserFromEvent(eventId) {
+  return async (dispatch, getState) => {
+    const { events, auth } = getState();
+
+    if (!events.isRemovingUserFromEvent) {
+      dispatch(requestEvents(ActionTypes.LEAVE_EVENT_REQUEST));
+      try {
+        const resp = await fetch(`${apiRoot}/events/leave/${eventId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+        });
+
+        if (resp.ok) {
+          console.log('done');
         } else {
           throw Error;
         }

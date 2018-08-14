@@ -6,20 +6,27 @@ import EventTopPart from '../../components/EventTopPart';
 import { DescriptionWrapper } from '../../components/Layout/Layout';
 import { Description } from '../../components/Layout/TextLayout';
 import EventBottomPart from '../../components/EventBottomPart';
+import { addUserToEvent, removeUserFromEvent } from '../../actions/events';
 
 const mapStateToProps = state => ({
   events: state.events,
   auth: state.auth,
 });
 
+const mapDispatchToProps = dispatch => ({
+  joinEvent: eventId => dispatch(addUserToEvent(eventId)),
+  leaveEvent: eventId => dispatch(removeUserFromEvent(eventId)),
+});
+
 const EventDetailsScreen = props => {
-  const { events } = props;
+  const { events, joinEvent, leaveEvent } = props;
 
   if (events.isLoadingEventDetails) {
     return <Loading />;
   }
 
   const {
+    id,
     title,
     address,
     city,
@@ -51,7 +58,18 @@ const EventDetailsScreen = props => {
           participants={eventParticipants}
           personalities={eventPersonality}
           tags={eventTopTags}
-          onButtonPress={() => console.log('pressed...')}
+          joinEvent={() => {
+            joinEvent(id);
+            props.navigation.setParams({
+              userParticipate: !props.navigation.state.params.userParticipate,
+            });
+          }}
+          leaveEvent={() => {
+            leaveEvent(id);
+            props.navigation.setParams({
+              userParticipate: !props.navigation.state.params.userParticipate,
+            });
+          }}
           participate={props.navigation.state.params.userParticipate}
           isHost={hostId === props.auth.data.decoded.id}
           eventFull={eventParticipants.length >= maxParticipants}
@@ -65,5 +83,5 @@ const EventDetailsScreen = props => {
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(EventDetailsScreen);

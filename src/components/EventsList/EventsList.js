@@ -8,6 +8,7 @@ const renderItem = (item, userId, index) => {
   const avatars = [];
   let userParticipate = false;
   if (item.participants > 0) {
+    console.log(item.participantsDetails);
     item.participantsDetails.map(participant => {
       if (!userParticipate) {
         userParticipate = participant.id === userId;
@@ -15,8 +16,8 @@ const renderItem = (item, userId, index) => {
       if (userId !== item.hostId) {
         avatars.push(
           <Image
-            source={{ uri: participant.avatar }}
-            style={{ width: 15, height: 15, marginRight: 2 }}
+            source={{ uri: participant.image }}
+            style={{ width: 15, height: 15, marginRight: 2, borderRadius: 7 }}
             key={`avatar-${participant.username}`}
           />,
         );
