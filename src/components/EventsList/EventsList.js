@@ -12,7 +12,17 @@ const renderItem = (item, userId, index) => {
       if (!userParticipate) {
         userParticipate = participant.id === userId;
       }
-      if (participant.id !== item.hostId) {
+      if (participant.id === item.hostId) {
+        avatars.splice(
+          0,
+          0,
+          <Image
+            source={{ uri: participant.image }}
+            style={{ width: 15, height: 15, marginRight: 2, borderRadius: 7 }}
+            key={`avatar-${participant.username}`}
+          />,
+        );
+      } else {
         avatars.push(
           <Image
             source={{ uri: participant.image }}
