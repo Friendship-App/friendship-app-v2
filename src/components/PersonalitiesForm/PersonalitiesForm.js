@@ -1,14 +1,14 @@
 import React from 'react';
-import {Text, View} from "react-native";
-import RegisterHeader from "../RegisterHeader";
-import {PERSONALITIES} from "../ProgressSteps";
-import styles from "./styles";
-import {fetchPersonalities} from "../../actions/personalities";
-import {connect} from "react-redux";
-import {colors, fonts, fontSizes, paddings} from "../../styles";
-import {Field} from "redux-form";
-import PersonalitiesPicker from "../PersonalitiesPicker";
-import Footer from "../Footer";
+import { Text, View } from 'react-native';
+import RegisterHeader from '../RegisterHeader';
+import { PERSONALITIES } from '../ProgressSteps';
+import styles from './styles';
+import { fetchPersonalities } from '../../actions/personalities';
+import { connect } from 'react-redux';
+import { colors, fonts, fontSizes, paddings } from '../../styles';
+import { Field } from 'redux-form';
+import PersonalitiesPicker from '../PersonalitiesPicker';
+import Footer from '../Footer';
 
 const mapDispatchToProps = dispatch => ({
   fetchPersonalities: () => {
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
 
 const initialState = {
   progress: 1,
-  selectedPersonalities: []
+  selectedPersonalities: [],
 };
 
 class PersonalitiesForm extends React.Component {
@@ -38,47 +38,40 @@ class PersonalitiesForm extends React.Component {
   render() {
     return (
       <View style={styles.personalitiesForm}>
-        <RegisterHeader headerTitle={'PERSONALITY'} processStage={PERSONALITIES} backgroundStyle={'dark'}/>
-        <View style={{flexDirection: 'row', paddingHorizontal: paddings.LG}}>
+        <RegisterHeader
+          headerTitle={'PERSONALITY'}
+          processStage={PERSONALITIES}
+          backgroundStyle={'dark'}
+        />
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: paddings.LG,
+            paddingTop: paddings.XS,
+          }}
+        >
           <Text
             style={{
-              fontFamily: fonts.BOLD,
+              fontFamily: fonts.REGULAR,
               fontSize: fontSizes.BODY_TEXT,
               color: colors.DUST_WHITE,
             }}
           >
-            {this.state.progress}/{this.props.personalities.personalitiesList.length /
-          2}{' '}
+            Are you more ...
           </Text>
-          <Text style={{
-            fontFamily: fonts.REGULAR,
-            fontSize: fontSizes.BODY_TEXT,
-            color: colors.DUST_WHITE,
-          }}>Lifestyle</Text>
-        </View>
-        <View style={{flex: 1, paddingHorizontal: paddings.LG, paddingTop: paddings.XS}}>
-          <Text style={{
-            fontFamily: fonts.REGULAR,
-            fontSize: fontSizes.BODY_TEXT,
-            color: colors.DUST_WHITE,
-          }}>Are you more ...</Text>
           {this.renderTwoPersonalities()}
         </View>
-        {/*<Footer disabled={!(this.state.selectedPersonalities.length === this.state.progress)} onPress={() => {
-          this.state.progress < (this.props.personalities.personalitiesList.length / 2) ? this.setState(prevState => ({progress: prevState.progress + 1})) : console.log('next')
-        }}>
-          <Text>Next</Text>
-        </Footer>*/}
       </View>
     );
-  };
+  }
 
   renderTwoPersonalities() {
-    const {progress} = this.state;
+    const { progress } = this.state;
     const personalities = [...this.props.personalities.personalitiesList];
 
     if (personalities.length > 0) {
-      const posToStart = (personalities.length / (personalities.length / 2)) * progress;
+      const posToStart =
+        (personalities.length / (personalities.length / 2)) * progress;
       personalities.splice(0, posToStart - 2);
       personalities.splice(posToStart);
       return (
@@ -86,12 +79,17 @@ class PersonalitiesForm extends React.Component {
           name={'personalities'}
           component={PersonalitiesPicker}
           personalities={personalities}
-          onPress={(value) => {
+          onPress={value => {
             const tmpSelectedPersonalities = this.state.selectedPersonalities;
             tmpSelectedPersonalities.push(value);
-            if (this.state.progress < (this.props.personalities.personalitiesList.length / 2)) {
+            if (
+              this.state.progress <
+              this.props.personalities.personalitiesList.length / 2
+            ) {
               this.props.change('personalities', tmpSelectedPersonalities);
-              this.setState(prevState => ({progress: prevState.progress + 1}));
+              this.setState(prevState => ({
+                progress: prevState.progress + 1,
+              }));
             } else {
               this.props.handleSubmit();
             }
@@ -102,4 +100,7 @@ class PersonalitiesForm extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PersonalitiesForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PersonalitiesForm);
