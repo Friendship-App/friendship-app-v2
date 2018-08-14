@@ -72,7 +72,7 @@ export const IconImage = styled.Image`
 `;
 
 export const DescriptionWrapper = styled.View`
-  background-color: ${colors.DUST_WHITE};
+  background-color: #f9f6f1;
   width: ${Dimensions.get('window').width};
   display: flex;
   align-items: center;
