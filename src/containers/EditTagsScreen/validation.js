@@ -1,1 +1,1 @@
-export async function validateUpdateMatchingInformation(values, dispatch) {}
+export async function validateUpdateTags(values, dispatch) {}

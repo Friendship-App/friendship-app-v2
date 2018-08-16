@@ -4,6 +4,7 @@ export const initialState = {
   isLoadingTags: false,
   isLoading: false,
   isLoadingMyTags: false,
+  isUpdatingTags: false,
   tagsList: [],
 };
 
@@ -40,6 +41,7 @@ export default function tags(state = initialState, action) {
         ...state,
         isLoadingActivities: false,
         isLoadingInterests: false,
+        isUpdatingTags: false,
       };
 
     case ActionTypes.MY_TAGS_REQUEST:
@@ -53,6 +55,18 @@ export default function tags(state = initialState, action) {
         ...state,
         isLoadingMyTags: false,
         myTags: action.userTags,
+      };
+
+    case ActionTypes.UPDATE_MY_TAGS_REQUEST:
+      return {
+        ...state,
+        isUpdatingTags: true,
+      };
+
+    case ActionTypes.UPDATE_MY_TAGS_DONE:
+      return {
+        ...state,
+        isUpdatingTags: false,
       };
 
     case 'SIGN_OUT':

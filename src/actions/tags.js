@@ -1,4 +1,6 @@
 import apiRoot from '../utils/api.config';
+import { refreshMyInformation } from './refresh';
+import { NavigationActions } from 'react-navigation';
 
 export const ActionTypes = {
   TAGS_FOR_USER_REQUEST: 'TAGS_FOR_USER_REQUEST',
@@ -9,6 +11,9 @@ export const ActionTypes = {
 
   MY_TAGS_REQUEST: 'MY_TAGS_REQUEST',
   MY_TAGS_RECEIVED: 'MY_TAGS_RECEIVED',
+
+  UPDATE_MY_TAGS_REQUEST: 'UPDATE_MY_TAGS_REQUEST',
+  UPDATE_MY_TAGS_DONE: 'UPDATE_MY_TAGS_DONE',
 
   TAGS_FAILED: 'TAGS_FAILED',
 };
@@ -93,6 +98,35 @@ export function fetchUserTags(userId) {
         if (resp.ok) {
           const data = await resp.json();
           dispatch(receiveUserTags(data, !userId));
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failRequestTags());
+      }
+    }
+  };
+}
+
+export function updateUserTags() {
+  return async (dispatch, getState) => {
+    const { tags, form, auth } = getState();
+
+    if (!tags.isUpdatingTags) {
+      try {
+        const resp = await fetch(`${apiRoot}/userTags/update`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${auth.data.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(form.updateMatchingInformation.values),
+        });
+
+        if (resp.ok) {
+          dispatch(requestTags(ActionTypes.UPDATE_MY_TAGS_DONE));
+          dispatch(refreshMyInformation());
+          dispatch(NavigationActions.back());
         } else {
           throw Error;
         }

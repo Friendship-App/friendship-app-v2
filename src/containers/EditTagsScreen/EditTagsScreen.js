@@ -2,8 +2,12 @@ import React from 'react';
 import EditTags from '../../components/EditTags';
 import { connect } from 'react-redux';
 import { updateUserProfile } from '../../actions/users';
-import { validateUpdateMatchingInformation } from './validation';
+import {
+  validateUpdateMatchingInformation,
+  validateUpdateTags,
+} from './validation';
 import { reduxForm } from 'redux-form';
+import { updateUserTags } from '../../actions/tags';
 
 const mapStateToProps = state => ({
   personalities: state.personalities.personalitiesList,
@@ -47,10 +51,9 @@ export default connect(
     form: 'updateMatchingInformation',
     destroyOnUnmount: false,
     forceUnregisterOnUnmount: true,
-    onSubmit: (value, dispatch) =>
-      validateUpdateMatchingInformation(value, dispatch),
+    onSubmit: (value, dispatch) => validateUpdateTags(value, dispatch),
     onSubmitSuccess: (result, dispatch, props) => {
-      dispatch(updateUserProfile());
+      dispatch(updateUserTags());
     },
   })(EditTagsScreen),
 );
