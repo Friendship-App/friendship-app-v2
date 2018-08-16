@@ -1,6 +1,22 @@
 import React from 'react';
-import { View } from 'react-native';
+import EditPersonalities from '../../components/EditPersonalities';
+import { connect } from 'react-redux';
 
-const EditPersonalitiesScreen = props => <View />;
+const mapStateToProps = state => ({
+  personalities: state.personalities.personalitiesList,
+  userPersonalities: state.personalities.myPersonalities,
+});
 
-export default EditPersonalitiesScreen;
+const mapDispatchToProps = dispatch => ({});
+
+const EditPersonalitiesScreen = props => (
+  <EditPersonalities
+    personalities={props.personalities}
+    userPersonalities={props.userPersonalities}
+  />
+);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditPersonalitiesScreen);
