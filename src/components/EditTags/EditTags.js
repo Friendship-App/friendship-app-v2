@@ -65,7 +65,6 @@ class EditTags extends Component {
         arrayName: 'hatedTags',
       },
     ];
-    console.log(tagsArrays);
     let arrayIndex = 0;
     let nextSelectedTags;
     let changedCategory;
