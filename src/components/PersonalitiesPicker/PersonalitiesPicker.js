@@ -14,11 +14,9 @@ class PersonalitiesPicker extends React.Component {
   }
 
   render() {
-    const handlePress = personalityId => {
-      this.props.onPress(personalityId);
-      if (this.props.edit) {
-        this.setState(prevState => ({ selected: !prevState.selected }));
-      }
+    const handlePress = (prevPersonality, updatedPersonality) => {
+      this.props.onPress(prevPersonality, updatedPersonality);
+      this.setState(prevState => ({ selected: !prevState.selected }));
     };
 
     return (
@@ -33,9 +31,12 @@ class PersonalitiesPicker extends React.Component {
           onPress={() => {
             this.props.edit
               ? !this.state.selected
-                ? handlePress(this.props.personalities[0].id)
+                ? handlePress(
+                    this.props.personalities[1].id,
+                    this.props.personalities[0].id,
+                  )
                 : null
-              : handlePress(this.props.personalities[0].id);
+              : this.props.onPress(this.props.personalities[0].id);
           }}
           selected={this.state.selected}
           edit={this.props.edit}
@@ -47,9 +48,12 @@ class PersonalitiesPicker extends React.Component {
           onPress={() => {
             this.props.edit
               ? this.state.selected
-                ? handlePress(this.props.personalities[1].id)
+                ? handlePress(
+                    this.props.personalities[0].id,
+                    this.props.personalities[1].id,
+                  )
                 : null
-              : handlePress(this.props.personalities[1].id);
+              : this.props.onPress(this.props.personalities[1].id);
           }}
           selected={!this.state.selected}
           edit={this.props.edit}

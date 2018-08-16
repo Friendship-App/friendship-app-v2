@@ -1,49 +1,75 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import styles from './styles';
-import Personality from '../Personality/Personality';
 import Footer from '../Footer';
-import { paddings } from '../../styles';
 import PersonalitiesPicker from '../PersonalitiesPicker/PersonalitiesPicker';
+import { connect } from 'react-redux';
+import { Field } from 'redux-form';
+
+const mapStateToProps = state => ({
+  updatePersonalities: state.form.updatePersonalities,
+});
 
 class EditPersonalities extends Component {
+  componentWillMount() {
+    this.props.initialize(this.props.initialValues);
+  }
+
   render() {
-    const { personalities, userPersonalities } = this.props;
-    const oppositePersonalitiesArray = [];
+    const { personalities, initialValues } = this.props;
 
     const keyExtractor = personality => 'personality-' + personality.name;
 
     const getSelectedPersonality = item => {
-      const isSelected = userPersonalities.find(
-        userPersonality => userPersonality.id === item.id,
-      );
-      return !!isSelected;
+      const isSelected = initialValues.personalities.indexOf(item.id);
+      return isSelected > -1;
     };
 
-    for (let i = 0; i < personalities.length; i += 2) {
-      oppositePersonalitiesArray.push(
-        <PersonalitiesPicker
-          edit
-          selected={getSelectedPersonality(personalities[i])}
-          small
-          personalities={[personalities[i], personalities[i + 1]]}
-          onPress={personalityId => console.log(personalityId)}
-          key={keyExtractor(personalities[i])}
-          isLast={i + 2 === personalities.length}
-        />,
-      );
-    }
+    const renderPersonalities = () => {
+      const oppositePersonalitiesArray = [];
+
+      for (let i = 0; i < personalities.length; i += 2) {
+        oppositePersonalitiesArray.push(
+          <Field
+            name={'personalitiesPicker'}
+            component={PersonalitiesPicker}
+            edit
+            selected={getSelectedPersonality(personalities[i])}
+            small
+            personalities={[personalities[i], personalities[i + 1]]}
+            onPress={(prevPersonality, updatedPersonality) => {
+              const prevPersonalityPos = this.props.updatePersonalities.values.personalities.indexOf(
+                prevPersonality,
+              );
+              let updatedSelectedPersonalities = [
+                ...this.props.updatePersonalities.values.personalities,
+              ];
+              updatedSelectedPersonalities.splice(
+                prevPersonalityPos,
+                1,
+                updatedPersonality,
+              );
+              this.props.change('personalities', updatedSelectedPersonalities);
+            }}
+            key={keyExtractor(personalities[i])}
+            isLast={i + 2 === personalities.length}
+          />,
+        );
+      }
+
+      return oppositePersonalitiesArray;
+    };
 
     return (
       <View style={[styles.container]}>
         <ScrollView bounces={false} style={[styles.scrollView]}>
           <Text style={[styles.title]}>EDIT PERSONALITIES</Text>
-          {oppositePersonalitiesArray}
+          {renderPersonalities()}
         </ScrollView>
         <Footer
           color="orange"
-          // disabled={!this.props.hasChanged}
-          onPress={() => console.log('pressed')}
+          disabled={!this.props.hasChanged}
+          onPress={this.props.handleSubmit}
         >
           <Text style={[styles.next]}>Update</Text>
         </Footer>
@@ -54,4 +80,7 @@ class EditPersonalities extends Component {
 
 EditPersonalities.propTypes = {};
 
-export default EditPersonalities;
+export default connect(
+  mapStateToProps,
+  null,
+)(EditPersonalities);

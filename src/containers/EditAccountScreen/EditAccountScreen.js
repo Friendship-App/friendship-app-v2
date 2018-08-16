@@ -2,8 +2,6 @@ import React from 'react';
 import EditAccount from '../../components/EditAccount';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { NavigationActions } from 'react-navigation';
-import { refreshMyInformation } from '../../actions/refresh';
 import { validateUpdateAccount } from './validation';
 import { updateUserAccount } from '../../actions/users';
 

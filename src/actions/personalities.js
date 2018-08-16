@@ -1,4 +1,6 @@
 import apiRoot from '../utils/api.config';
+import { refreshMyInformation } from './refresh';
+import { NavigationActions } from 'react-navigation';
 
 export const ActionTypes = {
   PERSONALITIES_REQUEST: 'PERSONALITIES_REQUEST',
@@ -9,6 +11,9 @@ export const ActionTypes = {
 
   MY_PERSONALITIES_REQUEST: 'MY_PERSONALITIES_REQUEST',
   MY_PERSONALITIES_RECEIVED: 'MY_PERSONALITIES_RECEIVED',
+
+  UPDATE_MY_PERSONALITIES_REQUEST: 'UPDATE_MY_PERSONALITIES_REQUEST',
+  UPDATE_MY_PERSONALITIES_DONE: 'UPDATE_MY_PERSONALITIES_DONE',
 };
 
 export function requestPersonalities(type) {
@@ -86,6 +91,41 @@ export function fetchPersonalities() {
         if (resp.ok) {
           const data = await resp.json();
           dispatch(receivePersonalities(data));
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failRequestPersonalities());
+      }
+    }
+  };
+}
+
+export function updateUserPersonalities() {
+  return async (dispatch, getState) => {
+    const { form, personalities, auth } = getState();
+    const updatedPersonalities = form.updatePersonalities.values.personalities;
+
+    if (!personalities.isUpdatingPersonalities) {
+      dispatch(
+        requestPersonalities(ActionTypes.UPDATE_MY_PERSONALITIES_REQUEST),
+      );
+      try {
+        const resp = await fetch(`${apiRoot}/userPersonalities/update`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${auth.data.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ personalities: updatedPersonalities }),
+        });
+
+        if (resp.ok) {
+          dispatch(
+            requestPersonalities(ActionTypes.UPDATE_MY_PERSONALITIES_DONE),
+          );
+          dispatch(refreshMyInformation());
+          dispatch(NavigationActions.back());
         } else {
           throw Error;
         }

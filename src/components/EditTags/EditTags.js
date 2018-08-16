@@ -88,7 +88,7 @@ class EditTags extends Component {
       }
       nextSelectedTags.push(tag);
     }
-    this.props.dispatch(this.props.change(changedCategory, nextSelectedTags));
+    this.props.change(changedCategory, nextSelectedTags);
   };
 
   render() {

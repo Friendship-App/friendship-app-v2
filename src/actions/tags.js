@@ -1,9 +1,4 @@
 import apiRoot from '../utils/api.config';
-import {
-  failRequestUsers,
-  receiveUserInformation,
-  requestUsers,
-} from './users';
 
 export const ActionTypes = {
   TAGS_FOR_USER_REQUEST: 'TAGS_FOR_USER_REQUEST',

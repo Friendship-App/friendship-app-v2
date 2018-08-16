@@ -3,6 +3,7 @@ import { ActionTypes } from '../actions/personalities';
 export const initialState = {
   isLoading: false,
   isLoadingMyPersonalities: false,
+  isUpdatingPersonalities: false,
   personalitiesList: [],
 };
 
@@ -45,6 +46,20 @@ export default function personalities(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+        isLoadingMyPersonalities: false,
+        isUpdatingPersonalities: false,
+      };
+
+    case ActionTypes.UPDATE_MY_PERSONALITIES_REQUEST:
+      return {
+        ...state,
+        isUpdatingPersonalities: true,
+      };
+
+    case ActionTypes.UPDATE_MY_PERSONALITIES_DONE:
+      return {
+        ...state,
+        isUpdatingPersonalities: false,
       };
 
     case 'SIGN_OUT':

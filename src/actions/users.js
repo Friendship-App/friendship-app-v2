@@ -160,8 +160,6 @@ export function updateUserAccount() {
     if (!users.isUpdatingAccount) {
       dispatch(requestUsers(ActionTypes.UPDATE_ACCOUNT_REQUEST));
 
-      console.log(formData);
-
       try {
         const resp = await fetch(`${apiRoot}/users/updateAccount`, {
           method: 'POST',
