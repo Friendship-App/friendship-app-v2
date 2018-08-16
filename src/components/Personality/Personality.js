@@ -25,7 +25,7 @@ const Personality = props => {
         alignItems: 'center',
         paddingRight: props.isLast ? 0 : paddings.SM,
         minWidth: 90,
-        paddingBottom: paddings.SM,
+        paddingBottom: small ? 0 : paddings.SM,
       }}
     >
       {edit && selected ? (
