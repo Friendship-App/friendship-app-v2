@@ -57,9 +57,9 @@ const mapDispatchToProps = dispatch => ({
         routeName: 'Chat',
         params: {
           chatroomId,
-          eventTitle,
+          title: eventTitle,
           eventId,
-          eventImage,
+          image: eventImage,
           fromEvent: true,
         },
       }),
@@ -242,6 +242,8 @@ class HeaderContainer extends Component {
             fromEvent,
             fromProfile,
           } = this.props.nav.routes[this.props.nav.index].params;
+
+          console.log(this.props.nav.routes[this.props.nav.index].params);
 
           return (
             <TouchableOpacity
