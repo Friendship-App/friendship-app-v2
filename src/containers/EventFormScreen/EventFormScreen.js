@@ -20,7 +20,7 @@ import { getPreSignedUrl } from '../../utils/aws';
 import Footer from '../../components/Footer';
 import { fetchLocations } from '../../actions/locations';
 import Loading from '../../components/Loading';
-import { createEvent } from '../../actions/events';
+import { createEvent, updateEvent } from '../../actions/events';
 import { fonts, paddings } from '../../styles';
 
 const mapStateToProps = state => ({
@@ -33,6 +33,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchLocations());
   },
   create: eventForm => dispatch(createEvent(eventForm)),
+  update: (eventForm, eventId) => dispatch(updateEvent(eventForm, eventId)),
 });
 
 class EventForm extends Component {
@@ -122,9 +123,6 @@ class EventForm extends Component {
       time,
     } = this.state;
 
-    // console.log(`${date}${time}`);
-    // console.log(moment(`${date}T${time}`));
-
     let eventData = {
       title,
       description,
@@ -161,42 +159,10 @@ class EventForm extends Component {
     }
 
     if (this.props.edit) {
-      // this.props.updateEvent(this.props.eventDetails.id, formdata);
+      this.props.update(eventData, this.props.eventDetails.id);
     } else {
       this.props.create(eventData);
     }
-  }
-
-  appendFieldToFormdata(formValues, url = '') {
-    let tempFormData = new FormData();
-
-    for (const field in formValues) {
-      tempFormData.append(field, formValues[field]);
-    }
-
-    if (url) {
-      tempFormData.append('eventImage', url);
-    }
-
-    return tempFormData;
-  }
-
-  async createFormData(eventData) {
-    if (!this.state.eventImage) {
-      return this.appendFieldToFormdata(eventData);
-    }
-
-    const imageData = {
-      itemName: eventData.title.replace(/\s/g, ''),
-      imgType: this.state.eventImage.type,
-      url: this.state.eventImage.uri,
-    };
-
-    return await getPreSignedUrl('EVENT', imageData)
-      .then(url => this.appendFieldToFormdata(eventData, url))
-      .catch(e => {
-        console.error(e);
-      });
   }
 
   renderPeopleMix(peopleMixValue) {
@@ -628,8 +594,8 @@ class EventForm extends Component {
 const ButtonOption = styled.View`
   flex: 1;
   align-items: center;
-  marginbottom: 10;
-  margintop: 15;
+  margin-bottom: 10;
+  margin-top: 15;
 `;
 
 const LabelContainer = styled.View`

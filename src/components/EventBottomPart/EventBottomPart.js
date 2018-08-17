@@ -20,7 +20,7 @@ export default class EventBottomPart extends PureComponent {
           <ButtonOption>
             <TouchableOpacity
               style={styles.buttonStyle}
-              // onPress={() => this.props.openEditForm(this.props.eventDetails)}
+              onPress={this.props.editEvent}
             >
               <Text style={styles.textButtonStyle}>Manage Event</Text>
             </TouchableOpacity>

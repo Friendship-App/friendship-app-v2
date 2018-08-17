@@ -19,6 +19,7 @@ import EditAccountScreen from '../containers/EditAccountScreen';
 import ChatRequestScreen from '../containers/ChatRequestScreen';
 import EditTagsScreen from '../containers/EditTagsScreen';
 import EditPersonalitiesScreen from '../containers/EditPersonalitiesScreen';
+import UpdateEventScreen from '../containers/UpdateEventScreen';
 
 const routes = {
   WelcomeScreen: {
@@ -61,6 +62,12 @@ const routes = {
           color={'transparent'}
         />
       ),
+    },
+  },
+  EditEvent: {
+    screen: UpdateEventScreen,
+    navigationOptions: {
+      header: <HeaderContainer left={'white-back'} color={'transparent'} />,
     },
   },
   Chat: {

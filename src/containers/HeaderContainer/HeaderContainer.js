@@ -243,8 +243,6 @@ class HeaderContainer extends Component {
             fromProfile,
           } = this.props.nav.routes[this.props.nav.index].params;
 
-          console.log(this.props.nav.routes[this.props.nav.index].params);
-
           return (
             <TouchableOpacity
               style={{ flexDirection: 'row', alignItems: 'center' }}

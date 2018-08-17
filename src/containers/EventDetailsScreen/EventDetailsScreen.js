@@ -7,6 +7,8 @@ import { DescriptionWrapper } from '../../components/Layout/Layout';
 import { Description } from '../../components/Layout/TextLayout';
 import EventBottomPart from '../../components/EventBottomPart';
 import { addUserToEvent, removeUserFromEvent } from '../../actions/events';
+import { NavigationActions } from 'react-navigation';
+import { fetchLocations } from '../../actions/locations';
 
 const mapStateToProps = state => ({
   events: state.events,
@@ -16,10 +18,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   joinEvent: eventId => dispatch(addUserToEvent(eventId)),
   leaveEvent: eventId => dispatch(removeUserFromEvent(eventId)),
+  editEvent: () => {
+    dispatch(fetchLocations());
+    dispatch(NavigationActions.navigate({ routeName: 'EditEvent' }));
+  },
 });
 
 const EventDetailsScreen = props => {
-  const { events, joinEvent, leaveEvent } = props;
+  const { events, joinEvent, leaveEvent, editEvent } = props;
 
   if (events.isLoadingEventDetails) {
     return <Loading />;
@@ -70,6 +76,7 @@ const EventDetailsScreen = props => {
               userParticipate: !props.navigation.state.params.userParticipate,
             });
           }}
+          editEvent={editEvent}
           participate={props.navigation.state.params.userParticipate}
           isHost={hostId === props.auth.data.decoded.id}
           eventFull={eventParticipants.length >= maxParticipants}

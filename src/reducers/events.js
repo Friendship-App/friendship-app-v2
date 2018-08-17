@@ -7,6 +7,7 @@ export const initialState = {
   isCreatingEvent: false,
   isAddingUserToEvent: false,
   isRemovingUserFromEvent: false,
+  isUpdatingEvent: false,
   events: [],
 };
 
@@ -94,6 +95,18 @@ export function events(state = initialState, action) {
       return {
         ...state,
         isRemovingUserFromEvent: false,
+      };
+
+    case ActionTypes.UPDATE_EVENT:
+      return {
+        ...state,
+        isUpdatingEvent: true,
+      };
+
+    case ActionTypes.EVENT_UPDATED:
+      return {
+        ...state,
+        isUpdatingEvent: false,
       };
 
     case 'SIGN_OUT':

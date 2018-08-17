@@ -1,6 +1,7 @@
 import apiRoot from '../utils/api.config';
 import { StackActions } from 'react-navigation';
 import { fetchChatrooms } from './chatrooms';
+import { NavigationActions } from 'react-navigation';
 
 export const ActionTypes = {
   EVENTS_REQUEST_FAILED: 'EVENTS_REQUEST_FAILED',
@@ -22,6 +23,9 @@ export const ActionTypes = {
 
   CREATE_EVENT: 'CREATE_EVENT',
   EVENT_CREATED: 'EVENT_CREATED',
+
+  UPDATE_EVENT: 'UPDATE_EVENT',
+  EVENT_UPDATED: 'EVENT_UPDATED',
 };
 
 export function requestEvents(type) {
@@ -132,6 +136,41 @@ export function createEvent(eventForm) {
               },
             }),
           );
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failEvents());
+      }
+    }
+  };
+}
+
+export function updateEvent(eventForm, eventId) {
+  return async (dispatch, getState) => {
+    const { events, auth } = getState();
+
+    if (!events.isUpdatingEvent) {
+      dispatch(requestEvents(ActionTypes.UPDATE_EVENT));
+      try {
+        const resp = await fetch(`${apiRoot}/events/update`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+          body: JSON.stringify({
+            eventData: eventForm,
+            eventId: eventId,
+          }),
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          dispatch(requestEvents(ActionTypes.EVENT_UPDATED));
+          dispatch(fetchEventDetails(eventId));
+          dispatch(fetchEvents());
+          dispatch(NavigationActions.back());
         } else {
           throw Error;
         }

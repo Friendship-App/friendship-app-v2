@@ -81,6 +81,9 @@ class InboxCard extends React.Component {
       image = participant.image;
       title = participant.username;
       participantId = participant.id;
+    } else {
+      image = this.props.data.eventData.eventImage;
+      title = this.props.data.eventData.title;
     }
     disableTouchableOpacity(this);
     this.props.updateReadMessages(chatroomId);
