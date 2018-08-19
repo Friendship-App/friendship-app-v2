@@ -2,7 +2,15 @@
   "expo": {
     "sdkVersion": "27.0.0",
     "privacy": "unlisted",
-    "slug": "friendship",
-    "orientation": "portrait"
+    "slug": "Friendship",
+    "orientation": "portrait",
+    "name": "Friendship",
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.futurice.friendship"
+    },
+    "android": {
+      "package": "com.futurice.friendship"
+    }
   }
 }
