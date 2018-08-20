@@ -8,6 +8,7 @@ import { fetchEvents } from './events';
 import { fetchUserTags } from './tags';
 import { fetchUserPersonalities } from './personalities';
 import { refresh, refreshMyInformation } from './refresh';
+import { registerForPushNotificationsAsync } from '../utils/notifications';
 
 export const ActionTypes = {
   LOGIN_REQUEST: 'LOGIN_REQUEST',
@@ -70,15 +71,17 @@ export function login(email, password, screenName) {
 
       if (resp.ok) {
         const data = await resp.json();
+        const decodedData = jwtDecode(data.token);
         await dispatch(receiveLogin());
         await dispatch(
           storeCredentials({
             ...data,
-            decoded: jwtDecode(data.token),
+            decoded: decodedData,
           }),
         );
         dispatch(refresh());
         dispatch(refreshMyInformation());
+        registerForPushNotificationsAsync(decodedData.id, data.token);
 
         if (screenName) {
           dispatch(NavigationActions.navigate({ routeName: screenName }));
