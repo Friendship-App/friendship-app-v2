@@ -26,6 +26,9 @@ export const ActionTypes = {
 
   UPDATE_EVENT: 'UPDATE_EVENT',
   EVENT_UPDATED: 'EVENT_UPDATED',
+
+  DELETE_EVENT: 'DELETE_EVENT',
+  EVENT_DELETED: 'EVENT_DELETED',
 };
 
 export function requestEvents(type) {
@@ -254,6 +257,36 @@ export function removeUserFromEvent(eventId) {
 
         if (resp.ok) {
           console.log('done');
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failEvents());
+      }
+    }
+  };
+}
+
+export function deleteEvent(eventId) {
+  return async (dispatch, getState) => {
+    const { events, auth } = getState();
+
+    if (!events.isDeletingEvent) {
+      dispatch(requestEvents(ActionTypes.DELETE_EVENT));
+      try {
+        const resp = await fetch(`${apiRoot}/events/delete/${eventId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+        });
+
+        if (resp.ok) {
+          dispatch(requestEvents(ActionTypes.EVENT_DELETED));
+          dispatch(fetchEvents());
+          dispatch(NavigationActions.back());
+          dispatch(NavigationActions.back());
         } else {
           throw Error;
         }

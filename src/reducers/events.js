@@ -8,6 +8,7 @@ export const initialState = {
   isAddingUserToEvent: false,
   isRemovingUserFromEvent: false,
   isUpdatingEvent: false,
+  isDeletingEvent: false,
   events: [],
 };
 
@@ -59,6 +60,10 @@ export function events(state = initialState, action) {
         isLoadingEventDetails: false,
         isLoadingEventParticipants: false,
         isCreatingEvent: false,
+        isAddingUserToEvent: false,
+        isRemovingUserFromEvent: false,
+        isUpdatingEvent: false,
+        isDeletingEvent: false,
       };
 
     case ActionTypes.CREATE_EVENT:
@@ -107,6 +112,18 @@ export function events(state = initialState, action) {
       return {
         ...state,
         isUpdatingEvent: false,
+      };
+
+    case ActionTypes.DELETE_EVENT:
+      return {
+        ...state,
+        isDeletingEvent: true,
+      };
+
+    case ActionTypes.EVENT_DELETED:
+      return {
+        ...state,
+        isDeletingEvent: false,
       };
 
     case 'SIGN_OUT':

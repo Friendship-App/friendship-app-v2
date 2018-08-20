@@ -20,7 +20,7 @@ import { getPreSignedUrl } from '../../utils/aws';
 import Footer from '../../components/Footer';
 import { fetchLocations } from '../../actions/locations';
 import Loading from '../../components/Loading';
-import { createEvent, updateEvent } from '../../actions/events';
+import { createEvent, deleteEvent, updateEvent } from '../../actions/events';
 import { fonts, paddings } from '../../styles';
 
 const mapStateToProps = state => ({
@@ -34,6 +34,7 @@ const mapDispatchToProps = dispatch => ({
   },
   create: eventForm => dispatch(createEvent(eventForm)),
   update: (eventForm, eventId) => dispatch(updateEvent(eventForm, eventId)),
+  delete: eventId => dispatch(deleteEvent(eventId)),
 });
 
 class EventForm extends Component {
@@ -572,9 +573,7 @@ class EventForm extends Component {
             {this.props.edit ? (
               <ButtonOption>
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.deleteEvent(this.props.eventDetails.id)
-                  }
+                  onPress={() => this.props.delete(this.props.eventDetails.id)}
                   style={styles.buttonStyle}
                 >
                   <Text style={styles.textButtonStyle}>Cancel Event</Text>
