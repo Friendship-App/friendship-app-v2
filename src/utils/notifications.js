@@ -1,7 +1,7 @@
 import { Notifications, Permissions } from 'expo';
 import apiRoot from './api.config';
 
-export const registerForPushNotificationsAsync = async userId => {
+export const registerForPushNotificationsAsync = async (userId, userToken) => {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS,
   );
@@ -25,11 +25,12 @@ export const registerForPushNotificationsAsync = async userId => {
   let token = await Notifications.getExpoPushTokenAsync();
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
-  return fetch(`${apiRoot}/users/push-token`, {
-    method: 'PATCH',
+  fetch(`${apiRoot}/users/push-token`, {
+    method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${userToken}`,
     },
     body: JSON.stringify({
       token: token,

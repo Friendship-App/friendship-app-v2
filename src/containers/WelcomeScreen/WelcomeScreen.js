@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavigationActions, StackActions } from 'react-navigation';
 import Welcome from '../../components/Welcome';
 import { refresh, refreshMyInformation } from '../../actions/refresh';
+import { registerForPushNotificationsAsync } from '../../utils/notifications';
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -29,6 +30,7 @@ class WelcomeScreen extends React.Component {
     const { auth, openApp } = this.props;
     if (auth.isAuthenticated) {
       openApp();
+      registerForPushNotificationsAsync(auth.data.decoded.id, auth.data.token);
     }
   }
 

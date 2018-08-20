@@ -10,7 +10,8 @@
       "bundleIdentifier": "com.futurice.friendship"
     },
     "android": {
-      "package": "com.futurice.friendship"
+      "package": "com.futurice.friendship",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }
