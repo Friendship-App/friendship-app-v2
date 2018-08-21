@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, Image } from 'react-native';
 import EventCard from '../EventCard';
+import EmptyList from '../EmptyList';
 
 const keyExtractor = event => 'list-item-' + event.id;
 
@@ -63,6 +64,7 @@ class EventsList extends React.Component {
         refreshing={false}
         onRefresh={onRefresh}
         style={{ width: '100%' }}
+        ListEmptyComponent={<EmptyList type={'event'} />}
       />
     );
   }

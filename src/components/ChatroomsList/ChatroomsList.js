@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import EmptyChatMessage from '../EmptyChatMessage';
+import EmptyList from '../EmptyList';
 import InboxCard from '../InboxCard';
 import styles from './styles';
 
@@ -32,9 +32,7 @@ class ChatroomsList extends React.Component {
         data={sortedChatrooms}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
-        ListEmptyComponent={
-          <EmptyChatMessage goToPeopleView={goToPeopleView} />
-        }
+        ListEmptyComponent={<EmptyList redirect={goToPeopleView} />}
         refreshing={false}
         onRefresh={this.props.onRefresh}
         style={[styles.chatList]}
