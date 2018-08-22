@@ -83,9 +83,9 @@ class Profile extends React.Component {
   renderSendMsg = () => {
     const openChat = () => {
       const { chatroomId } = this.props.chatrooms;
-      chatroomId.id > 0
+      chatroomId > 0
         ? this.props.openChatView(
-            chatroomId.id,
+            chatroomId,
             false,
             this.props.userDetails.data.image,
             this.props.userDetails.data.username,
