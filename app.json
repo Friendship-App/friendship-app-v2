@@ -7,10 +7,10 @@
     "name": "Friendship",
     "version": "1.0.0",
     "ios": {
-      "bundleIdentifier": "com.futurice.friendship"
+      "bundleIdentifier": "com.friendship.app"
     },
     "android": {
-      "package": "com.futurice.friendship",
+      "package": "com.friendship.app",
       "googleServicesFile": "./google-services.json"
     }
   }
