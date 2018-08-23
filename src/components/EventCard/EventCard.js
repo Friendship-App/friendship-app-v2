@@ -18,7 +18,7 @@ import { NavigationActions } from 'react-navigation';
 import { fetchEventDetails } from '../../actions/events';
 
 const mapDispatchToProps = dispatch => ({
-  openEvent: (eventId, userParticipate, chatroomId, eventTitle, eventImage) => {
+  openEvent: (eventId, userParticipate) => {
     dispatch(fetchEventDetails(eventId));
     // dispatch(fetchEventParticipants(eventId));
     dispatch(
@@ -26,10 +26,6 @@ const mapDispatchToProps = dispatch => ({
         routeName: 'EventDetails',
         params: {
           userParticipate,
-          chatroomId,
-          eventTitle,
-          eventId,
-          eventImage,
         },
       }),
     );
@@ -94,6 +90,7 @@ class EventCard extends Component {
       srcImage,
       avatars,
       first,
+      active,
     } = this.props;
 
     return (
@@ -108,6 +105,7 @@ class EventCard extends Component {
             this.props.chatroomId,
             this.props.title,
             this.props.srcImage,
+            active,
           );
         }}
       >

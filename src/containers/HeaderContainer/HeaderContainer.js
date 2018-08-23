@@ -23,6 +23,7 @@ import { fetchUserTags } from '../../actions/tags';
 import { fetchUserPersonalities } from '../../actions/personalities';
 import { fetchUserInformation } from '../../actions/users';
 import ActionsModal from '../../components/ActionsModal';
+import { fetchEventDetails } from '../../actions/events';
 
 const mapDispatchToProps = dispatch => ({
   back: (backTo = {}) => dispatch(NavigationActions.back(backTo)),
@@ -39,6 +40,7 @@ const mapDispatchToProps = dispatch => ({
       }),
     ),
   openProfile: personId => {
+    console.log('opening profile ...');
     dispatch(fetchUserInformation(personId));
     dispatch(fetchUserTags(personId));
     dispatch(fetchUserPersonalities(personId));
@@ -50,7 +52,18 @@ const mapDispatchToProps = dispatch => ({
       }),
     );
   },
-  openChat: (chatroomId, eventTitle, eventId, eventImage) => {
+  openEvent: eventId => {
+    dispatch(fetchEventDetails(eventId));
+    dispatch(
+      NavigationActions.navigate({
+        routeName: 'EventDetails',
+        params: {
+          userParticipate: true,
+        },
+      }),
+    );
+  },
+  openChat: (chatroomId, eventTitle, eventId, eventImage, active) => {
     dispatch(fetchChatroomMessages(chatroomId));
     dispatch(
       NavigationActions.navigate({
@@ -61,6 +74,7 @@ const mapDispatchToProps = dispatch => ({
           eventId,
           image: eventImage,
           fromEvent: true,
+          active,
         },
       }),
     );
@@ -199,13 +213,15 @@ class HeaderContainer extends Component {
       case 'event-chat':
         if (
           !this.props.nav.isTransitioning &&
-          this.props.nav.routes[this.props.nav.index].params.userParticipate
+          this.props.nav.routes[this.props.nav.index].params.userParticipate &&
+          this.props.nav.routes[this.props.nav.index].params.active
         ) {
           const {
             chatroomId,
             eventTitle,
             eventId,
             eventImage,
+            active,
           } = this.props.nav.routes[this.props.nav.index].params;
           return (
             <Button
@@ -224,6 +240,7 @@ class HeaderContainer extends Component {
                   eventTitle,
                   eventId,
                   eventImage,
+                  active,
                 );
               }}
             />

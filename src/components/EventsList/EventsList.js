@@ -49,6 +49,7 @@ const renderItem = (item, userId, index) => {
       hostId={item.hostId}
       userParticipate={userParticipate}
       chatroomId={item.chatroomId}
+      active={item.active}
     />
   );
 };

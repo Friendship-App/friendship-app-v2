@@ -22,6 +22,7 @@ const mapDispatchToProps = dispatch => ({
     title,
     participantId,
     active,
+    eventId,
   ) => {
     dispatch(fetchChatroomMessages(chatroomId));
     dispatch(
@@ -34,6 +35,7 @@ const mapDispatchToProps = dispatch => ({
           title,
           participantId,
           active,
+          eventId,
         },
       }),
     );
@@ -87,7 +89,7 @@ class InboxCard extends React.Component {
   handlePress = () => {
     const { chatroomId, isEventChatroom, participantsData } = this.props.data;
     const userId = this.props.auth.data.decoded.id;
-    let image, title, participantId, active;
+    let image, title, participantId, active, eventId;
     if (!isEventChatroom) {
       const participant = participantsData.find(
         participant => participant.id !== userId,
@@ -99,6 +101,8 @@ class InboxCard extends React.Component {
     } else {
       image = this.props.data.eventData.eventImage;
       title = this.props.data.eventData.title;
+      active = this.props.data.eventData.active;
+      eventId = this.props.data.eventData.id;
     }
     disableTouchableOpacity(this);
     this.props.updateReadMessages(chatroomId);
@@ -109,6 +113,7 @@ class InboxCard extends React.Component {
       title,
       participantId,
       active,
+      eventId,
     );
   };
 
@@ -128,8 +133,11 @@ class InboxCard extends React.Component {
     }
   };
 
-  getUserActive = active => {
+  getUserActive = (active, isEventChatroom) => {
     if (!active) {
+      const inactiveMessage = isEventChatroom
+        ? 'event cancelled'
+        : 'user left ...';
       return (
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
           <Icon
@@ -138,7 +146,7 @@ class InboxCard extends React.Component {
             size={15}
             style={{ marginRight: 5 }}
           />
-          <Text style={styles.inboxCardMessage}>This user left ...</Text>
+          <Text style={styles.inboxCardMessage}>{inactiveMessage}</Text>
         </View>
       );
     }
@@ -195,7 +203,7 @@ class InboxCard extends React.Component {
             <Text style={styles.inboxCardTime}>{time}</Text>
           </View>
           {this.getUnreadMessages(unreadMessages, unreadMessagesText)}
-          {this.getUserActive(active)}
+          {this.getUserActive(active, this.props.data.isEventChatroom)}
           <Text numberOfLines={1} style={styles.inboxCardMessage}>
             {lastMessage.textMessage}
           </Text>
