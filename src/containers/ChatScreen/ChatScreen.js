@@ -22,6 +22,7 @@ import {
 const mapStateToProps = state => ({
   chatrooms: state.chatrooms,
   currentUserId: state.auth.data.decoded.id,
+  nav: state.nav,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -42,8 +43,10 @@ class ChatScreen extends React.Component {
 
   componentWillMount() {
     socket.on('message', () => {
-      console.log('refreshing messages...');
       this.props.refreshMessages(this.props.navigation.state.params.chatroomId);
+    });
+    this.setState({
+      disabled: !this.props.nav.routes[this.props.nav.index].params.active,
     });
   }
 
@@ -129,7 +132,7 @@ class ChatScreen extends React.Component {
             <Icon
               name={'md-send'}
               color={
-                this.state.text.trim().length > 0
+                !disabled && this.state.text.trim().length > 0
                   ? colors.ORANGE
                   : colors.DARK_GREY
               }
