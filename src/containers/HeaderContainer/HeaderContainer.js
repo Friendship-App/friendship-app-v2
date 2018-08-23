@@ -235,6 +235,7 @@ class HeaderContainer extends Component {
         if (!this.props.nav.isTransitioning) {
           const {
             isEventChatroom,
+            active,
             participantId,
             eventId,
             image,
@@ -243,10 +244,17 @@ class HeaderContainer extends Component {
             fromProfile,
           } = this.props.nav.routes[this.props.nav.index].params;
 
+          let formatedTitle = title;
+
+          if (formatedTitle.length > 20) {
+            formatedTitle = formatedTitle.substring(0, 20);
+            formatedTitle += '...';
+          }
+
           return (
             <TouchableOpacity
               style={{ flexDirection: 'row', alignItems: 'center' }}
-              disabled={fromEvent || fromProfile}
+              disabled={fromEvent || fromProfile || !active}
               onPress={() => {
                 isEventChatroom
                   ? this.props.openEvent(eventId)
@@ -260,7 +268,7 @@ class HeaderContainer extends Component {
                 ]}
               />
               <Text style={{ fontFamily: 'NunitoSans-Regular', fontSize: 15 }}>
-                {title}
+                {formatedTitle}
               </Text>
             </TouchableOpacity>
           );
