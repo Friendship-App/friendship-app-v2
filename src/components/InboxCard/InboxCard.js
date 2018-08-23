@@ -15,12 +15,26 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateReadMessages: chatroomId => dispatch(updateMessages(chatroomId)),
-  openChatView: (chatroomId, isEventChatroom, image, title, participantId) => {
+  openChatView: (
+    chatroomId,
+    isEventChatroom,
+    image,
+    title,
+    participantId,
+    active,
+  ) => {
     dispatch(fetchChatroomMessages(chatroomId));
     dispatch(
       NavigationActions.navigate({
         routeName: 'Chat',
-        params: { chatroomId, isEventChatroom, image, title, participantId },
+        params: {
+          chatroomId,
+          isEventChatroom,
+          image,
+          title,
+          participantId,
+          active,
+        },
       }),
     );
   },
@@ -73,7 +87,7 @@ class InboxCard extends React.Component {
   handlePress = () => {
     const { chatroomId, isEventChatroom, participantsData } = this.props.data;
     const userId = this.props.auth.data.decoded.id;
-    let image, title, participantId;
+    let image, title, participantId, active;
     if (!isEventChatroom) {
       const participant = participantsData.find(
         participant => participant.id !== userId,
@@ -81,6 +95,7 @@ class InboxCard extends React.Component {
       image = participant.image;
       title = participant.username;
       participantId = participant.id;
+      active = participant.active;
     } else {
       image = this.props.data.eventData.eventImage;
       title = this.props.data.eventData.title;
@@ -93,14 +108,47 @@ class InboxCard extends React.Component {
       image,
       title,
       participantId,
+      active,
     );
+  };
+
+  getUnreadMessages = (unreadMessages, unreadMessagesText) => {
+    if (unreadMessages > 0) {
+      return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <Icon
+            name={'md-mail'}
+            color={colors.ORANGE}
+            size={10}
+            style={{ marginRight: 5 }}
+          />
+          <Text style={styles.inboxCardMessage}>{unreadMessagesText}</Text>
+        </View>
+      );
+    }
+  };
+
+  getUserActive = active => {
+    if (!active) {
+      return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <Icon
+            name={'md-information-circle'}
+            color={colors.ORANGE}
+            size={15}
+            style={{ marginRight: 5 }}
+          />
+          <Text style={styles.inboxCardMessage}>This user left ...</Text>
+        </View>
+      );
+    }
   };
 
   render() {
     // const { creator, receiver, messages, event } = this.props.data;
     const { unreadMessages, lastMessage, isEventChatroom } = this.props.data;
 
-    let time, unreadMessagesText, username, avatar;
+    let time, unreadMessagesText, username, avatar, active;
 
     time = this.getTime();
 
@@ -110,12 +158,19 @@ class InboxCard extends React.Component {
     if (isEventChatroom) {
       username = this.props.data.eventData.title;
       avatar = this.props.data.eventData.eventImage;
+      active = this.props.data.eventData.active;
     } else {
       const otherParticipant = this.props.data.participantsData.find(
         participant => participant.id !== this.props.auth.data.decoded.id,
       );
       username = otherParticipant.username;
       avatar = otherParticipant.image;
+      active = otherParticipant.active;
+    }
+
+    if (username.length > 15) {
+      username = username.substring(0, 15);
+      username += '...';
     }
 
     return (
@@ -130,20 +185,17 @@ class InboxCard extends React.Component {
         />
         <View style={styles.inboxCardContent}>
           <View style={styles.inboxCardHeader}>
-            <Text style={styles.inboxCardName}>{username}</Text>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode={'tail'}
+              style={styles.inboxCardName}
+            >
+              {username}
+            </Text>
             <Text style={styles.inboxCardTime}>{time}</Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-            {unreadMessages > 0 ? (
-              <Icon
-                name={'md-mail'}
-                color={colors.ORANGE}
-                size={10}
-                style={{ marginRight: 5 }}
-              />
-            ) : null}
-            <Text style={styles.inboxCardMessage}>{unreadMessagesText}</Text>
-          </View>
+          {this.getUnreadMessages(unreadMessages, unreadMessagesText)}
+          {this.getUserActive(active)}
           <Text numberOfLines={1} style={styles.inboxCardMessage}>
             {lastMessage.textMessage}
           </Text>
@@ -173,7 +225,6 @@ const styles = {
     color: '#4a4a4a',
   },
   inboxCardTime: {
-    alignSelf: 'flex-start',
     fontSize: 10,
     color: '#5c5c5c',
   },
