@@ -65,8 +65,6 @@ export function fetchBatchUsers(batchNumber, usersAlreadyFetched = []) {
           body: JSON.stringify({ usersAlreadyFetched }),
         });
 
-        console.log(resp);
-
         if (resp.ok) {
           const data = await resp.json();
           dispatch(receiveUsers(data));
