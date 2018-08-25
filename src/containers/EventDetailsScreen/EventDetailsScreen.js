@@ -22,6 +22,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchLocations());
     dispatch(NavigationActions.navigate({ routeName: 'EditEvent' }));
   },
+  report: () =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: 'ReportEvent',
+      }),
+    ),
 });
 
 const EventDetailsScreen = props => {
@@ -61,6 +67,7 @@ const EventDetailsScreen = props => {
           <Description>{description}</Description>
         </DescriptionWrapper>
         <EventBottomPart
+          report={props.report}
           participants={eventParticipants}
           personalities={eventPersonality}
           tags={eventTopTags}

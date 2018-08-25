@@ -1,7 +1,7 @@
 import apiRoot from '../utils/api.config';
-import { StackActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import { fetchChatrooms } from './chatrooms';
-import { NavigationActions } from 'react-navigation';
+import { requestUsers } from './users';
 
 export const ActionTypes = {
   EVENTS_REQUEST_FAILED: 'EVENTS_REQUEST_FAILED',
@@ -29,6 +29,9 @@ export const ActionTypes = {
 
   DELETE_EVENT: 'DELETE_EVENT',
   EVENT_DELETED: 'EVENT_DELETED',
+
+  REPORT_EVENT_REQUEST: 'REPORT_EVENT_REQUEST',
+  REPORT_EVENT_DONE: 'REPORT_EVENT_DONE',
 };
 
 export function requestEvents(type) {
@@ -287,6 +290,34 @@ export function deleteEvent(eventId) {
           dispatch(fetchEvents());
           dispatch(NavigationActions.back());
           dispatch(NavigationActions.back());
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failEvents());
+      }
+    }
+  };
+}
+
+export function reportEvent(reason) {
+  return async (dispatch, getState) => {
+    const { auth, events } = getState();
+    if (!events.isReporting) {
+      dispatch(requestEvents(ActionTypes.REPORT_EVENT_REQUEST));
+
+      try {
+        const resp = await fetch(`${apiRoot}/events/report`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+          body: JSON.stringify({ eventId: events.eventDetails.id, reason }),
+        });
+
+        if (resp.ok) {
+          dispatch(requestUsers(ActionTypes.REPORT_EVENT_DONE));
         } else {
           throw Error;
         }

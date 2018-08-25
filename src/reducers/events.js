@@ -9,6 +9,7 @@ export const initialState = {
   isRemovingUserFromEvent: false,
   isUpdatingEvent: false,
   isDeletingEvent: false,
+  isReporting: false,
   events: [],
 };
 
@@ -124,6 +125,16 @@ export function events(state = initialState, action) {
       return {
         ...state,
         isDeletingEvent: false,
+      };
+    case ActionTypes.REPORT_EVENT_DONE:
+      return {
+        ...state,
+        isReporting: false,
+      };
+    case ActionTypes.REPORT_EVENT_REQUEST:
+      return {
+        ...state,
+        isReporting: true,
       };
 
     case 'SIGN_OUT':

@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import ParticipantList from './ParticipantList';
 import Tag from '../Tag';
 import Personality from '../Personality';
+import { colors } from '../../styles';
 
 const ButtonOption = styled.View`
   flex: 1;
@@ -68,6 +69,21 @@ export default class EventBottomPart extends PureComponent {
     }
   }
 
+  renderReportButton = () => {
+    return (
+      <View style={{ backgroundColor: '#ffffff', height: 100 }}>
+        <ButtonOption>
+          <TouchableOpacity
+            onPress={this.props.report}
+            style={styles.reportButtonStyle}
+          >
+            <Text style={styles.textButtonStyle}>Report Event</Text>
+          </TouchableOpacity>
+        </ButtonOption>
+      </View>
+    );
+  };
+
   renderPersonalities = () => {
     return this.props.personalities.map(personality => {
       return (
@@ -120,6 +136,7 @@ export default class EventBottomPart extends PureComponent {
           ))}
         </View>
         {this.renderJoinButton(this.props.isHost, this.props.eventFull)}
+        {this.renderReportButton()}
       </View>
     );
   };
@@ -166,5 +183,14 @@ const styles = StyleSheet.create({
     height: 47,
     borderRadius: 34,
     backgroundColor: '#F9F6F1',
+  },
+  reportButtonStyle: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: 241,
+    height: 47,
+    borderRadius: 34,
+    backgroundColor: colors.DARK_ORANGE,
   },
 });
