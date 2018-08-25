@@ -188,7 +188,6 @@ export function reportUser(reason) {
   return async (dispatch, getState) => {
     const { auth, users } = getState();
     if (!users.isReporting) {
-      console.log(reason);
       dispatch(requestUsers(ActionTypes.REPORT_USER_REQUEST));
 
       try {
@@ -203,7 +202,6 @@ export function reportUser(reason) {
 
         if (resp.ok) {
           dispatch(requestUsers(ActionTypes.REPORT_USER_DONE));
-          dispatch(NavigationActions.back());
         } else {
           throw Error;
         }
