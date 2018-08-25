@@ -1,17 +1,17 @@
 import React from 'react';
-import {TextInput, View} from "react-native";
-import styles from "./styles";
+import { TextInput, View } from 'react-native';
+import styles from './styles';
 
 class BubbleTextInput extends React.Component {
-  render () {
+  render() {
     return (
       <TextInput
-        style={[styles.bubbleTextInput]}
+        style={[styles.bubbleTextInput, this.props.style]}
         underlineColorAndroid={'transparent'}
         placeholder={this.props.placeholder}
         multiline={true}
         autoGrow={true}
-        textAlignVertical='top'
+        textAlignVertical="top"
         onContentSizeChange={evt => this.props.onContentSizeChange(evt)}
         onChangeText={this.props.onChangeText}
       />

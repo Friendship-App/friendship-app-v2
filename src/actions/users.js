@@ -16,6 +16,9 @@ export const ActionTypes = {
   UPDATE_ACCOUNT_REQUEST: 'UPDATE_ACCOUNT_REQUEST',
   UPDATE_ACCOUNT_SUCCESS: 'UPDATE_ACCOUNT_SUCCESS',
 
+  REPORT_USER_REQUEST: 'REPORT_USER_REQUEST',
+  REPORT_USER_DONE: 'REPORT_USER_DONE',
+
   USERS_FAILED: 'USERS_FAILED',
 };
 
@@ -177,6 +180,36 @@ export function updateUserAccount() {
           dispatch(NavigationActions.back());
         }
       } catch (e) {}
+    }
+  };
+}
+
+export function reportUser(reason) {
+  return async (dispatch, getState) => {
+    const { auth, users } = getState();
+    if (!users.isReporting) {
+      console.log(reason);
+      dispatch(requestUsers(ActionTypes.REPORT_USER_REQUEST));
+
+      try {
+        const resp = await fetch(`${apiRoot}/users/report`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+          body: JSON.stringify({ userId: users.userDetails.data.id, reason }),
+        });
+
+        if (resp.ok) {
+          dispatch(requestUsers(ActionTypes.REPORT_USER_DONE));
+          dispatch(NavigationActions.back());
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failRequestUsers());
+      }
     }
   };
 }

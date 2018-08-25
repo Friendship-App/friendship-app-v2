@@ -20,6 +20,7 @@ import ChatRequestScreen from '../containers/ChatRequestScreen';
 import EditTagsScreen from '../containers/EditTagsScreen';
 import EditPersonalitiesScreen from '../containers/EditPersonalitiesScreen';
 import UpdateEventScreen from '../containers/UpdateEventScreen';
+import ReportUserScreen from '../containers/ReportUserScreen';
 
 const routes = {
   WelcomeScreen: {
@@ -104,6 +105,18 @@ const routes = {
     screen: EditPersonalitiesScreen,
     navigationOptions: {
       header: <HeaderContainer left={'white-back'} color={'transparent'} />,
+    },
+  },
+  ReportUser: {
+    screen: ReportUserScreen,
+    navigationOptions: {
+      header: (
+        <HeaderContainer
+          left={'back'}
+          color={'light'}
+          title={'Report a user'}
+        />
+      ),
     },
   },
 

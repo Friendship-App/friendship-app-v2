@@ -5,6 +5,7 @@ export const initialState = {
   isLoadingUserInformation: false,
   isUpdatingProfile: false,
   isUpdatingAccount: false,
+  isReporting: false,
   usersList: [],
   userDetails: {
     userTags: [],
@@ -46,6 +47,18 @@ export default function users(state = initialState, action) {
             userDetails: { data: action.userDetails },
             isLoadingUserInformation: false,
           };
+
+    case ActionTypes.REPORT_USER_REQUEST:
+      return {
+        ...state,
+        isReporting: true,
+      };
+
+    case ActionTypes.REPORT_USER_DONE:
+      return {
+        ...state,
+        isReporting: false,
+      };
 
     case 'SIGN_OUT':
       return initialState;

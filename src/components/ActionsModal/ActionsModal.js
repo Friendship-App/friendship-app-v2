@@ -19,6 +19,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(NavigationActions.navigate({ routeName: 'EditPersonalities' })),
   openEditAccount: () =>
     dispatch(NavigationActions.navigate({ routeName: 'EditAccount' })),
+  openReportUser: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'ReportUser' })),
   getLocations: () => dispatch(fetchLocations()),
   getTags: () => dispatch(fetchTags()),
   getPersonalities: () => dispatch(fetchPersonalities()),
@@ -26,60 +28,75 @@ const mapDispatchToProps = dispatch => ({
 
 const getTitle = modalType => {
   switch (modalType) {
-    case 'profile':
+    default:
       return <Text style={[styles.header]}>SETTINGS</Text>;
   }
 };
 
 class ActionsModal extends Component {
   render() {
-    const profileActions = [
-      {
-        title: 'PROFILE',
-        onPress: async () => {
-          await this.props.close();
-          await this.props.getLocations();
-          this.props.openEditProfile();
+    const modalActions = {
+      profile: [
+        {
+          title: 'PROFILE',
+          onPress: async () => {
+            await this.props.close();
+            await this.props.getLocations();
+            this.props.openEditProfile();
+          },
         },
-      },
-      {
-        title: 'ACCOUNT',
-        onPress: async () => {
-          await this.props.close();
-          this.props.openEditAccount();
+        {
+          title: 'ACCOUNT',
+          onPress: async () => {
+            await this.props.close();
+            this.props.openEditAccount();
+          },
         },
-      },
-      {
-        title: 'LOVE AND HATE',
-        onPress: async () => {
-          await this.props.close();
-          await this.props.getTags();
-          this.props.openEditTags();
+        {
+          title: 'LOVE AND HATE',
+          onPress: async () => {
+            await this.props.close();
+            await this.props.getTags();
+            this.props.openEditTags();
+          },
         },
-      },
-      {
-        title: 'PERSONALITIES',
-        onPress: async () => {
-          await this.props.close();
-          await this.props.getPersonalities();
-          this.props.openEditPersonalities();
+        {
+          title: 'PERSONALITIES',
+          onPress: async () => {
+            await this.props.close();
+            await this.props.getPersonalities();
+            this.props.openEditPersonalities();
+          },
         },
-      },
-      {
-        title: 'Log Out',
-        onPress: () => {
-          this.props.close();
-          this.props.signOut();
+        {
+          title: 'Log Out',
+          onPress: () => {
+            this.props.close();
+            this.props.signOut();
+          },
         },
-      },
-    ];
+      ],
+      settings: [
+        {
+          title: 'REPORT',
+          onPress: async () => {
+            console.log('reporting...');
+            await this.props.close();
+            this.props.openReportUser();
+          },
+        },
+      ],
+    };
 
     const getActions = () => {
       const { actions } = this.props;
       let actionsArray = [];
       switch (actions) {
         case 'profile':
-          actionsArray = profileActions;
+          actionsArray = modalActions.profile;
+          break;
+        default:
+          actionsArray = modalActions.settings;
       }
       return actionsArray.map(action => (
         <TouchableOpacity

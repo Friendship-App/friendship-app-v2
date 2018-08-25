@@ -40,7 +40,6 @@ const mapDispatchToProps = dispatch => ({
       }),
     ),
   openProfile: personId => {
-    console.log('opening profile ...');
     dispatch(fetchUserInformation(personId));
     dispatch(fetchUserTags(personId));
     dispatch(fetchUserPersonalities(personId));
@@ -195,7 +194,9 @@ class HeaderContainer extends Component {
             type="floatingButton"
             header
             customStyle={{ width: 30, height: 30 }}
-            onPress={() => this.setState({ showModal: true })}
+            onPress={() =>
+              this.setState({ showModal: true, actions: 'profile' })
+            }
           />
         );
 
@@ -206,7 +207,9 @@ class HeaderContainer extends Component {
             type="floatingButton"
             header
             customStyle={{ width: 30, height: 30 }}
-            onPress={() => console.log('show modal please...')}
+            onPress={() =>
+              this.setState({ showModal: true, actions: 'settings' })
+            }
           />
         );
 
