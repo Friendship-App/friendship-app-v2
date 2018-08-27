@@ -18,7 +18,7 @@ import { NavigationActions } from 'react-navigation';
 import { fetchEventDetails } from '../../actions/events';
 
 const mapDispatchToProps = dispatch => ({
-  openEvent: (eventId, userParticipate) => {
+  openEvent: (eventId, userParticipate, active) => {
     dispatch(fetchEventDetails(eventId));
     // dispatch(fetchEventParticipants(eventId));
     dispatch(
@@ -26,6 +26,7 @@ const mapDispatchToProps = dispatch => ({
         routeName: 'EventDetails',
         params: {
           userParticipate,
+          active,
         },
       }),
     );

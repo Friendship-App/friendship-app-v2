@@ -214,6 +214,10 @@ class HeaderContainer extends Component {
         );
 
       case 'event-chat':
+        console.log(
+          this.props.nav.routes[this.props.nav.index].params.userParticipate,
+        );
+        console.log(this.props.nav.routes[this.props.nav.index].params.active);
         if (
           !this.props.nav.isTransitioning &&
           this.props.nav.routes[this.props.nav.index].params.userParticipate &&
