@@ -84,6 +84,7 @@ const mapStateToProps = state => ({
   nav: state.nav,
   chatrooms: state.chatrooms,
   auth: state.auth,
+  eventDetails: state.events.eventDetails,
 });
 
 class HeaderContainer extends Component {
@@ -214,10 +215,6 @@ class HeaderContainer extends Component {
         );
 
       case 'event-chat':
-        console.log(
-          this.props.nav.routes[this.props.nav.index].params.userParticipate,
-        );
-        console.log(this.props.nav.routes[this.props.nav.index].params.active);
         if (
           !this.props.nav.isTransitioning &&
           this.props.nav.routes[this.props.nav.index].params.userParticipate &&
@@ -225,11 +222,11 @@ class HeaderContainer extends Component {
         ) {
           const {
             chatroomId,
-            eventTitle,
-            eventId,
+            title,
+            id,
             eventImage,
             active,
-          } = this.props.nav.routes[this.props.nav.index].params;
+          } = this.props.eventDetails;
           return (
             <Button
               icon={
@@ -242,13 +239,7 @@ class HeaderContainer extends Component {
               type="floatingButton"
               header
               onPress={() => {
-                this.props.openChat(
-                  chatroomId,
-                  eventTitle,
-                  eventId,
-                  eventImage,
-                  active,
-                );
+                this.props.openChat(chatroomId, title, id, eventImage, active);
               }}
             />
           );
