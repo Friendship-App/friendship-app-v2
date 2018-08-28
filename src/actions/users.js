@@ -2,6 +2,7 @@ import apiRoot from '../utils/api.config';
 import { getPreSignedUrl } from '../utils/aws';
 import { NavigationActions } from 'react-navigation';
 import { refreshMyInformation } from './refresh';
+import { logOut } from './login';
 
 export const ActionTypes = {
   USERS_REQUEST: 'USERS_REQUEST',
@@ -18,6 +19,9 @@ export const ActionTypes = {
 
   REPORT_USER_REQUEST: 'REPORT_USER_REQUEST',
   REPORT_USER_DONE: 'REPORT_USER_DONE',
+
+  DELETE_ACCOUNT_REQUEST: 'DELETE_ACCOUNT_REQUEST',
+  DELETE_ACCOUNT_DONE: 'DELETE_ACCOUNT_DONE',
 
   USERS_FAILED: 'USERS_FAILED',
 };
@@ -202,6 +206,32 @@ export function reportUser(reason) {
 
         if (resp.ok) {
           dispatch(requestUsers(ActionTypes.REPORT_USER_DONE));
+        } else {
+          throw Error;
+        }
+      } catch (e) {
+        dispatch(failRequestUsers());
+      }
+    }
+  };
+}
+
+export function deleteUser() {
+  return async (dispatch, getState) => {
+    const { auth, users } = getState();
+    if (!users.isDeleting) {
+      dispatch(requestUsers(ActionTypes.DELETE_ACCOUNT_REQUEST));
+      try {
+        const resp = await fetch(`${apiRoot}/users/delete`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.data.token}`,
+          },
+        });
+
+        if (resp.ok) {
+          dispatch(requestUsers(ActionTypes.DELETE_ACCOUNT_DONE));
         } else {
           throw Error;
         }

@@ -6,6 +6,7 @@ export const initialState = {
   isUpdatingProfile: false,
   isUpdatingAccount: false,
   isReporting: false,
+  isDeleting: false,
   usersList: [],
   userDetails: {
     userTags: [],
@@ -58,6 +59,18 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         isReporting: false,
+      };
+
+    case ActionTypes.DELETE_ACCOUNT_REQUEST:
+      return {
+        ...state,
+        isDeleting: true,
+      };
+
+    case ActionTypes.DELETE_ACCOUNT_DONE:
+      return {
+        ...state,
+        isDeleting: false,
       };
 
     case 'SIGN_OUT':

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
 import Footer from '../Footer';
 import styles from './styles';
 import { change } from 'redux-form';
 import RegisterTextInput from '../RegisterTextInput';
 import { connect } from 'react-redux';
+import Button from '../Button';
+import { colors, paddings } from '../../styles';
+import { deleteUser } from '../../actions/users';
+import { logOut } from '../../actions/login';
 
 function renderField(field, key) {
   return (
@@ -81,8 +84,33 @@ function renderEmailAndPasswordFields(props) {
   return fields.map(field => renderField(field, field.name));
 }
 
+function renderDeleteAccountField(deleteAccount) {
+  return (
+    <Button
+      text={'Delete account'}
+      color={'white'}
+      type="primary"
+      width="md"
+      onPress={deleteAccount}
+      customStyle={{
+        backgroundColor: colors.DARK_ORANGE,
+        alignSelf: 'center',
+        marginTop: paddings.MD,
+      }}
+    />
+  );
+}
+
 const mapStateToProps = state => ({
   updateAccount: state.form.updateAccount,
+});
+
+const mapDispatchToProps = dispatch => ({
+  // delete: () => dispatch(logOut())
+  delete: () => {
+    dispatch(deleteUser());
+    dispatch(logOut());
+  },
 });
 
 class EditAccount extends Component {
@@ -99,6 +127,7 @@ class EditAccount extends Component {
         <ScrollView bounces={false} ref="scrollView">
           <Text style={[styles.title]}>EDIT ACCOUNT</Text>
           {renderEmailAndPasswordFields(this.props)}
+          {renderDeleteAccountField(this.props.delete)}
         </ScrollView>
         <Footer
           disabled={!this.props.hasChanged}
@@ -116,5 +145,5 @@ EditAccount.propTypes = {};
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(EditAccount);
