@@ -5,7 +5,7 @@ export default StyleSheet.create({
   tag: {
     height: 90,
     width: '100%',
-    marginTop: paddings.MD,
+    marginTop: paddings.SM,
     flexDirection: 'row',
     paddingHorizontal: paddings.SM,
     zIndex: 10,

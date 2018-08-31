@@ -51,7 +51,7 @@ class TagPicker extends React.Component {
         style={[
           styles.tag,
           {
-            marginBottom: isLastTag ? paddings.FOOTER : paddings.MD,
+            marginBottom: isLastTag ? paddings.FOOTER : 0,
             backgroundColor,
           },
         ]}
