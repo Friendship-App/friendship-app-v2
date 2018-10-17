@@ -53,7 +53,7 @@ class ActionsModal extends Component {
           },
         },
         {
-          title: 'LOVE AND HATE',
+          title: 'YEAHS AND NAAAHS',
           onPress: async () => {
             await this.props.close();
             await this.props.getTags();
