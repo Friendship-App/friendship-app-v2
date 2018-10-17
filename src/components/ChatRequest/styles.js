@@ -22,4 +22,9 @@ export default StyleSheet.create({
     marginBottom: paddings.LG,
     paddingLeft: paddings.SM,
   },
+  send: {
+    fontFamily: fonts.LIGHT_BOLD,
+    fontSize: fontSizes.BODY_TEXT,
+    color: colors.DUST_WHITE,
+  },
 });

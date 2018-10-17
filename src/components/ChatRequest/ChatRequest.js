@@ -35,7 +35,7 @@ class ChatRequest extends Component {
           disabled={this.state.message.length <= 0}
           onPress={() => this.props.handleSendMessage(this.state.message)}
         >
-          <Text>Send</Text>
+          <Text style={[styles.send]}>Send</Text>
         </Footer>
       </KeyboardAvoidingView>
     );
