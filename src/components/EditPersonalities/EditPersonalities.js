@@ -44,11 +44,15 @@ class EditPersonalities extends Component {
               let updatedSelectedPersonalities = [
                 ...this.props.updatePersonalities.values.personalities,
               ];
-              updatedSelectedPersonalities.splice(
-                prevPersonalityPos,
-                1,
-                updatedPersonality,
-              );
+              if (prevPersonalityPos < 0) {
+                updatedSelectedPersonalities.push(updatedPersonality);
+              } else {
+                updatedSelectedPersonalities.splice(
+                  prevPersonalityPos,
+                  1,
+                  updatedPersonality,
+                );
+              }
               this.props.change('personalities', updatedSelectedPersonalities);
             }}
             key={keyExtractor(personalities[i])}

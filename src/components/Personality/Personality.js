@@ -18,7 +18,7 @@ const Personality = props => {
     .toLowerCase()
     .trim()
     .replace(/-/g, '')
-    .replace(' ', '');
+    .replace(/\s+/g, '');
   return (
     <View
       style={{
@@ -37,7 +37,12 @@ const Personality = props => {
         />
       ) : null}
       <TouchableOpacity style={{ marginBottom: paddings.XS }} onPress={onPress}>
-        <Image source={personalities[img]} style={[imgStyle]} />
+        <Image
+          source={{
+            uri: `https://s3.eu-west-2.amazonaws.com/friendshipapp/personalities/${img}.png`,
+          }}
+          style={[imgStyle]}
+        />
       </TouchableOpacity>
       <Text
         style={{
