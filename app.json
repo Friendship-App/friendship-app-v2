@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "name": "Friendship",
     "version": "1.0.0",
+    "icon": "./assets/appIcon.png",
     "ios": {
       "bundleIdentifier": "com.friendship.app"
     },
