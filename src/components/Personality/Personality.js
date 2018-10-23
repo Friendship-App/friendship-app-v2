@@ -39,7 +39,7 @@ const Personality = props => {
       <TouchableOpacity style={{ marginBottom: paddings.XS }} onPress={onPress}>
         <Image
           source={{
-            uri: `https://s3.eu-west-2.amazonaws.com/friendshipapp/personalities/${img}.png`,
+            uri: `https://s3.eu-west-2.amazonaws.com/friendship-app/personalities/${img}.png`,
           }}
           style={[imgStyle]}
         />
