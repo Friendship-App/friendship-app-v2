@@ -5,7 +5,8 @@
     "slug": "Friendship",
     "orientation": "portrait",
     "name": "Friendship",
-    "version": "1.0.2",
+    "version": "1.0.5",
+    "icon": "./assets/icons/friendship-app-icon-1024.png",
     "ios": {
       "bundleIdentifier": "com.friendship.app",
       "icon": "./assets/icons/friendship-app-icon-1024.png"
