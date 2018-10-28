@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 export default class PhotoBox extends React.Component {
@@ -28,8 +28,12 @@ export default class PhotoBox extends React.Component {
     });
 
     if (!result.cancelled) {
-      input.onChange(result);
-      this.setState({ selected: true, picture: result });
+      const resizedResult = await ImageManipulator.manipulate(result.uri, [
+        { resize: { width: 800 } },
+        { compress: 0.7 },
+      ]);
+      input.onChange(resizedResult);
+      this.setState({ selected: true, picture: resizedResult });
     }
   };
 

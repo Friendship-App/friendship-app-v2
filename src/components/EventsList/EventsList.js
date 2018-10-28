@@ -7,11 +7,12 @@ const keyExtractor = event => 'list-item-' + event.id;
 
 const renderItem = (item, userId, index) => {
   const avatars = [];
-  let userParticipate = false;
+  let userParticipate = item.participantsDetails.some(
+    participant => participant.id === userId,
+  );
   if (item.participants > 0) {
     item.participantsDetails.map(participant => {
       if (!userParticipate) {
-        userParticipate = participant.id === userId;
       }
       if (participant.id === item.hostId) {
         avatars.splice(

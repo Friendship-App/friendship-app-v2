@@ -56,9 +56,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       NavigationActions.navigate({
         routeName: 'EventDetails',
-        params: {
-          userParticipate: true,
-        },
       }),
     );
   },
@@ -224,7 +221,13 @@ class HeaderContainer extends Component {
           eventDetails.params.userParticipate &&
           eventDetails.params.active
         ) {
-          const { chatroomId, title, id, eventImage, active } = eventDetails;
+          const {
+            chatroomId,
+            title,
+            id,
+            eventImage,
+            active,
+          } = this.props.eventDetails;
           return (
             <Button
               icon={
@@ -257,11 +260,11 @@ class HeaderContainer extends Component {
             fromProfile,
           } = this.props.nav.routes[this.props.nav.index].params;
 
-          let formatedTitle = title;
+          let formattedTitle = title;
 
-          if (formatedTitle.length > 20) {
-            formatedTitle = formatedTitle.substring(0, 20);
-            formatedTitle += '...';
+          if (formattedTitle.length > 20) {
+            formattedTitle = formattedTitle.substring(0, 20);
+            formattedTitle += '...';
           }
 
           return (
@@ -281,7 +284,7 @@ class HeaderContainer extends Component {
                 ]}
               />
               <Text style={{ fontFamily: 'NunitoSans-Regular', fontSize: 15 }}>
-                {formatedTitle}
+                {formattedTitle}
               </Text>
             </TouchableOpacity>
           );

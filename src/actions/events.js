@@ -264,6 +264,7 @@ export function removeUserFromEvent(eventId) {
           console.log('done');
           dispatch(requestEvents(ActionTypes.LEAVE_EVENT_DONE));
           dispatch(fetchEventDetails(eventId));
+          dispatch(fetchEvents());
         } else {
           throw Error;
         }
