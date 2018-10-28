@@ -4,11 +4,11 @@ import { colors, fonts, fontSizes } from '../../styles';
 export const Text = styled.Text`
   color: #4b5c5d;
 `;
-export const Bold = Text.extend`
+export const Bold = styled(Text)`
   font-weight: bold;
 `;
 
-export const CenteredText = Bold.extend`
+export const CenteredText = styled(Bold)`
   text-align: center;
 `;
 

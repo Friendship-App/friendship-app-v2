@@ -51,7 +51,7 @@ export const Centered = styled.View`
   justify-content: center;
 `;
 
-export const FullscreenCentered = Centered.extend`
+export const FullscreenCentered = styled(Centered)`
   flex: 1;
   flex-direction: row;
 `;
