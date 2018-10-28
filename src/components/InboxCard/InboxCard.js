@@ -82,7 +82,7 @@ class InboxCard extends React.Component {
 
   getTime = () => {
     const { lastMessage } = this.props.data;
-    const lastMessageTime = lastMessage.chat_time;
+    const lastMessageTime = lastMessage.chatTime;
     return this.getMessageTime(lastMessageTime);
   };
 

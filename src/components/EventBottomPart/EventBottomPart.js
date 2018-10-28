@@ -29,7 +29,7 @@ export default class EventBottomPart extends PureComponent {
         </View>
       );
     }
-    if (eventFull === true) {
+    if (eventFull && !this.props.participate) {
       return (
         <View style={{ backgroundColor: '#ffffff', height: 100 }}>
           <ButtonOption>

@@ -215,18 +215,16 @@ class HeaderContainer extends Component {
         );
 
       case 'event-chat':
+        const eventDetails = this.props.nav.routes.find(
+          x => x.routeName === 'EventDetails',
+        );
         if (
           !this.props.nav.isTransitioning &&
-          this.props.nav.routes[this.props.nav.index].params.userParticipate &&
-          this.props.nav.routes[this.props.nav.index].params.active
+          eventDetails &&
+          eventDetails.params.userParticipate &&
+          eventDetails.params.active
         ) {
-          const {
-            chatroomId,
-            title,
-            id,
-            eventImage,
-            active,
-          } = this.props.eventDetails;
+          const { chatroomId, title, id, eventImage, active } = eventDetails;
           return (
             <Button
               icon={

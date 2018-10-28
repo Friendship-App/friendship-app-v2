@@ -5,20 +5,29 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
 import TagCircle from './TagCircle';
+import { fetchUserInformation } from '../../actions/users';
+import { fetchUserTags } from '../../actions/tags';
+import { fetchUserPersonalities } from '../../actions/personalities';
+import { fetchUserChatroom } from '../../actions/chatrooms';
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  openProfile: (personId, personName) =>
+  openProfile: (personId, personName) => {
+    dispatch(fetchUserInformation(personId));
+    dispatch(fetchUserTags(personId));
+    dispatch(fetchUserPersonalities(personId));
+    dispatch(fetchUserChatroom(personId));
     dispatch(
       NavigationActions.navigate({
-        routeName: 'PeopleProfileView',
+        routeName: 'PeopleProfile',
         params: { personId, personName },
       }),
-    ),
+    );
+  },
   openMyProfile: () =>
     dispatch(
       NavigationActions.navigate({
-        routeName: 'MyProfileView',
+        routeName: 'Profile',
       }),
     ),
 });

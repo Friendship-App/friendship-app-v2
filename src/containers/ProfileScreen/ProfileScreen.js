@@ -1,6 +1,8 @@
 import React from 'react';
 import Profile from '../../components/Profile/Profile';
 import Loading from '../../components/Loading/Loading';
+import styles from '../../components/Loading/styles';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
@@ -20,6 +22,13 @@ class ProfileScreen extends React.Component {
       personalities.isLoadingMyPersonalities
     ) {
       return <Loading />;
+    }
+    if (users.isError) {
+      return (
+        <View style={[styles.loading]}>
+          <Text>Something went wrong, please try again later</Text>
+        </View>
+      );
     }
     return <Profile myProfile />;
   }

@@ -1,6 +1,7 @@
 import { ActionTypes } from '../actions/users';
 
 export const initialState = {
+  isError: false,
   isLoading: false,
   isLoadingUserInformation: false,
   isUpdatingProfile: false,
@@ -21,6 +22,7 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+        isError: false,
       };
 
     case ActionTypes.USERS_RECEIVED:
@@ -34,6 +36,7 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         isLoadingUserInformation: true,
+        isError: false,
       };
 
     case ActionTypes.USER_INFORMATION_RECEIVED:
@@ -53,6 +56,7 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         isReporting: true,
+        isError: false,
       };
 
     case ActionTypes.REPORT_USER_DONE:
@@ -65,6 +69,7 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         isDeleting: true,
+        isError: false,
       };
 
     case ActionTypes.DELETE_ACCOUNT_DONE:
@@ -80,6 +85,10 @@ export default function users(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+        isLoadingUserInformation: false,
+        isReporting: false,
+        isDeleting: false,
+        isError: true,
       };
 
     default:
