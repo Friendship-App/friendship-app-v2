@@ -232,7 +232,9 @@ export function addUserToEvent(eventId) {
 
         if (resp.ok) {
           console.log('done');
+          dispatch(requestEvents(ActionTypes.JOIN_EVENT_DONE));
           dispatch(fetchEvents());
+          dispatch(fetchEventDetails(eventId));
         } else {
           throw Error;
         }
@@ -260,6 +262,8 @@ export function removeUserFromEvent(eventId) {
 
         if (resp.ok) {
           console.log('done');
+          dispatch(requestEvents(ActionTypes.LEAVE_EVENT_DONE));
+          dispatch(fetchEventDetails(eventId));
         } else {
           throw Error;
         }
