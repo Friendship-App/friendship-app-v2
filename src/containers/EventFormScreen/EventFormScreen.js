@@ -173,7 +173,7 @@ class EventForm extends Component {
       case 50:
         return 'Me and my homies';
       case 75:
-        return 'People mix num. 3';
+        return 'A mixture of people';
       case 100:
         return 'Diverse, open to all';
     }
@@ -196,6 +196,11 @@ class EventForm extends Component {
     this.renderStatus();
 
     const maxParticipantsData = [
+      {
+        label: '3',
+        value: '3',
+        key: '3',
+      },
       {
         label: '5',
         value: '5',
