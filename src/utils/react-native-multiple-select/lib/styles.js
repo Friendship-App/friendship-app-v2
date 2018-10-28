@@ -3,7 +3,7 @@
  * Copyright(c) 2017 Mustapha Babatunde Oluwaleke
  * MIT Licensed
  */
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 
 export const InputTitle = {
   fontWeight: '600',
@@ -91,7 +91,7 @@ export default {
       marginLeft: 20,
     };
     if (fixedHeight) {
-      style.height = 400;
+      style.height = 250;
     }
     return style;
   },
