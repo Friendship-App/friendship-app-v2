@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { View, Text } from 'react-native';
 import Loading from '../../components/Loading';
+import styles from '../../components/Loading/styles';
 import Profile from '../../components/Profile';
 
 const mapStateToProps = state => ({
@@ -21,6 +23,13 @@ class PeopleProfileScreen extends React.Component {
       chatrooms.isLoadingUserChatroom
     ) {
       return <Loading />;
+    }
+    if (users.isError) {
+      return (
+        <View style={[styles.loading]}>
+          <Text>Something went wrong, please try again later</Text>
+        </View>
+      );
     }
 
     return <Profile />;
