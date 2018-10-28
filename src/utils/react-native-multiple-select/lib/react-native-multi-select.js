@@ -376,6 +376,7 @@ export default class MultiSelect extends Component {
       textColor,
       fixedHeight,
       hideTags,
+      editProfile,
     } = this.props;
     const { selector } = this.state;
     const color = this.props.titleColor ? this.props.titleColor : '#2d4359';
@@ -384,7 +385,7 @@ export default class MultiSelect extends Component {
         style={{
           flex: 1,
           flexDirection: 'column',
-          marginBottom: 10,
+          marginBottom: editProfile ? 50 : 10,
         }}
       >
         <Text style={[InputTitle, { color }]}>{this.props.title}</Text>
