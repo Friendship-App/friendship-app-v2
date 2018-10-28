@@ -24,7 +24,7 @@ class LocationsList extends React.Component {
   }
 
   render() {
-    const { input, locations } = this.props;
+    const { input, locations, editProfile } = this.props;
     const { selectedLocations } = this.state;
 
     if (locations.isLoading) {
@@ -48,6 +48,7 @@ class LocationsList extends React.Component {
         selectedItemTextColor="#ff8a65"
         selectedItemIconColor="#ff8a65"
         title="YOUR LOCATION"
+        editProfile
       />
     );
   }

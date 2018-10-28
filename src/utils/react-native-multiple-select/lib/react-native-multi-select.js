@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   UIManager,
-  LayoutAnimation,
+  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import reject from 'lodash/reject';
@@ -20,7 +20,7 @@ import IconIonic from 'react-native-vector-icons/Ionicons';
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-import styles, {colorPack, InputTitle} from './styles';
+import styles, { colorPack, InputTitle } from './styles';
 
 export default class MultiSelect extends Component {
   static propTypes = {
@@ -240,6 +240,7 @@ export default class MultiSelect extends Component {
       }
       // broadcast new selected items state to parent component
       onSelectedItemsChange(newItems);
+      this._toggleSelector();
     }
   };
 
@@ -267,7 +268,7 @@ export default class MultiSelect extends Component {
   };
 
   _getRow = item => {
-    const { selectedItemIconColor } = this.props;
+    const { selectedItemIconColor, items } = this.props;
     return (
       <TouchableOpacity
         disabled={item.disabled}
@@ -275,6 +276,10 @@ export default class MultiSelect extends Component {
         style={{
           paddingLeft: 20,
           paddingRight: 20,
+          marginBottom:
+            Platform.OS === 'android' && items[items.length - 1].id === item.id
+              ? 50
+              : 0,
           backgroundColor: '#faf5f0',
         }}
       >
@@ -375,6 +380,7 @@ export default class MultiSelect extends Component {
       textColor,
       fixedHeight,
       hideTags,
+      editProfile,
     } = this.props;
     const { selector } = this.state;
     const color = this.props.titleColor ? this.props.titleColor : '#2d4359';
@@ -383,12 +389,10 @@ export default class MultiSelect extends Component {
         style={{
           flex: 1,
           flexDirection: 'column',
-          marginBottom: 10,
+          marginBottom: editProfile ? 50 : 10,
         }}
       >
-        <Text style={[InputTitle, {color}]}>
-          {this.props.title}
-        </Text>
+        <Text style={[InputTitle, { color }]}>{this.props.title}</Text>
         {selector ? (
           <View style={styles.selectorView(fixedHeight)}>
             <View style={styles.inputGroup}>
@@ -431,24 +435,24 @@ export default class MultiSelect extends Component {
             >
               <View>{this._renderItems()}</View>
               {!single &&
-              !hideSubmitButton && (
-                <TouchableOpacity
-                  onPress={() => this._submitSelection()}
-                  style={[
-                    styles.button,
-                    { backgroundColor: submitButtonColor },
-                  ]}
-                >
-                  <Text
+                !hideSubmitButton && (
+                  <TouchableOpacity
+                    onPress={() => this._submitSelection()}
                     style={[
-                      styles.buttonText,
-                      fontFamily ? { fontFamily } : {},
+                      styles.button,
+                      { backgroundColor: submitButtonColor },
                     ]}
                   >
-                    {submitButtonText}
-                  </Text>
-                </TouchableOpacity>
-              )}
+                    <Text
+                      style={[
+                        styles.buttonText,
+                        fontFamily ? { fontFamily } : {},
+                      ]}
+                    >
+                      {submitButtonText}
+                    </Text>
+                  </TouchableOpacity>
+                )}
             </View>
           </View>
         ) : (
@@ -477,7 +481,9 @@ export default class MultiSelect extends Component {
                         },
                         altFontFamily
                           ? { fontFamily: 'NunitoSans-Regular' }
-                          : fontFamily ? { fontFamily } : {},
+                          : fontFamily
+                            ? { fontFamily }
+                            : {},
                       ]}
                       numberOfLines={1}
                     >
@@ -485,11 +491,9 @@ export default class MultiSelect extends Component {
                     </Text>
                     <IconIonic
                       name={
-                        hideSubmitButton ? (
-                          'md-arrow-dropright'
-                        ) : (
-                          'md-arrow-dropdown'
-                        )
+                        hideSubmitButton
+                          ? 'md-arrow-dropright'
+                          : 'md-arrow-dropdown'
                       }
                       style={styles.indicator}
                     />
