@@ -5,10 +5,10 @@
     "slug": "Friendship",
     "orientation": "portrait",
     "name": "Friendship",
-    "version": "2.0.0",
+    "version": "2.0.2",
     "icon": "./assets/icons/friendship-app-icon-1024.png",
     "ios": {
-      "bundleIdentifier": "fi.friendship.app",
+      "bundleIdentifier": "com.friendship.app",
       "icon": "./assets/icons/friendship-app-icon-1024.png"
     },
     "android": {
