@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   UIManager,
-  LayoutAnimation,
+  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import reject from 'lodash/reject';
@@ -268,7 +268,7 @@ export default class MultiSelect extends Component {
   };
 
   _getRow = item => {
-    const { selectedItemIconColor } = this.props;
+    const { selectedItemIconColor, items } = this.props;
     return (
       <TouchableOpacity
         disabled={item.disabled}
@@ -276,6 +276,10 @@ export default class MultiSelect extends Component {
         style={{
           paddingLeft: 20,
           paddingRight: 20,
+          marginBottom:
+            Platform.OS === 'android' && items[items.length - 1].id === item.id
+              ? 50
+              : 0,
           backgroundColor: '#faf5f0',
         }}
       >
