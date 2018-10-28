@@ -16,8 +16,22 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  joinEvent: eventId => dispatch(addUserToEvent(eventId)),
-  leaveEvent: eventId => dispatch(removeUserFromEvent(eventId)),
+  joinEvent: (eventId, navigation) => {
+    dispatch(addUserToEvent(eventId));
+    dispatch(
+      navigation.setParams({
+        userParticipate: !navigation.state.params.userParticipate,
+      }),
+    );
+  },
+  leaveEvent: (eventId, navigation) => {
+    dispatch(removeUserFromEvent(eventId));
+    dispatch(
+      navigation.setParams({
+        userParticipate: !navigation.state.params.userParticipate,
+      }),
+    );
+  },
   editEvent: () => {
     dispatch(fetchLocations());
     dispatch(NavigationActions.navigate({ routeName: 'EditEvent' }));
@@ -72,16 +86,10 @@ const EventDetailsScreen = props => {
           personalities={eventPersonality}
           tags={eventTopTags}
           joinEvent={() => {
-            joinEvent(id);
-            props.navigation.setParams({
-              userParticipate: !props.navigation.state.params.userParticipate,
-            });
+            joinEvent(id, props.navigation);
           }}
           leaveEvent={() => {
-            leaveEvent(id);
-            props.navigation.setParams({
-              userParticipate: !props.navigation.state.params.userParticipate,
-            });
+            leaveEvent(id, props.navigation);
           }}
           editEvent={editEvent}
           participate={props.navigation.state.params.userParticipate}

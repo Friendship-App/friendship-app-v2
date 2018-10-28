@@ -56,9 +56,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       NavigationActions.navigate({
         routeName: 'EventDetails',
-        params: {
-          userParticipate: true,
-        },
       }),
     );
   },
