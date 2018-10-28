@@ -224,13 +224,7 @@ class HeaderContainer extends Component {
           eventDetails.params.userParticipate &&
           eventDetails.params.active
         ) {
-          const {
-            chatroomId,
-            title,
-            id,
-            eventImage,
-            active,
-          } = this.props.eventDetails;
+          const { chatroomId, title, id, eventImage, active } = eventDetails;
           return (
             <Button
               icon={
