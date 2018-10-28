@@ -14,7 +14,7 @@ import {
 import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import PickerSelect from 'react-native-picker-select';
-import { ImagePicker } from 'expo';
+import { ImagePicker, ImageManipulator } from 'expo';
 import styled from 'styled-components/native';
 import { getPreSignedUrl } from '../../utils/aws';
 import Footer from '../../components/Footer';
@@ -97,7 +97,11 @@ class EventForm extends Component {
     });
 
     if (!result.cancelled) {
-      this.setState({ eventImage: result, error: false });
+      const resizedResult = await ImageManipulator.manipulate(result.uri, [
+        { resize: { width: 800 } },
+        { compress: 0.7 },
+      ]);
+      this.setState({ eventImage: resizedResult, error: false });
     }
   };
 
