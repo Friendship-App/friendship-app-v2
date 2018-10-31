@@ -262,7 +262,7 @@ class HeaderContainer extends Component {
 
           let formattedTitle = title;
 
-          if (formattedTitle.length > 20) {
+          if (formattedTitle && formattedTitle.length > 20) {
             formattedTitle = formattedTitle.substring(0, 20);
             formattedTitle += '...';
           }
