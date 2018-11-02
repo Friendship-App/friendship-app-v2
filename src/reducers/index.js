@@ -10,6 +10,7 @@ import login from './login';
 import auth from './auth';
 import chatrooms from './chatrooms';
 import { events } from './events';
+import { feedback } from './feedback';
 
 const rootReducer = navReducer =>
   combineReducers({
@@ -25,6 +26,7 @@ const rootReducer = navReducer =>
     tags,
     chatrooms,
     events,
+    feedback,
   });
 
 export default rootReducer;

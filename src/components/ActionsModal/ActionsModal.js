@@ -146,7 +146,7 @@ class ActionsModal extends Component {
               text={'Send feedback'}
               width={'xl'}
               onPress={async () => {
-                this.props.close();
+                await this.props.close();
                 this.props.openSendFeedback();
               }}
             />
