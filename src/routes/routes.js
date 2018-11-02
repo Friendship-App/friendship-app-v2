@@ -22,6 +22,7 @@ import EditPersonalitiesScreen from '../containers/EditPersonalitiesScreen';
 import UpdateEventScreen from '../containers/UpdateEventScreen';
 import ReportUserScreen from '../containers/ReportUserScreen';
 import ReportEventScreen from '../containers/ReportEventScreen';
+import FeedbackScreen from '../containers/FeedbackScreen';
 
 const routes = {
   WelcomeScreen: {
@@ -129,6 +130,14 @@ const routes = {
           color={'light'}
           title={'Report an event'}
         />
+      ),
+    },
+  },
+  Feedback: {
+    screen: FeedbackScreen,
+    navigationOptions: {
+      header: (
+        <HeaderContainer left={'back'} color={'light'} title={'Feedback'} />
       ),
     },
   },
