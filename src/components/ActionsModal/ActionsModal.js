@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableOpacity } from 'react-native';
+import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { colors, paddings } from '../../styles';
 import { logOut } from '../../actions/login';
@@ -8,6 +8,7 @@ import styles from './styles';
 import { fetchLocations } from '../../actions/locations';
 import { fetchTags } from '../../actions/tags';
 import { fetchPersonalities } from '../../actions/personalities';
+import Button from '../Button/Button';
 
 const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(logOut()),
@@ -21,6 +22,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(NavigationActions.navigate({ routeName: 'EditAccount' })),
   openReportUser: () =>
     dispatch(NavigationActions.navigate({ routeName: 'ReportUser' })),
+  openSendFeedback: () =>
+    dispatch(NavigationActions.navigate({ routeName: 'Feedback' })),
   getLocations: () => dispatch(fetchLocations()),
   getTags: () => dispatch(fetchTags()),
   getPersonalities: () => dispatch(fetchPersonalities()),
@@ -130,6 +133,24 @@ class ActionsModal extends Component {
         >
           {getTitle(this.props.actions)}
           {getActions()}
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              padding: paddings.SM,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
+            <Button
+              text={'Send feedback'}
+              width={'xl'}
+              onPress={async () => {
+                this.props.close();
+                this.props.openSendFeedback();
+              }}
+            />
+          </View>
         </TouchableOpacity>
       </Modal>
     );
