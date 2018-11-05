@@ -3,6 +3,7 @@ import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 import styles from './styles';
 import { fetchBatchUsers } from '../../actions/users';
+import { refresh } from '../../actions/refresh';
 import Person from '../Person';
 
 const mapStateToProps = state => ({
@@ -13,6 +14,10 @@ const mapDispatchToProps = dispatch => ({
   fetchUsers: (batchSize, usersAlreadyFetched) => {
     dispatch(fetchBatchUsers(batchSize, usersAlreadyFetched));
   },
+
+  refresh: () => {
+    dispatch(refresh());
+  },
 });
 
 class PeopleList extends Component {
@@ -20,12 +25,6 @@ class PeopleList extends Component {
     userData: [],
     currentPage: 1,
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      this.props.users.usersList.length !== nextProps.users.usersList.length
-    );
-  }
 
   // fetch 10 users and add them to the state.data
   fetchUsersForPage = currentPage => {
@@ -57,6 +56,8 @@ class PeopleList extends Component {
           )}
           onEndReached={this.handleEnd}
           onEndReachedThreshold={0.4}
+          refreshing={false}
+          onRefresh={this.props.refresh}
           onMomentumScrollBegin={() => {
             this.onEndReachedCalledDuringMomentum = false;
           }}
