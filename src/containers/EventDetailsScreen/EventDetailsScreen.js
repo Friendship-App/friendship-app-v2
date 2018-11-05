@@ -65,7 +65,8 @@ const EventDetailsScreen = props => {
     eventTopTags,
     maxParticipants,
   } = events.eventDetails;
-
+  const params = props.navigation.state.params;
+  const participate = params && params.userParticipate;
   return (
     <ScrollView style={{ display: 'flex', height: '100%', width: '100%' }}>
       <View style={{ flex: 1 }}>
@@ -92,7 +93,7 @@ const EventDetailsScreen = props => {
             leaveEvent(id, props.navigation);
           }}
           editEvent={editEvent}
-          participate={props.navigation.state.params.userParticipate}
+          participate={participate}
           isHost={hostId === props.auth.data.decoded.id}
           eventFull={eventParticipants.length >= maxParticipants}
           currentUser={props.auth.data.decoded.id}

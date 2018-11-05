@@ -51,11 +51,15 @@ const mapDispatchToProps = dispatch => ({
       }),
     );
   },
-  openEvent: eventId => {
+  openEvent: (eventId, active) => {
     dispatch(fetchEventDetails(eventId));
     dispatch(
       NavigationActions.navigate({
         routeName: 'EventDetails',
+        params: {
+          userParticipate: true,
+          active,
+        },
       }),
     );
   },
@@ -273,7 +277,7 @@ class HeaderContainer extends Component {
               disabled={fromEvent || fromProfile || !active}
               onPress={() => {
                 isEventChatroom
-                  ? this.props.openEvent(eventId)
+                  ? this.props.openEvent(eventId, active)
                   : this.props.openProfile(participantId);
               }}
             >
