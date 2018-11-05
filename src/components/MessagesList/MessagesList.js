@@ -34,7 +34,11 @@ class MessagesList extends React.Component {
         ? { marginRight: 20 }
         : { marginLeft: 20 };
 
-    let time = this.getMessageTime(item.chatTime);
+    const time = this.getMessageTime(item.chatTime);
+    const usernamePart =
+      this.props.isEventChatroom && item.username ? ` - ${item.username}` : '';
+
+    const messageHeader = `${time}${usernamePart}`;
 
     return (
       <View
@@ -59,7 +63,7 @@ class MessagesList extends React.Component {
               marginBottom: 10,
             }}
           >
-            {time}
+            {messageHeader}
           </Text>
           <Text style={{ color: '#4a4a4a', textAlign }}>
             {item.textMessage}
