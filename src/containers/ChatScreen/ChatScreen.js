@@ -94,6 +94,7 @@ class ChatScreen extends React.Component {
         <MessagesList
           messages={chatrooms.messages}
           currentUserId={currentUserId}
+          isEventChatroom={this.props.navigation.state.params.isEventChatroom}
         />
         <View
           style={{

@@ -128,6 +128,34 @@ export function fetchChatroomMessages(chatroomId) {
 
         if (resp.ok) {
           const data = await resp.json();
+          const uniqueOtherUserIds = data
+            .map(item => item.senderId)
+            .filter((value, index, self) => self.indexOf(value) === index)
+            .filter(userId => userId !== auth.data.decoded.id);
+          const userResponses = await Promise.all(
+            uniqueOtherUserIds.map(userId =>
+              fetch(`${apiRoot}/users?userId=${userId}`, {
+                method: 'GET',
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                headers: { Authorization: `Bearer ${auth.data.token}` },
+              }),
+            ),
+          );
+          const userObjects = await Promise.all(
+            userResponses
+              .filter(response => response.ok)
+              .map(response => response.json()),
+          );
+          const userMap = {};
+          userObjects.forEach(user => (userMap[user.id] = user.username));
+
+          // monkey patch data
+          data.forEach(item => {
+            if (item.senderId in userMap) {
+              item.username = userMap[item.senderId];
+            }
+          });
           dispatch(receiveChatroomMessages(data));
         }
       } catch (e) {
