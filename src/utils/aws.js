@@ -12,9 +12,12 @@ export const getPreSignedUrl = async (type, formValues) => {
       break;
   }
   data = formValues;
-  return await fetch(
-    `${apiRoot}${link}${data.itemName}.jpg&file-type=${data.imgType}`,
-  )
+  if (!data.url) return undefined;
+
+  const fragments = data.url.split('/');
+  const fileName = `${data.itemName}-${fragments[fragments.length - 1]}`;
+
+  return await fetch(`${apiRoot}${link}${fileName}&file-type=${data.imgType}`)
     .then(function(response) {
       return response.json();
     })
@@ -36,7 +39,7 @@ export const getPreSignedUrl = async (type, formValues) => {
       xhr.send({
         uri: data.url,
         type: 'image/jpeg',
-        name: `${data.itemName}.jpg`,
+        name: fileName,
       });
       return url;
     });
