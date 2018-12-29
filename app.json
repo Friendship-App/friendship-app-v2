@@ -15,7 +15,8 @@
       "package": "fi.friendship.app",
       "googleServicesFile": "./google-services.json",
       "icon": "./assets/icons/friendship-app-icon-512.png",
-      "versionCode": 3
+      "permissions": [],
+      "versionCode": 4
     }
   }
 }
