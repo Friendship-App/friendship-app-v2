@@ -65,6 +65,18 @@ export default function users(state = initialState, action) {
         isReporting: false,
       };
 
+    case ActionTypes.UPDATE_PROFILE_REQUEST:
+      return {
+        ...state,
+        isUpdatingProfile: true,
+      };
+
+    case ActionTypes.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isUpdatingProfile: false,
+      };
+
     case ActionTypes.DELETE_ACCOUNT_REQUEST:
       return {
         ...state,
