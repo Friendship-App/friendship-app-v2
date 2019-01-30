@@ -129,13 +129,14 @@ export function updateUserProfile() {
           url: formData.image.uri,
         };
 
-        await getPreSignedUrl('PROFILE', imageData)
-          .then(url => {
-            formData.image = url;
-          })
-          .catch(e => {
-            console.error(e);
-          });
+        try {
+          const url = await getPreSignedUrl('PROFILE', imageData);
+          formData.image =
+            url ||
+            'https://s3.eu-west-2.amazonaws.com/friendship-app/profile/default.jpg';
+        } catch (e) {
+          console.error(e);
+        }
       }
 
       try {
