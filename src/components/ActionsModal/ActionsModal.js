@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { colors, paddings } from '../../styles';
+import WithNotificationIcon from '../WithNotificationIcon';
 import { logOut } from '../../actions/login';
 import { connect } from 'react-redux';
 import styles from './styles';
@@ -42,6 +43,7 @@ class ActionsModal extends Component {
       profile: [
         {
           title: 'PROFILE',
+          hasNotification: false,
           onPress: async () => {
             await this.props.close();
             await this.props.getLocations();
@@ -50,6 +52,7 @@ class ActionsModal extends Component {
         },
         {
           title: 'ACCOUNT',
+          hasNotification: false,
           onPress: async () => {
             await this.props.close();
             this.props.openEditAccount();
@@ -57,6 +60,7 @@ class ActionsModal extends Component {
         },
         {
           title: 'YEAHS AND NAAAHS',
+          hasNotification: true, // TODO
           onPress: async () => {
             await this.props.close();
             await this.props.getTags();
@@ -65,6 +69,7 @@ class ActionsModal extends Component {
         },
         {
           title: 'PERSONALITIES',
+          hasNotification: false,
           onPress: async () => {
             await this.props.close();
             await this.props.getPersonalities();
@@ -73,6 +78,7 @@ class ActionsModal extends Component {
         },
         {
           title: 'Log Out',
+          hasNotification: false,
           onPress: () => {
             this.props.close();
             this.props.signOut();
@@ -82,6 +88,7 @@ class ActionsModal extends Component {
       settings: [
         {
           title: 'REPORT',
+          hasNotification: false,
           onPress: async () => {
             console.log('reporting...');
             await this.props.close();
@@ -102,13 +109,20 @@ class ActionsModal extends Component {
           actionsArray = modalActions.settings;
       }
       return actionsArray.map(action => (
-        <TouchableOpacity
-          onPress={action.onPress}
-          style={{ paddingBottom: paddings.SM }}
+        <WithNotificationIcon
+          hasNotification={action.hasNotification}
           key={action.title}
         >
-          <Text style={[styles.action]}>{action.title.toUpperCase()}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={action.onPress}
+            style={{
+              paddingBottom: paddings.SM,
+              paddingRight: action.hasNotification ? paddings.XXS : 0,
+            }}
+          >
+            <Text style={[styles.action]}>{action.title.toUpperCase()}</Text>
+          </TouchableOpacity>
+        </WithNotificationIcon>
       ));
     };
 
