@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { colors, headerPalette, paddings } from '../../styles';
 import TabIcons from '../../../assets/tabIcons';
 import { IconImage } from '../../components/Layout/Layout';
+import WithNotificationIcon from '../../components/WithNotificationIcon';
 import {
   Dimensions,
   Image,
@@ -191,15 +192,19 @@ class HeaderContainer extends Component {
 
       case 'profile':
         return (
-          <Button
-            icon={<Icon name={'md-more'} color={colors.DUST_WHITE} size={26} />}
-            type="floatingButton"
-            header
-            customStyle={{ width: 30, height: 30 }}
-            onPress={() =>
-              this.setState({ showModal: true, actions: 'profile' })
-            }
-          />
+          <WithNotificationIcon hasNotification={true /* TODO */}>
+            <Button
+              icon={
+                <Icon name={'md-more'} color={colors.DUST_WHITE} size={26} />
+              }
+              type="grayFloatingButton"
+              header
+              customStyle={{ width: 30, height: 30 }}
+              onPress={() =>
+                this.setState({ showModal: true, actions: 'profile' })
+              }
+            />
+          </WithNotificationIcon>
         );
 
       case 'people-profile':

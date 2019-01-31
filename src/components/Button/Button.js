@@ -35,6 +35,10 @@ class Button extends Component {
         style = styles.floatingButton;
         backgroundColor = colors.ORANGE;
         break;
+      case 'grayFloatingButton':
+        style = styles.floatingButton;
+        backgroundColor = colors.LIGHT_BLACK;
+        break;
     }
 
     let buttonTextColor;
