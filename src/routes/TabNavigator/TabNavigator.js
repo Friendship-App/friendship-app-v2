@@ -13,13 +13,15 @@ const mapStateToProps = state => ({ chatrooms: state.chatrooms });
 class TabIcon extends React.Component {
   render() {
     const { source, style, routeName, chatrooms } = this.props;
-    const hasNotification =
+    const hasUnread =
       routeName === 'Inbox' &&
       chatrooms &&
       chatrooms.chatrooms.reduce(
         (acc, room) => acc + Number(room.unreadMessages),
         0,
       ) > 0;
+    const hasNewProfileDetails = routeName === 'Profile'; // TODO
+    const hasNotification = hasUnread || hasNewProfileDetails;
     return (
       <View>
         {hasNotification && (
