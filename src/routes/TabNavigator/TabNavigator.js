@@ -6,6 +6,7 @@ import Inbox from '../InboxStack';
 import Profile from '../ProfileStack';
 import { colors } from '../../styles';
 import TabIcons from '../../../assets/tabIcons';
+import WithNotificationIcon from '../../components/WithNotificationIcon';
 import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -23,23 +24,9 @@ class TabIcon extends React.Component {
     const hasNewProfileDetails = routeName === 'Profile'; // TODO
     const hasNotification = hasUnread || hasNewProfileDetails;
     return (
-      <View>
-        {hasNotification && (
-          <View
-            style={{
-              position: 'absolute',
-              top: -3,
-              right: -3,
-              zIndex: 10,
-              backgroundColor: colors.ORANGE,
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-            }}
-          />
-        )}
+      <WithNotificationIcon hasNotification={hasNotification}>
         <Image source={source} style={style} />
-      </View>
+      </WithNotificationIcon>
     );
   }
 }
