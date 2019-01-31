@@ -9,30 +9,39 @@ import TabIcons from '../../../assets/tabIcons';
 import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({ chatrooms : state.chatrooms})
+const mapStateToProps = state => ({ chatrooms: state.chatrooms });
 class TabIcon extends React.Component {
   render() {
-    const { source, style, routeName, chatrooms } = this.props
-    if (routeName === 'Inbox') {
-      const hasUnread = chatrooms && chatrooms.chatrooms.reduce((acc, room) => acc + Number(room.unreadMessages), 0) > 0
-      return (<View>
-        {hasUnread && <View style={
-          {position: 'absolute',
-           top: -3,
-           right: -3,
-           zIndex: 10,
-           backgroundColor: colors.ORANGE,
-           width: 10,
-           height: 10,
-           borderRadius: 5
-          }}></View>}
+    const { source, style, routeName, chatrooms } = this.props;
+    const hasNotification =
+      routeName === 'Inbox' &&
+      chatrooms &&
+      chatrooms.chatrooms.reduce(
+        (acc, room) => acc + Number(room.unreadMessages),
+        0,
+      ) > 0;
+    return (
+      <View>
+        {hasNotification && (
+          <View
+            style={{
+              position: 'absolute',
+              top: -3,
+              right: -3,
+              zIndex: 10,
+              backgroundColor: colors.ORANGE,
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+            }}
+          />
+        )}
         <Image source={source} style={style} />
-      </View>)
-    }
-    return <Image source={source} style={style} />
+      </View>
+    );
   }
 }
-const TabIconComponent = connect(mapStateToProps)(TabIcon)
+const TabIconComponent = connect(mapStateToProps)(TabIcon);
 
 const TabNavigator = createBottomTabNavigator(
   {
