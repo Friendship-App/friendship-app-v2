@@ -97,7 +97,6 @@ const EventDetailsScreen = props => {
           isHost={hostId === props.auth.data.decoded.id}
           eventFull={eventParticipants.length >= maxParticipants}
           currentUser={props.auth.data.decoded.id}
-          hostId={hostId}
         />
       </View>
     </ScrollView>
