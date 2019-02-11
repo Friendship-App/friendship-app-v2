@@ -115,9 +115,9 @@ class Profile extends React.Component {
       userTags = tags.userTags;
     }
 
-    let loveCommon = userTags.loveInCommon ? userTags.loveInCommon : 0;
-
-    let hateCommon = userTags.hateInCommon ? userTags.hateInCommon : 0;
+    const { hateTags, loveTags, commonTagPercent } = userTags;
+    const numberOfYeah = loveTags.length;
+    const numberOfNaah = hateTags.length;
 
     const location =
       userData.data.locations.length > 0
@@ -136,8 +136,9 @@ class Profile extends React.Component {
           location={location}
           genders={genders}
           mood={userData.data.mood}
-          numberOfYeah={loveCommon}
-          numberOfNaah={hateCommon}
+          numberOfYeah={numberOfYeah}
+          numberOfNaah={numberOfNaah}
+          commonTagPercent={commonTagPercent}
           birthyear={userData.data.birthyear}
           genderList={userData.data.genders}
           myProfile={myProfile}
@@ -149,11 +150,7 @@ class Profile extends React.Component {
           </Text>
         </View>
         {this.renderPersonalities()}
-        <ShowTags
-          hate={userTags.hateTags}
-          love={userTags.loveTags}
-          myProfile={myProfile}
-        />
+        <ShowTags hate={hateTags} love={loveTags} myProfile={myProfile} />
         {this.renderSendMsg()}
       </ScrollView>
     );
