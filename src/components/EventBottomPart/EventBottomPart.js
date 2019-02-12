@@ -117,7 +117,6 @@ export default class EventBottomPart extends PureComponent {
         <ParticipantList
           participants={this.props.participants}
           currentUser={this.props.currentUser}
-          hostId={this.props.hostId}
         />
         <Text style={styles.groupTextStyle}>GROUP PERSONALITIES</Text>
         <View style={styles.personalitiesView}>

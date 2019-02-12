@@ -55,7 +55,6 @@ const ParticipantDetail = ({
   index,
   id,
   currentUser,
-  isHost,
   openProfile,
   openMyProfile,
 }) => {
@@ -93,11 +92,6 @@ const ParticipantDetail = ({
           </View>
         ) : null}
       </View>
-      {isHost ? (
-        <View style={usernameContentStyle}>
-          <Text style={styles.hostStyle}>Host</Text>
-        </View>
-      ) : null}
     </ParticipantWrapper>
   );
 };
@@ -126,10 +120,6 @@ const styles = StyleSheet.create({
   },
   usernameTextStyle: {
     fontSize: 18,
-  },
-  hostStyle: {
-    fontSize: 14,
-    left: 100,
   },
 });
 
