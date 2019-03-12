@@ -132,14 +132,13 @@ class Person extends React.Component {
               {this.state.genders}
             </Text>
             <Text style={[styles.compatibilityText]}>
-              <Text style={[styles.yeahText]}>
-                {this.props.data.lovecommon ? this.props.data.lovecommon : 0}
-                <Text style={[styles.friendshipFont]}> YEAH</Text>
+              {`${this.props.data.commonTagPercent}% `}
+              <Text style={[styles.yeahText, styles.friendshipFont]}>
+                YEAHS
               </Text>{' '}
               &{' '}
-              <Text style={[styles.nahText]}>
-                {this.props.data.hatecommon ? this.props.data.hatecommon : 0}
-                <Text style={[styles.friendshipFont, styles.nah]}> NAAH</Text>
+              <Text style={[styles.nahText, styles.friendshipFont, styles.nah]}>
+                NAAHS
               </Text>{' '}
               in common
             </Text>

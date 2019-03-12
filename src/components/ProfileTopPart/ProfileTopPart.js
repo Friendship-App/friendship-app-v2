@@ -24,6 +24,7 @@ const ProfileTopPart = props => {
     username,
     myProfile,
     genderList,
+    commonTagPercent,
   } = props;
 
   const getAge = () => {
@@ -54,6 +55,51 @@ const ProfileTopPart = props => {
     return genderList
       ? genderList.map(gender => gender && gender.toLowerCase()).join(' and ')
       : 'no gender';
+  };
+
+  const getYeahAndNaahs = () => {
+    if (myProfile) {
+      return (
+        <View style={[styles.info]}>
+          <Text
+            style={{
+              fontFamily: fonts.REGULAR,
+              fontSize: fontSizes.BODY_TEXT,
+              color: colors.DARK_BLACK,
+              textAlign: 'center',
+            }}
+          >
+            You have <Text style={[styles.yeahText]}>{numberOfYeah}</Text>
+            <Text style={[styles.friendshipFont, styles.yeahText]}>
+              {' '}
+              YEAHS{' '}
+            </Text>
+            &
+            <Text style={[styles.nahText]}>{' ' + numberOfNaah}</Text>
+            <Text style={[styles.friendshipFont, styles.nahText]}> NAAHS </Text>
+          </Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={[styles.info]}>
+        <Text
+          style={{
+            fontFamily: fonts.REGULAR,
+            fontSize: fontSizes.BODY_TEXT,
+            color: colors.DARK_BLACK,
+            textAlign: 'center',
+          }}
+        >
+          {`${commonTagPercent}% `}
+          <Text style={[styles.friendshipFont, styles.yeahText]}>YEAHS </Text>
+          &
+          <Text style={[styles.friendshipFont, styles.nahText]}> NAAHS </Text>
+          in common
+        </Text>
+      </View>
+    );
   };
 
   return (
@@ -93,27 +139,7 @@ const ProfileTopPart = props => {
               : username}
           </Text>
         </View>
-        <View style={[styles.info]}>
-          <Text
-            style={{
-              fontFamily: fonts.REGULAR,
-              fontSize: fontSizes.BODY_TEXT,
-              color: colors.DARK_BLACK,
-              textAlign: 'center',
-            }}
-          >
-            {myProfile ? 'You have ' : null}
-            <Text style={[styles.yeahText]}>{numberOfYeah}</Text>
-            <Text style={[styles.friendshipFont, styles.yeahText]}>
-              {' '}
-              YEAHS{' '}
-            </Text>
-            &
-            <Text style={[styles.nahText]}>{' ' + numberOfNaah}</Text>
-            <Text style={[styles.friendshipFont, styles.nahText]}> NAAHS </Text>
-            {myProfile ? null : ' in common'}
-          </Text>
-        </View>
+        {getYeahAndNaahs()}
         <View style={[styles.info]}>
           <Text style={[styles.details]}>
             <Text style={[styles.locationText]}>
