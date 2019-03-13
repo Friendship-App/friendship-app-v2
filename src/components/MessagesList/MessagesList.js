@@ -65,7 +65,7 @@ class MessagesList extends React.Component {
           >
             {messageHeader}
           </Text>
-          <Text style={{ color: '#4a4a4a', textAlign }}>
+          <Text style={{ color: '#4a4a4a', textAlign: 'left' }}>
             {item.textMessage}
           </Text>
         </View>
