@@ -1,6 +1,11 @@
 import React from 'react';
-import PeopleList from "../../components/PeopleList";
+import PeopleList from '../../components/PeopleList';
+import BackButtonAndroid from '../../components/BackButtonAndroid';
 
-const PeopleScreen = props => (<PeopleList/>);
+const PeopleScreen = ({ navigation }) => (
+  <BackButtonAndroid navigation={navigation}>
+    <PeopleList />
+  </BackButtonAndroid>
+);
 
 export default PeopleScreen;

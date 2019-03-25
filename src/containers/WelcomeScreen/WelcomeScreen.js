@@ -4,6 +4,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import Welcome from '../../components/Welcome';
 import { refresh, refreshMyInformation } from '../../actions/refresh';
 import { registerForPushNotificationsAsync } from '../../utils/notifications';
+import BackButtonAndroid from '../../components/BackButtonAndroid';
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -35,8 +36,12 @@ class WelcomeScreen extends React.Component {
   }
 
   render() {
-    const { register, login } = this.props;
-    return <Welcome handleRegister={register} handleLogin={login} />;
+    const { register, login, navigation } = this.props;
+    return (
+      <BackButtonAndroid navigation={navigation}>
+        <Welcome handleRegister={register} handleLogin={login} />
+      </BackButtonAndroid>
+    );
   }
 }
 
