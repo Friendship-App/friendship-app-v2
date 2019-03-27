@@ -11,6 +11,7 @@ import { fetchTags } from '../../actions/tags';
 import { fetchPersonalities } from '../../actions/personalities';
 import Button from '../Button/Button';
 
+const mapStateToProps = state => ({ myDetails: state.users.myDetails });
 const mapDispatchToProps = dispatch => ({
   signOut: () => dispatch(logOut()),
   openEditProfile: () =>
@@ -39,6 +40,7 @@ const getTitle = modalType => {
 
 class ActionsModal extends Component {
   render() {
+    const { myDetails } = this.props;
     const modalActions = {
       profile: [
         {
@@ -60,7 +62,7 @@ class ActionsModal extends Component {
         },
         {
           title: 'YEAHS AND NAAAHS',
-          hasNotification: true, // TODO
+          hasNotification: myDetails.data.hasUnseenTags,
           onPress: async () => {
             await this.props.close();
             await this.props.getTags();
@@ -174,6 +176,6 @@ class ActionsModal extends Component {
 ActionsModal.propTypes = {};
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ActionsModal);

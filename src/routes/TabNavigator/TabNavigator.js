@@ -10,10 +10,13 @@ import WithNotificationIcon from '../../components/WithNotificationIcon';
 import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({ chatrooms: state.chatrooms });
+const mapStateToProps = state => ({
+  chatrooms: state.chatrooms,
+  myDetails: state.users.myDetails,
+});
 class TabIcon extends React.Component {
   render() {
-    const { source, style, routeName, chatrooms } = this.props;
+    const { source, style, routeName, chatrooms, myDetails } = this.props;
     const hasUnread =
       routeName === 'Inbox' &&
       chatrooms &&
@@ -21,7 +24,8 @@ class TabIcon extends React.Component {
         (acc, room) => acc + Number(room.unreadMessages),
         0,
       ) > 0;
-    const hasNewProfileDetails = routeName === 'Profile'; // TODO
+    const hasNewProfileDetails =
+      routeName === 'Profile' && myDetails && myDetails.data.hasUnseenTags;
     const hasNotification = hasUnread || hasNewProfileDetails;
     return (
       <WithNotificationIcon hasNotification={hasNotification}>

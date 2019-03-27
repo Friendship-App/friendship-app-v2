@@ -87,6 +87,7 @@ const mapStateToProps = state => ({
   chatrooms: state.chatrooms,
   auth: state.auth,
   eventDetails: state.events.eventDetails,
+  myDetails: state.users.myDetails,
 });
 
 class HeaderContainer extends Component {
@@ -191,8 +192,10 @@ class HeaderContainer extends Component {
         );
 
       case 'profile':
+        const { myDetails } = this.props;
+        const hasUnseenTags = myDetails && myDetails.data.hasUnseenTags;
         return (
-          <WithNotificationIcon hasNotification={true /* TODO */}>
+          <WithNotificationIcon hasNotification={hasUnseenTags}>
             <Button
               icon={
                 <Icon name={'md-more'} color={colors.DUST_WHITE} size={26} />
