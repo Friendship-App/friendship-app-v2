@@ -17,7 +17,7 @@ export default StyleSheet.create({
     fontSize: fontSizes.HEADING_3,
     color: colors.DUST_WHITE,
     textAlign: 'left',
-    marginLeft: paddings.LG,
+    marginLeft: paddings.SM,
     paddingTop: paddings.XL,
   },
   yeah: {
@@ -30,5 +30,11 @@ export default StyleSheet.create({
     fontFamily: fonts.LIGHT_BOLD,
     fontSize: fontSizes.BODY_TEXT,
     color: colors.DUST_WHITE,
+  },
+  tagTitle: {
+    color: colors.DUST_WHITE,
+    marginLeft: paddings.SM,
+    fontSize: fontSizes.HEADING_4,
+    marginTop: paddings.SM,
   },
 });

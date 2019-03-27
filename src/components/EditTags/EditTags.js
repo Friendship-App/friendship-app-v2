@@ -20,34 +20,63 @@ class EditTags extends Component {
     });
   }
 
-  renderTags = () => {
+  renderTag = (tag, isLastTag) => {
     const { lovedTags, hatedTags } = this.props.initialValues;
-    const { tags } = this.props;
-    return tags.map((tag, index) => {
-      let state = 0;
-      let pos = lovedTags.indexOf(tag.id);
+    let state = 0;
+    let pos = lovedTags.indexOf(tag.id);
+    if (pos >= 0) {
+      state = 1;
+    } else {
+      pos = hatedTags.indexOf(tag.id);
       if (pos >= 0) {
-        state = 1;
-      } else {
-        pos = hatedTags.indexOf(tag.id);
-        if (pos >= 0) {
-          state = -1;
-        }
+        state = -1;
       }
+    }
 
-      return (
-        <Field
-          name="tagPicker"
-          component={TagPicker}
-          editProfile
-          tag={tag}
-          key={tag.name}
-          selectionState={state}
-          isLastTag={index === tags.length - 1}
-          onPress={(tag, actionType) => this.handlePressedTag(tag, actionType)}
-        />
-      );
+    return (
+      <Field
+        name="tagPicker"
+        component={TagPicker}
+        editProfile
+        tag={tag}
+        key={tag.name}
+        selectionState={state}
+        isLastTag={isLastTag}
+        onPress={(tag, actionType) => this.handlePressedTag(tag, actionType)}
+      />
+    );
+  };
+
+  renderTags = (tags, addMarginToLastTag = false) => {
+    return tags.map((tag, index) => {
+      const isLastTag = addMarginToLastTag && index === tags.length - 1;
+      return this.renderTag(tag, isLastTag);
     });
+  };
+
+  renderNewTags = () => {
+    const { newTags } = this.props;
+    const tags = this.renderTags(newTags);
+
+    return (
+      <View>
+        <Text style={styles.tagTitle}>New tags</Text>
+        {tags}
+      </View>
+    );
+  };
+
+  renderBaseTags = () => {
+    const { baseTags } = this.props;
+    const addMarginToLastTag = true;
+    const tags = this.renderTags(baseTags, addMarginToLastTag);
+
+    return (
+      <View>
+        <Text style={styles.tagTitle}>Base tags</Text>
+        {tags}
+      </View>
+    );
   };
 
   handlePressedTag = (tag, actionType) => {
@@ -99,7 +128,8 @@ class EditTags extends Component {
             <Text style={styles.yeah}>YEAHS!</Text> &{' '}
             <Text style={styles.nah}>NAAH...</Text>
           </Text>
-          {this.renderTags()}
+          {this.renderNewTags()}
+          {this.renderBaseTags()}
         </ScrollView>
         <Footer
           color="orange"

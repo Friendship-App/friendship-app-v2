@@ -1,4 +1,5 @@
 import React from 'react';
+import { filter } from 'lodash';
 import EditTags from '../../components/EditTags';
 import { connect } from 'react-redux';
 import { updateUserProfile } from '../../actions/users';
@@ -16,7 +17,8 @@ const mapStateToProps = state => ({
 });
 
 const EditTagsScreen = props => {
-  const { loveTags, hateTags } = props.myTags;
+  const { tags, myTags } = props;
+  const { loveTags, hateTags } = myTags;
   const lovedTags = [];
   const hatedTags = [];
 
@@ -28,10 +30,14 @@ const EditTagsScreen = props => {
     hatedTags,
   };
 
+  const baseTags = filter(tags, ({ type }) => type === 'base');
+  const newTags = filter(tags, ({ type }) => type === 'alternating');
+
   return (
     <EditTags
       personalities={props.personalities}
-      tags={props.tags}
+      baseTags={baseTags}
+      newTags={newTags}
       initialValues={initialValues}
       initialize={props.initialize}
       dispatch={props.dispatch}
