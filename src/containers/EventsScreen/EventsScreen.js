@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import Loading from '../../components/Loading';
 import { fetchEvents } from '../../actions/events';
 import { fetchLocations } from '../../actions/locations';
+import BackButtonAndroid from '../../components/BackButtonAndroid';
 
 const mapStateToProps = state => ({
   events: state.events,
@@ -27,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
 class EventsScreen extends React.Component {
   state = { disabled: false };
 
-  render() {
+  get content() {
     const { events, auth, openEventForm, refreshEvents } = this.props;
 
     if (events.isLoading) {
@@ -64,6 +65,15 @@ class EventsScreen extends React.Component {
           <Icon name="md-add" size={45} color={'white'} />
         </TouchableOpacity>
       </View>
+    );
+  }
+
+  render() {
+    const { navigation } = this.props;
+    return (
+      <BackButtonAndroid navigation={navigation}>
+        {this.content}
+      </BackButtonAndroid>
     );
   }
 }
