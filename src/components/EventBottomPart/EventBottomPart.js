@@ -23,7 +23,7 @@ export default class EventBottomPart extends PureComponent {
               style={styles.buttonStyle}
               onPress={this.props.editEvent}
             >
-              <Text style={styles.textButtonStyle}>Manage Event</Text>
+              <Text style={styles.textButtonStyle}>Manage Activity</Text>
             </TouchableOpacity>
           </ButtonOption>
         </View>
@@ -34,7 +34,7 @@ export default class EventBottomPart extends PureComponent {
         <View style={{ backgroundColor: '#ffffff', height: 100 }}>
           <ButtonOption>
             <TouchableOpacity style={styles.buttonStyle}>
-              <Text style={styles.textButtonStyle}>Event Is Full</Text>
+              <Text style={styles.textButtonStyle}>Activity Is Full</Text>
             </TouchableOpacity>
           </ButtonOption>
         </View>
@@ -77,7 +77,7 @@ export default class EventBottomPart extends PureComponent {
             onPress={this.props.report}
             style={styles.reportButtonStyle}
           >
-            <Text style={styles.textButtonStyle}>Report Event</Text>
+            <Text style={styles.textButtonStyle}>Report Activity</Text>
           </TouchableOpacity>
         </ButtonOption>
       </View>

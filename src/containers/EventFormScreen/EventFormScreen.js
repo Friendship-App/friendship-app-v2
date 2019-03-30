@@ -226,7 +226,7 @@ class EventForm extends Component {
       <ScrollView>
         <View style={{ backgroundColor: '#f9f7f6', paddingTop: 60 }}>
           <Text style={styles.formTitle}>
-            {this.props.edit ? 'EDIT EVENT' : 'NEW EVENT'}
+            {this.props.edit ? 'EDIT ACTIVITY' : 'NEW ACTIVITY'}
           </Text>
         </View>
         <View
@@ -543,7 +543,7 @@ class EventForm extends Component {
               {this.props.edit ? 'CHANGE PHOTO' : 'ADD PHOTO'}
             </LabelText>
             <LabelTextHelper>
-              Add a photo that best describes the event.
+              Add a photo that best describes the activity.
             </LabelTextHelper>
             <View style={{ marginTop: 10 }}>
               {this.state.eventImage ? (
@@ -585,7 +585,7 @@ class EventForm extends Component {
                   onPress={() => this.props.delete(this.props.eventDetails.id)}
                   style={styles.buttonStyle}
                 >
-                  <Text style={styles.textButtonStyle}>Cancel Event</Text>
+                  <Text style={styles.textButtonStyle}>Cancel Activity</Text>
                 </TouchableOpacity>
               </ButtonOption>
             ) : null}

@@ -11,9 +11,9 @@ const fields = {
     redirectText: 'Browse profiles',
   },
   event: {
-    title: 'No event in your location for now',
+    title: 'No activities in your location for now',
     message:
-      'There is no available event around you for the moment. But, you can start the movement and create one to meet new people!',
+      'There are no available activities around you for the moment. But, you can start the movement and create one to meet new people!',
     redirectText: '',
   },
 };
