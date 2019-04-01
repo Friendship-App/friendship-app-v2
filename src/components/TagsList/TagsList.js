@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { filter } from 'lodash';
 import { ActionTypes, fetchTags } from '../../actions/tags';
 import styles from './styles';
 import Tag, { Actions } from '../TagPicker';
@@ -24,11 +25,45 @@ class TagsList extends React.Component {
   render() {
     const { tags } = this.props;
 
-    return <View style={styles.tagsList}>{this.renderTags(tags)}</View>;
+    return (
+      <View style={styles.tagsList}>
+        {this.renderAlternatingTags()}
+        {this.renderBaseTags()}
+      </View>
+    );
   }
 
-  renderTags() {
+  renderAlternatingTags = () => {
     const { tagsList } = this.props;
+    const alternatingTags = filter(
+      tagsList,
+      ({ type }) => type === 'alternating',
+    );
+    const tags = this.renderTags(alternatingTags);
+
+    return (
+      <View>
+        <Text style={styles.tagTitle}>Alternating</Text>
+        {tags}
+      </View>
+    );
+  };
+
+  renderBaseTags = () => {
+    const { tagsList } = this.props;
+    const baseTags = filter(tagsList, ({ type }) => type === 'base');
+    const addMarginToLastTag = true;
+    const tags = this.renderTags(baseTags, addMarginToLastTag);
+
+    return (
+      <View>
+        <Text style={styles.tagTitle}>Base</Text>
+        {tags}
+      </View>
+    );
+  };
+
+  renderTags(tagsList, addMarginToLastTag) {
     if (tagsList.length > 0) {
       const listEnd = tagsList[tagsList.length - 1].id;
       return tagsList.map(item => (
@@ -36,7 +71,7 @@ class TagsList extends React.Component {
           name={'tags'}
           component={Tag}
           tag={item}
-          isLastTag={listEnd === item.id}
+          isLastTag={listEnd === item.id && addMarginToLastTag}
           key={item.name}
           onPress={(tag, actionType) => this.handlePressedTag(tag, actionType)}
         />
