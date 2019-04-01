@@ -7,9 +7,17 @@ import Footer from '../Footer';
 import { Actions } from '../TagPicker';
 import { Field } from 'redux-form';
 import { connect } from 'react-redux';
+import { userSeenTags } from '../../actions/tags';
 
 const mapStateToProps = state => ({
   updateMatchingInformation: state.form.updateMatchingInformation,
+  myDetails: state.users.myDetails,
+});
+
+const mapDispatchToProps = dispatch => ({
+  userSeenTags: () => {
+    dispatch(userSeenTags());
+  },
 });
 
 class EditTags extends Component {
@@ -18,6 +26,13 @@ class EditTags extends Component {
       ...this.props.initialValues,
       oldValues: this.props.initialValues,
     });
+  }
+
+  componentDidMount() {
+    const { myDetails } = this.props;
+    if (myDetails.data.hasUnseenTags) {
+      this.props.userSeenTags();
+    }
   }
 
   renderTag = (tag, isLastTag) => {
@@ -147,5 +162,5 @@ EditTags.propTypes = {};
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(EditTags);

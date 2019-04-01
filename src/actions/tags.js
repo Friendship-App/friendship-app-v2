@@ -1,5 +1,6 @@
 import apiRoot from '../utils/api.config';
 import { refreshMyInformation } from './refresh';
+import { fetchUserInformation } from './users';
 import { NavigationActions } from 'react-navigation';
 
 export const ActionTypes = {
@@ -146,3 +147,19 @@ export function updateUserTags() {
     }
   };
 }
+
+const deleteUserUnseenTags = () => (dispatch, getState) => {
+  const { auth } = getState();
+  return fetch(`${apiRoot}/userSeenTags`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${auth.data.token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const userSeenTags = () => async dispatch => {
+  await dispatch(deleteUserUnseenTags());
+  dispatch(fetchUserInformation());
+};
