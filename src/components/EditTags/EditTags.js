@@ -60,7 +60,7 @@ class EditTags extends Component {
 
     return (
       <View>
-        <Text style={styles.tagTitle}>New tags</Text>
+        <Text style={styles.tagTitle}>Alternating</Text>
         {tags}
       </View>
     );
@@ -73,7 +73,7 @@ class EditTags extends Component {
 
     return (
       <View>
-        <Text style={styles.tagTitle}>Base tags</Text>
+        <Text style={styles.tagTitle}>Base</Text>
         {tags}
       </View>
     );
