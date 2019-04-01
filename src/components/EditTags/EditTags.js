@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { orderBy } from 'lodash';
 import { ScrollView, Text, View } from 'react-native';
 import styles from './styles';
 import TagPicker from '../TagPicker/TagPicker';
@@ -63,7 +64,8 @@ class EditTags extends Component {
   };
 
   renderTags = (tags, addMarginToLastTag = false) => {
-    return tags.map((tag, index) => {
+    const sortedTags = orderBy(tags, ['unseen'], ['desc']);
+    return sortedTags.map((tag, index) => {
       const isLastTag = addMarginToLastTag && index === tags.length - 1;
       return this.renderTag(tag, isLastTag);
     });
