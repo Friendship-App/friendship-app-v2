@@ -50,12 +50,22 @@ export function failRequestTags() {
 
 export function fetchTags() {
   return async (dispatch, getState) => {
-    const { tags } = getState();
+    const { tags, auth } = getState();
 
     if (!tags.isLoadingTags) {
       dispatch(requestTags(ActionTypes.TAGS_REQUEST));
       try {
-        const resp = await fetch(`${apiRoot}/tags`);
+        let resp;
+        if (auth.isAuthenticated) {
+          resp = await fetch(`${apiRoot}/ownTags`, {
+            method: 'GET',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            headers: { Authorization: `Bearer ${auth.data.token}` },
+          });
+        } else {
+          resp = await fetch(`${apiRoot}/tags`);
+        }
 
         if (resp.ok) {
           const data = await resp.json();
