@@ -31,13 +31,13 @@ const EditTagsScreen = props => {
   };
 
   const baseTags = filter(tags, ({ type }) => type === 'base');
-  const newTags = filter(tags, ({ type }) => type === 'alternating');
+  const alternatingTags = filter(tags, ({ type }) => type === 'alternating');
 
   return (
     <EditTags
       personalities={props.personalities}
       baseTags={baseTags}
-      newTags={newTags}
+      alternatingTags={alternatingTags}
       initialValues={initialValues}
       initialize={props.initialize}
       dispatch={props.dispatch}

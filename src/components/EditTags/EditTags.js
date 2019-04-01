@@ -71,9 +71,9 @@ class EditTags extends Component {
     });
   };
 
-  renderNewTags = () => {
-    const { newTags } = this.props;
-    const tags = this.renderTags(newTags);
+  renderAlternatingTags = () => {
+    const { alternatingTags } = this.props;
+    const tags = this.renderTags(alternatingTags);
 
     return (
       <View>
@@ -145,7 +145,7 @@ class EditTags extends Component {
             <Text style={styles.yeah}>YEAHS!</Text> &{' '}
             <Text style={styles.nah}>NAAH...</Text>
           </Text>
-          {this.renderNewTags()}
+          {this.renderAlternatingTags()}
           {this.renderBaseTags()}
         </ScrollView>
         <Footer
