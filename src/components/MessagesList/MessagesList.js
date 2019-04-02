@@ -23,8 +23,6 @@ class MessagesList extends React.Component {
   };
 
   renderItem = ({ item }) => {
-    const textAlign =
-      item.senderId === this.props.currentUserId ? 'right' : 'left';
     const messageCardStyle =
       item.senderId === this.props.currentUserId
         ? styles.SendCard
@@ -57,7 +55,7 @@ class MessagesList extends React.Component {
         <View style={messageCardStyle}>
           <Text
             style={{
-              textAlign,
+              textAlign: 'right',
               fontSize: 10,
               color: '#60686d',
               marginBottom: 10,
@@ -65,7 +63,7 @@ class MessagesList extends React.Component {
           >
             {messageHeader}
           </Text>
-          <Text style={{ color: '#4a4a4a', textAlign }}>
+          <Text style={{ color: '#4a4a4a', textAlign: 'left' }}>
             {item.textMessage}
           </Text>
         </View>

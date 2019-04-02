@@ -4,6 +4,7 @@ import Loading from '../../components/Loading/Loading';
 import styles from '../../components/Loading/styles';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
+import BackButtonAndroid from '../../components/BackButtonAndroid';
 
 const mapStateToProps = state => ({
   users: state.users,
@@ -13,7 +14,7 @@ const mapStateToProps = state => ({
 });
 
 class ProfileScreen extends React.Component {
-  render() {
+  get content() {
     const { users, tags, personalities } = this.props;
 
     if (
@@ -31,6 +32,15 @@ class ProfileScreen extends React.Component {
       );
     }
     return <Profile myProfile />;
+  }
+
+  render() {
+    const { navigation } = this.props;
+    return (
+      <BackButtonAndroid navigation={navigation}>
+        {this.content}
+      </BackButtonAndroid>
+    );
   }
 }
 

@@ -1,11 +1,11 @@
 import Inbox from './icon-chat.png';
-import Events from './icon-events.png';
+import Activities from './icon-activities.png';
 import People from './icon-people.png';
 import Profile from './icon-profile.png';
 
 export default {
   Inbox,
-  Events,
+  Activities,
   People,
   Profile,
 };

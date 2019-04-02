@@ -136,7 +136,7 @@ class InboxCard extends React.Component {
   getUserActive = (active, isEventChatroom) => {
     if (!active) {
       const inactiveMessage = isEventChatroom
-        ? 'event cancelled'
+        ? 'activity cancelled'
         : 'user left ...';
       return (
         <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
