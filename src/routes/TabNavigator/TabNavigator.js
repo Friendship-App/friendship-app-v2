@@ -39,7 +39,7 @@ const TabIconComponent = connect(mapStateToProps)(TabIcon);
 const TabNavigator = createBottomTabNavigator(
   {
     People,
-    Events,
+    Activities: Events,
     Inbox,
     Profile,
   },

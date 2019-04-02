@@ -19,7 +19,7 @@ const ReportEventScreen = props => {
       reportType={'event'}
       handlePress={reason => {
         props.report(reason);
-        Alert.alert('Report', 'Thank you for reporting this event.', [
+        Alert.alert('Report', 'Thank you for reporting this activity.', [
           {
             text: 'OK',
             onPress: () => props.navigation.goBack(),
