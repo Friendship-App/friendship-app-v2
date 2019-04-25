@@ -1,7 +1,7 @@
 import apiRoot from '../utils/api.config';
 import { getPreSignedUrl } from '../utils/aws';
 import { NavigationActions } from 'react-navigation';
-import { refreshMyInformation } from './refresh';
+import { refreshMyInformation, refresh } from './refresh';
 import { logOut } from './login';
 
 export const ActionTypes = {
@@ -152,6 +152,7 @@ export function updateUserProfile() {
 
         if (resp.ok) {
           dispatch(requestUsers(ActionTypes.UPDATE_PROFILE_SUCCESS));
+          dispatch(refresh());
           dispatch(refreshMyInformation());
           dispatch(NavigationActions.back());
         }

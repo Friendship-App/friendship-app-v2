@@ -51,8 +51,7 @@ const ProfileTopPart = props => {
               {' '}
               YEAHS{' '}
             </Text>
-            &
-            <Text style={[styles.nahText]}>{' ' + numberOfNaah}</Text>
+            &<Text style={[styles.nahText]}>{' ' + numberOfNaah}</Text>
             <Text style={[styles.friendshipFont, styles.nahText]}> NAAHS </Text>
           </Text>
         </View>
@@ -70,8 +69,7 @@ const ProfileTopPart = props => {
           }}
         >
           {`${commonTagPercent}% `}
-          <Text style={[styles.friendshipFont, styles.yeahText]}>YEAHS </Text>
-          &
+          <Text style={[styles.friendshipFont, styles.yeahText]}>YEAHS </Text>&
           <Text style={[styles.friendshipFont, styles.nahText]}> NAAHS </Text>
           in common
         </Text>

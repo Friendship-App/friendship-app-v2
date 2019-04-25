@@ -1,5 +1,5 @@
 import apiRoot from '../utils/api.config';
-import { refreshMyInformation } from './refresh';
+import { refreshMyInformation, refresh } from './refresh';
 import { fetchUserInformation } from './users';
 import { NavigationActions } from 'react-navigation';
 
@@ -137,6 +137,7 @@ export function updateUserTags() {
         if (resp.ok) {
           dispatch(requestTags(ActionTypes.UPDATE_MY_TAGS_DONE));
           dispatch(refreshMyInformation());
+          dispatch(refresh());
           dispatch(NavigationActions.back());
         } else {
           throw Error;
