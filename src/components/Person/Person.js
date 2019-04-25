@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native';
+import { upperFirst } from 'lodash';
 import { colors, fonts, fontSizes, paddings } from '../../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { disableTouchableOpacity } from '../../actions/TouchableOpacityController';
@@ -10,6 +11,7 @@ import { fetchUserInformation } from '../../actions/users';
 import { fetchUserTags } from '../../actions/tags';
 import { fetchUserPersonalities } from '../../actions/personalities';
 import { fetchUserChatroom } from '../../actions/chatrooms';
+import { getFormattedAge } from '../../utils/ageFormatter';
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
@@ -51,20 +53,11 @@ class Person extends React.Component {
   };
 
   getAge = () => {
-    const birthYear = parseInt(this.props.data.birthyear);
-    const now = new Date();
-    let age = now.getFullYear() - birthYear;
-
-    let ageName = '';
-    const lastDigit = age.toString().substr(age.toString().length - 1);
-    if (age && age < 20) {
-      ageName = age + ', ';
-    } else if (age) {
-      ageName = age - parseInt(lastDigit) + 's, ';
-    } else {
-      ageName = '';
-    }
-    this.setState({ age: ageName });
+    const {
+      data: { birthyear },
+    } = this.props;
+    const formatterAge = getFormattedAge(birthyear);
+    this.setState({ age: upperFirst(formatterAge) });
   };
 
   getLocations = () => {

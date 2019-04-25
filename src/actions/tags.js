@@ -1,5 +1,6 @@
 import apiRoot from '../utils/api.config';
 import { refreshMyInformation, refresh } from './refresh';
+import { fetchUserInformation } from './users';
 import { NavigationActions } from 'react-navigation';
 
 export const ActionTypes = {
@@ -50,12 +51,22 @@ export function failRequestTags() {
 
 export function fetchTags() {
   return async (dispatch, getState) => {
-    const { tags } = getState();
+    const { tags, auth } = getState();
 
     if (!tags.isLoadingTags) {
       dispatch(requestTags(ActionTypes.TAGS_REQUEST));
       try {
-        const resp = await fetch(`${apiRoot}/tags`);
+        let resp;
+        if (auth.isAuthenticated) {
+          resp = await fetch(`${apiRoot}/ownTags`, {
+            method: 'GET',
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            headers: { Authorization: `Bearer ${auth.data.token}` },
+          });
+        } else {
+          resp = await fetch(`${apiRoot}/tags`);
+        }
 
         if (resp.ok) {
           const data = await resp.json();
@@ -137,3 +148,19 @@ export function updateUserTags() {
     }
   };
 }
+
+const deleteUserUnseenTags = () => (dispatch, getState) => {
+  const { auth } = getState();
+  return fetch(`${apiRoot}/userSeenTags`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${auth.data.token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+export const userSeenTags = () => async dispatch => {
+  await dispatch(deleteUserUnseenTags());
+  dispatch(fetchUserInformation());
+};
