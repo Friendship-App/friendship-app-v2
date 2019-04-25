@@ -4,6 +4,7 @@ import { colors, paddings } from '../../styles';
 import { Animated, Image, Text, TouchableOpacity, View } from 'react-native';
 import YeahButtonAsset from '../../../assets/img/loveAndHate/yeah_200.png';
 import NahButtonAsset from '../../../assets/img/loveAndHate/naah_200.png';
+import WithNotificationIcon from '..//WithNotificationIcon';
 
 const Actions = {
   YEAHS_TAG: 'YEAHS_TAG',
@@ -13,6 +14,7 @@ const Actions = {
 
 const initialState = {
   selected: 0,
+  edited: false,
 };
 
 class TagPicker extends React.Component {
@@ -31,7 +33,7 @@ class TagPicker extends React.Component {
 
   render() {
     const { tag, isLastTag } = this.props;
-    const { selected } = this.state;
+    const { selected, edited } = this.state;
 
     let backgroundColor = colors.DARK_BLACK;
     let textAlignement = 'center';
@@ -46,6 +48,7 @@ class TagPicker extends React.Component {
         textAlignement = 'flex-start';
         break;
     }
+    const hasNotification = selected === 0 && !edited && tag.unseen;
     return (
       <View
         style={[
@@ -77,7 +80,9 @@ class TagPicker extends React.Component {
             { justifyContent: textAlignement, backgroundColor },
           ]}
         >
-          <Text style={styles.tagText}>{tag.name}</Text>
+          <WithNotificationIcon hasNotification={hasNotification}>
+            <Text style={styles.tagText}>{tag.name}</Text>
+          </WithNotificationIcon>
         </View>
         {shouldShowIcon ? (
           <TouchableOpacity
@@ -98,14 +103,15 @@ class TagPicker extends React.Component {
   handlePress(evt) {
     const { selected } = this.state;
     const { onPress, tag } = this.props;
+    const edited = true;
     if (evt === Actions.RESET_TAG_CHOICE && selected !== 0) {
-      this.setState({ selected: 0 });
+      this.setState({ selected: 0, edited });
       onPress(tag.id, Actions.RESET_TAG_CHOICE);
     } else if (evt === Actions.YEAHS_TAG && selected === 0) {
-      this.setState({ selected: 1 });
+      this.setState({ selected: 1, edited });
       onPress(tag.id, Actions.YEAHS_TAG);
     } else if (evt === Actions.NAH_TAG && selected === 0) {
-      this.setState({ selected: -1 });
+      this.setState({ selected: -1, edited });
       onPress(tag.id, Actions.NAH_TAG);
     }
   }

@@ -6,41 +6,32 @@ import Inbox from '../InboxStack';
 import Profile from '../ProfileStack';
 import { colors } from '../../styles';
 import TabIcons from '../../../assets/tabIcons';
+import WithNotificationIcon from '../../components/WithNotificationIcon';
 import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({ chatrooms: state.chatrooms });
+const mapStateToProps = state => ({
+  chatrooms: state.chatrooms,
+  myDetails: state.users.myDetails,
+});
 class TabIcon extends React.Component {
   render() {
-    const { source, style, routeName, chatrooms } = this.props;
-    if (routeName === 'Inbox') {
-      const hasUnread =
-        chatrooms &&
-        chatrooms.chatrooms.reduce(
-          (acc, room) => acc + Number(room.unreadMessages),
-          0,
-        ) > 0;
-      return (
-        <View>
-          {hasUnread && (
-            <View
-              style={{
-                position: 'absolute',
-                top: -3,
-                right: -3,
-                zIndex: 10,
-                backgroundColor: colors.ORANGE,
-                width: 10,
-                height: 10,
-                borderRadius: 5,
-              }}
-            />
-          )}
-          <Image source={source} style={style} />
-        </View>
-      );
-    }
-    return <Image source={source} style={style} />;
+    const { source, style, routeName, chatrooms, myDetails } = this.props;
+    const hasUnread =
+      routeName === 'Inbox' &&
+      chatrooms &&
+      chatrooms.chatrooms.reduce(
+        (acc, room) => acc + Number(room.unreadMessages),
+        0,
+      ) > 0;
+    const hasNewProfileDetails =
+      routeName === 'Profile' && myDetails && myDetails.data.hasUnseenTags;
+    const hasNotification = hasUnread || hasNewProfileDetails;
+    return (
+      <WithNotificationIcon hasNotification={hasNotification}>
+        <Image source={source} style={style} />
+      </WithNotificationIcon>
+    );
   }
 }
 const TabIconComponent = connect(mapStateToProps)(TabIcon);

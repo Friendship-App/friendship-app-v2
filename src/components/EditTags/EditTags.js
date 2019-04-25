@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { orderBy } from 'lodash';
 import { ScrollView, Text, View } from 'react-native';
 import styles from './styles';
 import TagPicker from '../TagPicker/TagPicker';
@@ -7,9 +8,17 @@ import Footer from '../Footer';
 import { Actions } from '../TagPicker';
 import { Field } from 'redux-form';
 import { connect } from 'react-redux';
+import { userSeenTags } from '../../actions/tags';
 
 const mapStateToProps = state => ({
   updateMatchingInformation: state.form.updateMatchingInformation,
+  myDetails: state.users.myDetails,
+});
+
+const mapDispatchToProps = dispatch => ({
+  userSeenTags: () => {
+    dispatch(userSeenTags());
+  },
 });
 
 class EditTags extends Component {
@@ -20,34 +29,71 @@ class EditTags extends Component {
     });
   }
 
-  renderTags = () => {
-    const { lovedTags, hatedTags } = this.props.initialValues;
-    const { tags } = this.props;
-    return tags.map((tag, index) => {
-      let state = 0;
-      let pos = lovedTags.indexOf(tag.id);
-      if (pos >= 0) {
-        state = 1;
-      } else {
-        pos = hatedTags.indexOf(tag.id);
-        if (pos >= 0) {
-          state = -1;
-        }
-      }
+  componentDidMount() {
+    const { myDetails } = this.props;
+    if (myDetails.data.hasUnseenTags) {
+      this.props.userSeenTags();
+    }
+  }
 
-      return (
-        <Field
-          name="tagPicker"
-          component={TagPicker}
-          editProfile
-          tag={tag}
-          key={tag.name}
-          selectionState={state}
-          isLastTag={index === tags.length - 1}
-          onPress={(tag, actionType) => this.handlePressedTag(tag, actionType)}
-        />
-      );
+  renderTag = (tag, isLastTag) => {
+    const { lovedTags, hatedTags } = this.props.initialValues;
+    let state = 0;
+    let pos = lovedTags.indexOf(tag.id);
+    if (pos >= 0) {
+      state = 1;
+    } else {
+      pos = hatedTags.indexOf(tag.id);
+      if (pos >= 0) {
+        state = -1;
+      }
+    }
+
+    return (
+      <Field
+        name="tagPicker"
+        component={TagPicker}
+        editProfile
+        tag={tag}
+        key={tag.name}
+        selectionState={state}
+        isLastTag={isLastTag}
+        onPress={(tag, actionType) => this.handlePressedTag(tag, actionType)}
+      />
+    );
+  };
+
+  renderTags = (tags, addMarginToLastTag = false) => {
+    const sortedTags = orderBy(tags, ['unseen'], ['desc']);
+    return sortedTags.map((tag, index) => {
+      const isLastTag = addMarginToLastTag && index === tags.length - 1;
+      return this.renderTag(tag, isLastTag);
     });
+  };
+
+  renderAlternatingTags = () => {
+    const { alternatingTags } = this.props;
+    const tags = this.renderTags(alternatingTags);
+
+    return (
+      <View>
+        <Text style={styles.tagTitle}>Alternating</Text>
+        {tags}
+      </View>
+    );
+  };
+
+  renderBaseTags = () => {
+    const { baseTags } = this.props;
+    const addMarginToLastTag = true;
+    const tags = this.renderTags(baseTags, addMarginToLastTag);
+
+    return (
+      <View>
+        <Text style={styles.tagTitle}>Base</Text>
+        {tags}
+      </View>
+    );
   };
 
   handlePressedTag = (tag, actionType) => {
@@ -99,7 +145,8 @@ class EditTags extends Component {
             <Text style={styles.yeah}>YEAHS!</Text> &{' '}
             <Text style={styles.nah}>NAAH...</Text>
           </Text>
-          {this.renderTags()}
+          {this.renderAlternatingTags()}
+          {this.renderBaseTags()}
         </ScrollView>
         <Footer
           color="orange"
@@ -117,5 +164,5 @@ EditTags.propTypes = {};
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(EditTags);
